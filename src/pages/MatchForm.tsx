@@ -76,7 +76,9 @@ const MatchForm: React.FC = () => {
     }
 
     function submitData() {
-        const data = { // sample data object
+        //make sure certain fields are filled out
+        let check : boolean = (eventName !== "" && teamNumber !== null && matchNumber !== null && passedStartingLine !== null && playedDefense !== null && hadError !== null && endgameAction !== "");
+        const data = { // sample data object, 
             eventName: eventName,
             teamNumber: teamNumber,
             matchNumber: matchNumber,
@@ -106,8 +108,11 @@ const MatchForm: React.FC = () => {
         The path for block of data will be submitted as follows:
         /{eventName}/{teamNumber}/{matchNumber}/{timestamp}, timestamp is not finished
         */
-        console.log(`submitting data to ${eventName}/${teamNumber?.toString()}/${matchNumber?.toString()}`)
-        writeData(`${eventName}/${teamNumber?.toString()}/${matchNumber?.toString()}`, data);
+        if (!check) {
+            alert("Please fill out all required fields before submitting.");
+        } else {
+            writeData(`${eventName}/${teamNumber?.toString()}/${matchNumber?.toString()}`, data);
+        }
     }
 
     const tab = (name: string) =>
