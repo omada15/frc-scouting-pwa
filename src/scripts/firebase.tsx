@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, Database } from "firebase/database";
+import { doc, setDoc, getFirestore } from "firebase/firestore";
 
 interface FirebaseConfig {
   apiKey: string | undefined;
@@ -23,17 +23,16 @@ const firebaseConfig: FirebaseConfig = { // env has not been gitignored, add aft
 
 
 const app = initializeApp(firebaseConfig);
-const db: Database = getDatabase(app);
+const db = getFirestore(app);
 
-export const writeData = async (path: string, data: unknown): Promise<void> => {
-  let output = "Nothing was run";
-  const dbRef = ref(db, path);
-
+export async function writeData(path: string, data: Record<string, any>) {
   try {
-    await set(dbRef, data);
-    output = "Data was written";
-  } catch (error) {
-    output = `Error: ${error}`;
+    const docRef = doc(db, path);
+    await setDoc(docRef, data, { merge: true }); // merge prevents overwriting entire doc
+    console.log("Document written:", path);
+    return true;
+  } catch (err) {
+    console.error("Error writing document:", err);
+    return false;
   }
-  console.log(output);
-};
+}
