@@ -33,6 +33,7 @@ export async function writeData(path: string, data: Record<string, any>) {
     return true;
   } catch (err) {
     console.error("Error writing document:", err);
+    alert("An error occured: your data has been saved locally but not uploaded.");
     return false;
   }
 }

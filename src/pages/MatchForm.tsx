@@ -6,11 +6,17 @@ import NumericInput from "../components/IntegerInput";
 import IntegerInput from "../components/IntegerInput";
 import Dropdown from "../components/Dropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
-import { writeData }  from "../scripts/firebase";
+import { writeData } from "../scripts/firebase";
 
 const MatchForm: React.FC = () => {
+    const navigate = useNavigate();
+    const goBack = () => {
+        navigate("/");
+    };
     const [section, setSection] = useState<"setup" | "auto" | "teleop" | "endgame">("setup");
 
+    // this boolean is used to show a message if the data was not sent
+    const [sent, setSent] = useState<boolean>(true);
     // Setup values
     const [eventName, setEventName] = useState<string>("");
     const [teamNumber, setTeamNumber] = useState<number | null>(null);
@@ -74,10 +80,10 @@ const MatchForm: React.FC = () => {
             setRobotError("");
         }
     }
-
-    function submitData() {
+    async function submitData() {
         //make sure certain fields are filled out
-        let check : boolean = (eventName !== "" && teamNumber !== null && matchNumber !== null && passedStartingLine !== null && playedDefense !== null && hadError !== null && endgameAction !== "");
+        let debug = true;
+        let check: boolean = (eventName !== "" && teamNumber !== null && matchNumber !== null && passedStartingLine !== null && playedDefense !== null && hadError !== null && endgameAction !== "");
         const data = { // sample data object, 
             eventName: eventName,
             teamNumber: teamNumber,
@@ -108,10 +114,21 @@ const MatchForm: React.FC = () => {
         The path for block of data will be submitted as follows:
         /{eventName}/{teamNumber}/{matchNumber}/{timestamp}, timestamp is not finished
         */
-        if (!check) {
+        
+        if (!check && !debug) {
             alert("Please fill out all required fields before submitting.");
         } else {
-            writeData(`${eventName}/${teamNumber?.toString()}/${matchNumber?.toString()}`, data);
+            localStorage.setItem(`scoutData-${teamNumber}-${matchNumber}`, JSON.stringify(data));
+            setSent(false)
+            if (!await writeData(`${teamNumber?.toString()}/${matchNumber?.toString()}`, data)) {
+                setSent(true);
+            } else {
+                setSent(false);
+            }
+            const pathname = window.location.pathname;
+            if (pathname === "/match") {
+                goBack();
+            }
         }
     }
 
@@ -179,12 +196,17 @@ const MatchForm: React.FC = () => {
             <Dropdown label="Endgame Action" placeholder={"Select action"} value={endgameAction} onChange={setEndgameAction} options={endgameActions} />
             <BinaryChoice label="Robot error during match?" options={["Yes", "No"]} button1Selected={hadError} onChange={changeError} />
             {hadError && (<Dropdown label="What went wrong?" placeholder={"Select one"} value={robotError} onChange={setRobotError} options={robotErrors} />)}
-            <button className={buttonStyle + " absolute bottom-27.5"} onClick={submitData}>Submit</button>
             <div className="flex flex-col items-center space-y-2">
                 <h3 className="font-semibold text-white text-2xl pb-1">Additional Notes?</h3>
                 <AutoResizeTextarea placeholder="(Leave blank if none)" />
             </div>
-            
+            <button className={buttonStyle} onClick={submitData}>Submit</button>
+            {(!sent) ? (
+                <div className="flex flex-col items-center space-y-2 ">
+                    <h3 className="font-semibold text-red-800 text-2xl pb-1">If you are seeing this message, you either have poor connectivity, or you have encountered an error. If you encountered an error, a message should have shown up stating you had an error. If no message showed up, then you're connectivity is poor. If your data gets sent, then this page will automatically close. If you need to fill out another form, you may press the back button, but remember to submit later in the "view local storage" page.</h3>
+                    <button className={buttonStyle} onClick={goBack}>Back</button>
+                </div>
+            ) : (<></>)}
         </>
     }
 
@@ -197,7 +219,6 @@ const MatchForm: React.FC = () => {
                 <button className={tab("teleop")} onClick={() => setSection("teleop")}>Teleop</button>
                 <button className={tab("endgame")} onClick={() => setSection("endgame")}>Endgame</button>
             </div>
-
             {content}
         </div>
     );

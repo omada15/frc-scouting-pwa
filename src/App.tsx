@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import MatchForm from "./pages/MatchForm";
 import Footer from "./components/Footer";
+import LocalStorageView from "./pages/LocalStored";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/match" element={<MatchForm />} />
+            <Route path="/stored" element={<LocalStorageView />} />
           </Routes>
         </div>
         {/* Footer always at bottom */}
