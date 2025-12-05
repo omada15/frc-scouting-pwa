@@ -35,6 +35,5 @@ export const writeData = async (path: string, data: unknown): Promise<void> => {
   } catch (error) {
     output = `Error: ${error}`;
   }
-
   console.log(output);
 };
