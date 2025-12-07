@@ -5,6 +5,7 @@ import { registerUser } from "../scripts/firebase";
 const SignupPage: React.FC = () => {
     const navigate = useNavigate();
     
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,7 +19,7 @@ const SignupPage: React.FC = () => {
             alert("Passwords do not match!");
             return;
         } else {
-            registerUser(email, password)
+            registerUser(email, password, name)
         }
     };
 
@@ -30,8 +31,15 @@ const SignupPage: React.FC = () => {
         <div className="flex flex-col items-center justify-start space-y-8 pt-20 min-h-screen">
             <h1 className="font-bold text-white text-4xl">Sign Up</h1>
 
-            <p className="font-bold text-white text-xl">Use your school email. Submissions not attached to a school email will not be accepted.</p>
+            <p className="font-bold text-white text-xl pl-4 pr-4">Use your REAL NAME. You cannot change your name after creating your account</p>
+            <p className="font-bold text-white text-xl pl-4 pr-4">Submissions under a false name will not be counted</p>
             <div className="flex flex-col space-y-6 w-80">
+                <input
+                    type="text"
+                    placeholder="Name"
+                    className="bg-gray-800 text-white px-4 py-3 rounded-2xl outline-none"
+                    onChange={(e) => setName(e.target.value)}
+                />
                 <input
                     type="email"
                     placeholder="Email"

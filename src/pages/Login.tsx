@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../scripts/firebase";
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("")
     const handleLogin = () => {
-        console.log("Login clicked");
+        loginUser(email, password);
     };
     const goToSignup = () => {
         navigate("/signup");
@@ -19,12 +22,14 @@ const LoginPage: React.FC = () => {
                     type="email"
                     placeholder="Email"
                     className="bg-gray-800 text-white px-4 py-3 rounded-2xl outline-none"
+                    onChange={(e) => {setEmail(e.target.value)}}
                 />
 
                 <input
                     type="password"
                     placeholder="Password"
                     className="bg-gray-800 text-white px-4 py-3 rounded-2xl outline-none"
+                    onChange={(e) => [setPassword(e.target.value)]}
                 />
 
                 <button

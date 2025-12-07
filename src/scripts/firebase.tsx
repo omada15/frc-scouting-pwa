@@ -1,8 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
-import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { generateCookie } from "./user";
-
 
 
 interface FirebaseConfig {
@@ -25,6 +24,7 @@ const firebaseConfig: FirebaseConfig = { // env has not been gitignored, add aft
     measurementId: import.meta.env.VITE_MEASUREMENT_ID as string | undefined,
 };
 
+console.log(firebaseConfig.apiKey);
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -44,15 +44,30 @@ export async function writeData(path: string, data: Record<string, any>) {
     }
 }
 
-export async function registerUser(email: string, password: string) {
+export async function registerUser(email: string, password: string, name: string) {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log("User registered:", userCredential.user);
-        generateCookie("user", userCredential.user.email, 7);
+        generateCookie("user", name, 7);
+        await updateProfile(userCredential.user, {
+            displayName: name,
+        })
+        console.log(userCredential.user.email)
+        window.location.href = "/" // navigate() cannot be used here: invalid hook call
         return userCredential.user;
-    } catch (err) {
+    } catch (err: any) {
         console.error("Error registering user:", err);
-        alert("An error occured during registration. This email has likely already been used, or your email is invalid.");
+        switch (err.code) {
+            case "auth/email-already-in-use":
+                alert("This email has already been used");
+                break;
+            case "auth/invalid-email":
+                alert("Invalid Email");
+                break;
+            default:
+                alert("An error occured");
+                break;
+        }
         throw err;
     }
 }
@@ -61,9 +76,22 @@ export async function loginUser(email: string, password: string) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log("User logged in:", userCredential.user.uid);
+        window.location.href="/"; // same as previous
         return userCredential.user.uid;
-    } catch (err) {
-        console.error("Error logging in user:", err);
-        throw err;
+    } catch (err: any) {
+        console.log(err.code==="auth/invalid-credential");
+        console.log(err.code);
+        switch (err.code) {
+            case "auth/invalid-email":
+                alert("Your email is invalid");
+                break;
+            case "auth/invalid-credential":
+                alert("Incorrect. Try again");
+                break;
+            default:
+                alert("An Error occured");
+                break;
+        }
+        
     }
 }

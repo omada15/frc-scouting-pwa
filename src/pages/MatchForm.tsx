@@ -1,4 +1,4 @@
-import React, { useState, type JSX } from "react";
+import React, { useEffect, useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import CounterInput from "../components/CounterInput";
 import BinaryChoice from "../components/BinaryChoice";
@@ -7,12 +7,20 @@ import IntegerInput from "../components/IntegerInput";
 import Dropdown from "../components/Dropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
 import { writeData } from "../scripts/firebase";
+import { readCookie } from "../scripts/user";
 
 const MatchForm: React.FC = () => {
+    
     const navigate = useNavigate();
     const goBack = () => {
         navigate("/");
     };
+    
+    useEffect(() => { // useEffect to run after component mounts
+        if (readCookie("user") == undefined) {
+            navigate("/login");
+        }
+    }, []) // empty dependency array so only runs once
     const [section, setSection] = useState<"setup" | "auto" | "teleop" | "endgame">("setup");
 
     // this boolean is used to show a message if the data was not sent
