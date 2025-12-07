@@ -199,7 +199,7 @@ const MatchForm: React.FC = () => {
             {hadError && (<Dropdown label="What went wrong?" placeholder={"Select one"} value={robotError} onChange={setRobotError} options={robotErrors} />)}
             <div className="flex flex-col items-center space-y-2">
                 <h3 className="font-semibold text-white text-2xl pb-1">Additional Notes?</h3>
-                <AutoResizeTextarea placeholder="(Leave blank if none)" value={notes} onChange={setNotes} className="" />
+                <AutoResizeTextarea placeholder="(Leave blank if none)" value={notes} onChange={setNotes} />
             </div>
             <button className={buttonStyle} onClick={submitData}>Submit</button>
             {(!sent) ? (
