@@ -48,6 +48,7 @@ const MatchForm: React.FC = () => {
     const [endgameAction, setEndgameAction] = useState<string>("");
     const [hadError, setHadError] = useState<boolean | null>(null);
     const [robotError, setRobotError] = useState<string>("");
+    const [notes, setNotes] = useState<string>("");
 
     const events = [
         "NE-URI (Week 3)",
@@ -198,7 +199,7 @@ const MatchForm: React.FC = () => {
             {hadError && (<Dropdown label="What went wrong?" placeholder={"Select one"} value={robotError} onChange={setRobotError} options={robotErrors} />)}
             <div className="flex flex-col items-center space-y-2">
                 <h3 className="font-semibold text-white text-2xl pb-1">Additional Notes?</h3>
-                <AutoResizeTextarea placeholder="(Leave blank if none)" />
+                <AutoResizeTextarea placeholder="(Leave blank if none)" value={notes} onChange={setNotes} className="" />
             </div>
             <button className={buttonStyle} onClick={submitData}>Submit</button>
             {(!sent) ? (
