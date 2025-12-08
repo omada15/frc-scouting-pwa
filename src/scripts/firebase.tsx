@@ -43,6 +43,14 @@ export async function writeData(path: string, data: Record<string, any>) {
         return false;
     }
 }
+export async function readData(path: string) {
+    try {
+        console.log("read something");
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+}
 
 export async function registerUser(email: string, password: string, name: string) {
     try {
