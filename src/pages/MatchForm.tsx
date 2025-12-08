@@ -221,6 +221,7 @@ const MatchForm: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center justify-start space-y-6 pt-12.5">
+            <button className={buttonStyle} onClick={goBack}>Back</button>
             <h1 className="font-bold text-white text-4xl pb-1">Scouting Match</h1>
             <div className="flex flex-row space-x-4 pb-5">
                 <button className={tab("setup")} onClick={() => setSection("setup")}>Setup</button>
