@@ -94,6 +94,7 @@ const MatchForm: React.FC = () => {
         let debug = true;
         let check: boolean = (eventName !== "" && teamNumber !== null && matchNumber !== null && passedStartingLine !== null && playedDefense !== null && hadError !== null && endgameAction !== "");
         const data = { // sample data object, 
+            name: readCookie("user"),
             eventName: eventName,
             teamNumber: teamNumber,
             matchNumber: matchNumber,
