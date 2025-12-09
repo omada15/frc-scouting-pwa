@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { doc, setDoc, getFirestore } from "firebase/firestore";
+import { doc, setDoc, getDoc, getFirestore } from "firebase/firestore";
 import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { generateCookie } from "./user";
 
@@ -33,8 +33,9 @@ const auth = getAuth(app);
 
 export async function writeData(path: string, data: Record<string, any>) {
     try {
+        if (await readDoc(path)) path += Date.now().toString(); // prevent overwriting existing data
         const docRef = doc(db, path);
-        await setDoc(docRef, data, { merge: true }); // merge prevents overwriting entire doc
+        await setDoc(docRef, data, { merge: true }); // merge prevents overwriting entire doc, if read fn goes wrong
         console.log("Document written:", path);
         return true;
     } catch (err) {
@@ -42,6 +43,17 @@ export async function writeData(path: string, data: Record<string, any>) {
         alert("An error occured: your data has been saved locally but not uploaded.");
         return false;
     }
+}
+export async function readDoc<T = any>(path: string): Promise<T | null> {
+  const db = getFirestore();
+  const docRef = doc(db, path);
+  const snap = await getDoc(docRef);
+
+  if (!snap.exists()) {
+    return null;
+  }
+
+  return snap.data() as T;
 }
 export async function readData(path: string) {
     try {
