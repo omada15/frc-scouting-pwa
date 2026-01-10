@@ -1,4 +1,4 @@
-import React, { useState, type JSX } from "react";
+import React, { useEffect, useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import CounterInput from "../components/CounterInput";
 import BinaryChoice from "../components/BinaryChoice";
@@ -7,12 +7,20 @@ import IntegerInput from "../components/IntegerInput";
 import Dropdown from "../components/Dropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
 import { writeData } from "../scripts/firebase";
+import { readCookie } from "../scripts/user";
 
 const MatchForm: React.FC = () => {
+    
     const navigate = useNavigate();
     const goBack = () => {
         navigate("/");
     };
+    
+    useEffect(() => { // useEffect to run after component mounts
+        if (readCookie("user") == undefined) {
+            navigate("/login");
+        }
+    }, []) // empty dependency array so only runs once
     const [section, setSection] = useState<"setup" | "auto" | "teleop" | "endgame">("setup");
 
     // this boolean is used to show a message if the data was not sent
@@ -48,6 +56,7 @@ const MatchForm: React.FC = () => {
     const [endgameAction, setEndgameAction] = useState<string>("");
     const [hadError, setHadError] = useState<boolean | null>(null);
     const [robotError, setRobotError] = useState<string>("");
+    const [notes, setNotes] = useState<string>("");
 
     const events = [
         "NE-URI (Week 3)",
@@ -85,6 +94,7 @@ const MatchForm: React.FC = () => {
         let debug = true;
         let check: boolean = (eventName !== "" && teamNumber !== null && matchNumber !== null && passedStartingLine !== null && playedDefense !== null && hadError !== null && endgameAction !== "");
         const data = { // sample data object, 
+            name: readCookie("user"),
             eventName: eventName,
             teamNumber: teamNumber,
             matchNumber: matchNumber,
@@ -114,7 +124,7 @@ const MatchForm: React.FC = () => {
         The path for block of data will be submitted as follows:
         /{eventName}/{teamNumber}/{matchNumber}/{timestamp}, timestamp is not finished
         */
-        
+
         if (!check && !debug) {
             alert("Please fill out all required fields before submitting.");
         } else {
@@ -198,7 +208,8 @@ const MatchForm: React.FC = () => {
             {hadError && (<Dropdown label="What went wrong?" placeholder={"Select one"} value={robotError} onChange={setRobotError} options={robotErrors} />)}
             <div className="flex flex-col items-center space-y-2">
                 <h3 className="font-semibold text-white text-2xl pb-1">Additional Notes?</h3>
-                <AutoResizeTextarea placeholder="(Leave blank if none)" />
+                <AutoResizeTextarea placeholder="(Leave blank if none)" value={notes} onChange={setNotes} />
+                <h3 className="font-semibold text-white text-2xl pb-1">submissions are attatched to names</h3>
             </div>
             <button className={buttonStyle} onClick={submitData}>Submit</button>
             {(!sent) ? (
@@ -212,6 +223,7 @@ const MatchForm: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center justify-start space-y-6 pt-12.5">
+            <button className={buttonStyle} onClick={goBack}>Back</button>
             <h1 className="font-bold text-white text-4xl pb-1">Scouting Match</h1>
             <div className="flex flex-row space-x-4 pb-5">
                 <button className={tab("setup")} onClick={() => setSection("setup")}>Setup</button>
