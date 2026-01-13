@@ -138,6 +138,9 @@ const MatchForm: React.FC = () => {
     if (section === "setup") {
         content = (
             <>
+                <Dropdown label="Event" placeholder={"Select event"} value={eventName} onChange={setEventName} options={events} />
+                <IntegerInput value={matchNumber} onChange={setMatchNumber} label={"Match Number"} placeholder="e.g. 42" min={1} />
+                <IntegerInput value={teamNumber} onChange={setTeamNumber} label={"Team Number"} placeholder="e.g. 3464" min={1} />
             </>
         );
     } else if (section === "auto") {
