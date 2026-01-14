@@ -73,9 +73,9 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
       <div className="flex flex-row items-center space-x-2 ">
         <button
           onClick={decten}
-          className="bg-sky-600 text-white font-semibold text-xl px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
+          className="bg-sky-600 text-white font-semibold text-l px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
         >
-          −10
+          -10
         </button>
         <button
           onClick={decfive}
@@ -87,7 +87,7 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
           onClick={decrement}
           className="bg-sky-600 text-white font-semibold text-xl px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
         >
-          −
+          -
         </button>
         <IntegerInput
           min={0}
@@ -101,19 +101,19 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
           onClick={increment}
           className="bg-sky-600 text-white font-semibold text-xl px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
         >
-          +
+          1
         </button>
         <button
           onClick={incfive}
           className="bg-sky-600 text-white font-semibold text-xl px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
         >
-          +5
+          5
         </button>
         <button
           onClick={incten}
           className="bg-sky-600 text-white font-semibold text-xl px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
         >
-          +10
+          10
         </button>
       </div>
     </div>
