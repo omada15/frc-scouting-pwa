@@ -6,6 +6,7 @@ import NumericInput from "../components/IntegerInput";
 import MultiCounterInput from "../components/MultiCounterInput";
 import IntegerInput from "../components/IntegerInput";
 import Dropdown from "../components/Dropdown";
+import CheckboxDropdown from "../components/CheckboxDropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
 import { writeData } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
