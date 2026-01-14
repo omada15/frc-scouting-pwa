@@ -1,7 +1,6 @@
 import React from "react";
 
 interface IntegerInputProps {
-<<<<<<< HEAD
   value: number | null; // current value
   onChange: (newValue: number | null) => void; // callback
   placeholder?: string;
@@ -20,26 +19,6 @@ const IntegerInput: React.FC<IntegerInputProps> = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
-=======
-    value: number | null; // current value
-    onChange: (newValue: number | null) => void; // callback
-    placeholder?: string;
-    min?: number;
-    max?: number;
-    label?: string;
-}
-
-const IntegerInput: React.FC<IntegerInputProps> = ({
-    value,
-    onChange,
-    placeholder,
-    min,
-    max,
-    label,
-}) => {
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const raw = e.target.value;
->>>>>>> 951a286 (add will's changes and indent to prettier)
 
     // Only allow digits or empty string
     if (!/^\d*$/.test(raw)) return;
@@ -56,31 +35,10 @@ const IntegerInput: React.FC<IntegerInputProps> = ({
     onChange(newValue);
   };
 
-<<<<<<< HEAD
   let boxLabel = null;
   if (label != null) {
     boxLabel = (
       <h3 className="font-semibold text-white text-2xl pb-1">{label}</h3>
-=======
-    let boxLabel = null;
-    if (label != null) {
-        boxLabel = (
-            <h3 className="font-semibold text-white text-2xl pb-1">{label}</h3>
-        );
-    }
-
-    return (
-        <div className="flex flex-col items-center space-y-2">
-            {boxLabel}
-            <input
-                type="text"
-                value={value !== null ? value : ""}
-                placeholder={placeholder}
-                onChange={handleChange}
-                className="bg-gray-700 h-15 w-60 text-white text-xl font-semibold rounded-full px-5 text-center"
-            />
-        </div>
->>>>>>> 951a286 (add will's changes and indent to prettier)
     );
   }
 
