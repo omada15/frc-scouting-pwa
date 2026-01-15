@@ -1,16 +1,25 @@
 import React, { useRef } from "react";
 
 interface Props {
+    label?: string;
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
 }
 
 const AutoResizeTextarea: React.FC<Props> = ({
+    label,
     value,
     onChange,
     placeholder,
 }) => {
+    let boxLabel = null;
+    if (label != null) {
+        boxLabel = (
+            <h3 className="font-semibold text-white text-2xl pb-10">{label}</h3>
+        );
+    }
+
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
@@ -22,7 +31,8 @@ const AutoResizeTextarea: React.FC<Props> = ({
     };
 
     return (
-        <div className="bg-gray-700 w-77.5 py-1 rounded-3xl flex justify-center pr-2.5">
+        <div className="bg-gray-700 w-60 py-1 rounded-3xl flex justify-center pr-2.5">
+            {boxLabel}
             <textarea
                 ref={textareaRef}
                 value={value}

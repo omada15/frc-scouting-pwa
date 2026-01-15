@@ -68,6 +68,10 @@ const MatchForm: React.FC = () => {
     const [robotError, setRobotError] = useState<string>("");
     const [notes, setNotes] = useState<string>("");
 
+    // Error values
+
+    const [otherRobotNotes, setOtherRobotNotes] = useState<string>("");
+
     const events = ["NE District Minuteman Event", "NE District URI Event"];
 
     const endgameActions = [
@@ -312,6 +316,11 @@ const MatchForm: React.FC = () => {
                     onChange={setEndgameAction}
                     placeholder="will ding"
                 />
+                <AutoResizeTextarea
+                    value={otherRobotNotes}
+                    onChange={setOtherRobotNotes}
+                    placeholder="Other notes about robot"
+                />    
                 <button className={buttonStyle} onClick={submitData}>
                     Submit
                 </button>
