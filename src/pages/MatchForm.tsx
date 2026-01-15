@@ -93,6 +93,17 @@ const MatchForm: React.FC = () => {
         "Other",
     ];
 
+    let robotErrorsCheck = {
+        "Intake issues": false,
+        "Climb Failed": false,
+        "Robot unresponsive": false,
+        "Robot part fell off": false,
+        "Did not participate": false,
+        "Auto Stop": false,
+        "Robot could not get off after climb": false,
+        "Other": false,
+    };
+
     function changeError(newValue: boolean) {
         setHadError(newValue);
         if (!hadError && robotError != "") {
