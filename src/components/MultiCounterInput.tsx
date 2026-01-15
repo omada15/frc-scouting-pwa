@@ -68,9 +68,9 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center space-y-2">
+    <div className="flex flex-col items-center space-y-2 h-auto">
       {boxLabel}
-      <div className="flex flex-row items-center space-x-2 ">
+      <div className="flex lg:flex-row md:flex-col items-center space-x-2">
         <button
           onClick={decten}
           className="bg-sky-600 text-white font-semibold text-l px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
