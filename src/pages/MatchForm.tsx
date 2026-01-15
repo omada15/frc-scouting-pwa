@@ -89,6 +89,7 @@ const MatchForm: React.FC = () => {
         "Robot part fell off",
         "Did not participate",
         "Auto Stop",
+        "Robot could not get off after climb",
         "Other",
     ];
 
@@ -107,14 +108,36 @@ const MatchForm: React.FC = () => {
             matchNumber !== null &&
             hadError !== null &&
             endgameAction !== "";
+
         const data = {
             // sample data object,
             name: readCookie("user"),
             eventName: eventName,
             teamNumber: teamNumber,
             matchNumber: matchNumber,
-            // add your variables in a similar style
+            
+            autoBump: autoBump,
+            autoUnderTrench: autoUnderTrench,
+            autoFuel: autoFuel,
+            autoClimbed: autoClimbed,
+            autoPlayedDefense: autoPlayedDefense,
 
+            shift1HubActive: shift1HubActive,
+            shift2HubActive: shift2HubActive,
+            shift3HubActive: shift3HubActive,
+            shift4HubActive: shift4HubActive,
+
+            shift1Fuel: shift1Fuel,
+            shift2Fuel: shift2Fuel,
+            shift3Fuel: shift3Fuel,
+            shift4Fuel: shift4Fuel,
+
+            shift1Defense: shift1Defense,
+            shift2Defense: shift2Defense,
+            shift3Defense: shift3Defense,
+            shift4Defense: shift4Defense,
+
+            notes: notes,
             endgameAction: endgameAction,
             hadError: hadError,
             robotError: robotError,
@@ -250,11 +273,77 @@ const MatchForm: React.FC = () => {
                 </>
             );
         } else if (teleopShift === 2) {
-            shiftcontent = <></>;
+            shiftcontent = (
+                <>
+                    <BinaryChoice
+                        label={"Hub Active?"}
+                        options={["yes", "no"]}
+                        onChange={setShift2HubActive}
+                        button1Selected={shift2HubActive}
+                    />
+                    <MultiCounterInput
+                        min={0}
+                        max={999}
+                        value={shift2Fuel}
+                        onChange={setShift2Fuel}
+                        label={"Fuel"}
+                    />
+                    <BinaryChoice
+                        label={"Played Defense?"}
+                        options={["yes", "no"]}
+                        onChange={setShift2Defense}
+                        button1Selected={shift2Defense}
+                    />
+                </>
+            );
         } else if (teleopShift === 3) {
-            shiftcontent = <></>;
+            shiftcontent = (
+                <>
+                    <BinaryChoice
+                        label={"Hub Active?"}
+                        options={["yes", "no"]}
+                        onChange={setShift3HubActive}
+                        button1Selected={shift3HubActive}
+                    />
+                    <MultiCounterInput
+                        min={0}
+                        max={999}
+                        value={shift3Fuel}
+                        onChange={setShift3Fuel}
+                        label={"Fuel"}
+                    />
+                    <BinaryChoice
+                        label={"Played Defense?"}
+                        options={["yes", "no"]}
+                        onChange={setShift3Defense}
+                        button1Selected={shift3Defense}
+                    />
+                </>
+            );
         } else if (teleopShift === 4) {
-            shiftcontent = <></>;
+            shiftcontent = (
+                <>
+                    <BinaryChoice
+                        label={"Hub Active?"}
+                        options={["yes", "no"]}
+                        onChange={setShift4HubActive}
+                        button1Selected={shift4HubActive}
+                    />
+                    <MultiCounterInput
+                        min={0}
+                        max={999}
+                        value={shift4Fuel}
+                        onChange={setShift4Fuel}
+                        label={"Fuel"}
+                    />
+                    <BinaryChoice
+                        label={"Played Defense?"}
+                        options={["yes", "no"]}
+                        onChange={setShift4Defense}
+                        button1Selected={shift4Defense}
+                    />
+                </>
+            );
         }
         content = (
             <>
@@ -287,6 +376,9 @@ const MatchForm: React.FC = () => {
                     Shift {teleopShift}
                 </p>
                 {shiftcontent}
+                <p className="font-bold text-white text-l pb-1">
+                    If the robot failed to lower from climb, state that in the errors tab
+                </p>
             </>
         );
     } else if (section === "endgame") {
@@ -312,7 +404,7 @@ const MatchForm: React.FC = () => {
             <>
                 <CheckboxDropdown
                     value={"will ding"}
-                    options={["will dingaling is gooning"]}
+                    options={robotErrors}
                     onChange={setEndgameAction}
                     placeholder="will ding"
                 />
