@@ -35,20 +35,28 @@ const MatchForm: React.FC = () => {
     const [matchNumber, setMatchNumber] = useState(0);
 
     // Auto values
-
-    const [autoFuel, autoSetFuel] = useState(0);
-    const [autoClimbed, autoSetClimbed] = useState(true);
+    const [autoBump, setAutoBump] = useState(false);
+    const [autoUnderTrench, setAutoUnderTrench] = useState(false);
+    const [autoFuel, setAutoFuel] = useState(0);
+    const [autoClimbed, setAutoClimbed] = useState(false);
+    const [autoPlayedDefense, setAutoPlayedDefense] = useState(false);
 
     // Teleop values
+    const [teleopShift, setTeleopShift] = useState(1);
 
-    const [teleopFuel, teleopSetFuel] = useState(0);
-    const [teleopOutpostScored, teleopSetOutpostScored] = useState(0);
-    const [teleopFuelStuck, teleopsetFuelStuck] = useState(true);
+    const [shift1Fuel, setShift1Fuel] = useState(0);
+    const [shift2Fuel, setShift2Fuel] = useState(0);
+    const [shift3Fuel, setShift3Fuel] = useState(0);
+    const [shift4Fuel, setShift4Fuel] = useState(0);
+
+    const [shift1Defense, setShift1Defense] = useState(false);
+    const [shift2Defense, setShift2Defense] = useState(false);
+    const [shift3Defense, setShift3Defense] = useState(false);
+    const [shift4Defense, setShift4Defense] = useState(false);
 
     // Endgame values
-
-    const [endgameFuel, endgameSetFuel] = useState(0);
-    const [endgameClimbLevel, endgameSetClimbLevel] = useState("0");
+    const [endgameFuel, setEndgameFuel] = useState(0);
+    const [endgameClimbLevel, setEndgameClimbLevel] = useState("0");
 
     const [endgameAction, setEndgameAction] = useState<string>("");
     const [hadError, setHadError] = useState<boolean | null>(null);
@@ -71,6 +79,7 @@ const MatchForm: React.FC = () => {
         "Robot unresponsive",
         "Robot part fell off",
         "Did not participate",
+        "Auto Stop",
         "Other",
     ];
 
@@ -176,34 +185,93 @@ const MatchForm: React.FC = () => {
                     min={0}
                     max={999}
                     value={autoFuel}
-                    onChange={autoSetFuel}
+                    onChange={setAutoFuel}
                     label={"Auto fuel"}
                 />
                 <BinaryChoice
                     label={"Auto climb succeed?"}
-                    options={["no", "yes"]}
+                    options={["yes", "no"]}
                     button1Selected={autoClimbed}
-                    onChange={autoSetClimbed}
+                    onChange={setAutoClimbed}
+                />
+                <BinaryChoice
+                    label={"Over Bump?"}
+                    options={["yes", "no"]}
+                    button1Selected={autoBump}
+                    onChange={setAutoBump}
+                />
+                <BinaryChoice
+                    label={"Under Trench?"}
+                    options={["yes", "no"]}
+                    button1Selected={autoUnderTrench}
+                    onChange={setAutoUnderTrench}
+                />
+                <BinaryChoice
+                    label={"Play Defense"}
+                    options={["yes", "no"]}
+                    button1Selected={autoPlayedDefense}
+                    onChange={setAutoPlayedDefense}
                 />
             </>
         );
     } else if (section === "teleop") {
+        let shiftcontent = null;
+        if (teleopShift === 1) {
+            shiftcontent = (
+                <>
+                    <MultiCounterInput
+                        min={0}
+                        max={999}
+                        value={shift1Fuel}
+                        onChange={setShift1Fuel}
+                        label={"Fuel"}
+                    />
+                    <BinaryChoice
+                        label={"Played Defense?"}
+                        options={["yes", "no"]}
+                        onChange={setShift1Defense}
+                        button1Selected={shift1Defense}
+                    />
+                </>
+            );
+        } else if (teleopShift === 2) {
+            shiftcontent = <></>;
+        } else if (teleopShift === 3) {
+            shiftcontent = <></>;
+        } else if (teleopShift === 4) {
+            shiftcontent = <></>;
+        }
         content = (
             <>
-                <MultiCounterInput
-                    min={0}
-                    max={999}
-                    value={teleopFuel}
-                    onChange={teleopSetFuel}
-                    label={"Teleop Fuel Scored"}
-                />
-                <MultiCounterInput
-                    min={0}
-                    max={999}
-                    value={teleopOutpostScored}
-                    onChange={teleopSetOutpostScored}
-                    label={"Outpost fuel scored (person throwing fuel)"}
-                />
+                <button
+                    className={buttonStyle}
+                    onClick={() => setTeleopShift(1)}
+                >
+                    T + S1
+                </button>
+                <button
+                    className={buttonStyle}
+                    onClick={() => setTeleopShift(2)}
+                >
+                    S2
+                </button>
+                <button
+                    className={buttonStyle}
+                    onClick={() => setTeleopShift(3)}
+                >
+                    S3
+                </button>
+                <button
+                    className={buttonStyle}
+                    onClick={() => setTeleopShift(4)}
+                >
+                    S4
+                </button>
+
+                <p className="font-bold text-white text-3xl pb-1">
+                    Shift {teleopShift}
+                </p>
+                {shiftcontent}
             </>
         );
     } else if (section === "endgame") {
@@ -213,14 +281,14 @@ const MatchForm: React.FC = () => {
                     min={0}
                     max={999}
                     value={endgameFuel}
-                    onChange={endgameSetFuel}
+                    onChange={setEndgameFuel}
                     label={"Endgame fuel scored"}
                 />
                 <Dropdown
                     value={endgameClimbLevel}
                     options={["Didn't climb", "Level 1", "Level 2", "Level 3"]}
                     label={"Endgame Climb Level"}
-                    onChange={endgameSetClimbLevel}
+                    onChange={setEndgameClimbLevel}
                 />
             </>
         );
