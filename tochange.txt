@@ -1,5 +1,3 @@
-Add subsections within teleop for alliance shifts, hub active or inactive
-
 Scouting Schedule
 
 Team Statistics: Averages
