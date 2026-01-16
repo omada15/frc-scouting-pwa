@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { writeData } from "../scripts/firebase";
+import ReactJsonView from '@microlink/react-json-view'
 
 interface ActionComponentProps {
     onSubmit: () => void;
@@ -15,6 +16,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
     const goBack = () => {
         navigate("/");
     };
+    
     return (
         <div className="flex flex-row justify-center items-center space-x-32 pt-6">
             <button
@@ -41,6 +43,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
 };
 
 const LocalStorageView: React.FC = () => {
+    const [show, setShow] = React.useState<boolean>(true);
     const [keys, setKeys] = React.useState<string[]>([]);
     const [selectedKey, setSelectedKey] = React.useState<string>("");
     const [value, setValue] = React.useState<string>("");
@@ -117,13 +120,18 @@ const LocalStorageView: React.FC = () => {
                     Load from localStorage
                 </button>
 
-                {selectedKey && (
-                    <textarea
-                        className="bg-gray-900 text-white w-80 h-40 p-3 rounded-xl"
-                        value={value}
-                        onChange={(e) => setValue(e.target.value)}
+                {show ? (
+                    <ReactJsonView
+                        src={(() => {
+                            try {
+                                return JSON.parse(value) || {};
+                            } catch (e) {
+                                return {};
+                            }
+                        })()}
+                        theme={"monokai"}
                     />
-                )}
+                ) : null}
                 <p className="text-white">
                     Make sure the textbox above has a value before submitting or
                     deleting

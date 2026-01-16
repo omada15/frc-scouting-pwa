@@ -16,7 +16,7 @@ const AutoResizeTextarea: React.FC<Props> = ({
     let boxLabel = null;
     if (label != null) {
         boxLabel = (
-            <h3 className="font-semibold text-white text-2xl pb-10">{label}</h3>
+            <h3 className="font-semibold text-white text-2xl pb-100">{label}</h3>
         );
     }
 

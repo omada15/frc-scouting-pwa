@@ -10,6 +10,8 @@ import CheckboxDropdown from "../components/CheckboxDropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
 import { writeData } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
+import isMobile from "../scripts/isMobileDevice";
+import isMobileDevice from "../scripts/isMobileDevice";
 
 const MatchForm: React.FC = () => {
     const navigate = useNavigate();
@@ -110,6 +112,8 @@ const MatchForm: React.FC = () => {
             setRobotError("");
         }
     }
+
+    console.log(isMobileDevice);
     async function submitData() {
         //make sure certain fields are filled out
         let debug = true;
