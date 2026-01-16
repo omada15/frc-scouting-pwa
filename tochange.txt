@@ -1,23 +1,4 @@
-Cross bump or go under trench for both teleop and auto
-teleop played defense
-teleop collected fuel during inactive
-auto collected fuel
-add textbox for extra notes 
-
 Add subsections within teleop for alliance shifts, hub active or inactive
-
-Pit Scouting?: Log to see who we haven't or have scouted
-Team Number
-Robot Picture
-Chassis size
-Height
-Max Height
-Motor Type
-Max Capacity
-Endgame Ability
-Driver Experience
-Ways to interact with pieces(shoot, collect, etc.)
-other stuff like climbing speed and more
 
 Scouting Schedule
 
@@ -31,7 +12,25 @@ Notes like defense or ball hoarding or errors like broken stuff
 Average Ranking points per game
 Accuracy
 
-Match data(probably we have it done)
-Overall team data(sums and matches played probably)
-Some charts like Ben Lee had(can be useful when just looking at who is better overall)
-GAME PREDICTOR FOR OUR GAMBLING
+Scouting data visualization
+Use python to fetch data and begin visualizing
+
+required functionality:
+view scouting schedule, who's scouting which game and which team
+view individual team stats, including total fuel shot in, and which shift
+view entire match data, including which qual match they were seen in
+view when alliance hub is active
+
+
+Pit Scouting?: max is sped we dont need this
+Team Number
+Robot Picture
+Chassis size
+Height
+Max Height
+Motor Type
+Max Capacity
+Endgame Ability
+Driver Experience
+Ways to interact with pieces(shoot, collect, etc.)
+other stuff like climbing speed and more
