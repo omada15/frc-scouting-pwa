@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 
-export default function useIsMobile(MOBILE_BREAKPOINT = 768) {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+function useIsMobile(MOBILE_BREAKPOINT = 768) {
+    let isMobile = false;
 
-  useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
     const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+        isMobile = window.innerWidth < MOBILE_BREAKPOINT;
     };
 
     mql.addEventListener("change", onChange);
 
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 
-    return () => {
-      mql.removeEventListener("change", onChange);
-    };
-  }, [MOBILE_BREAKPOINT]);
+    mql.removeEventListener("change", onChange);
+    
 
-  return !!isMobile;
+    return isMobile;
 }
+const isMobileDevice = useIsMobile();
+export default isMobileDevice;
