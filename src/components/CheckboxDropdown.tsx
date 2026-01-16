@@ -8,22 +8,20 @@ interface DropdownProps {
   value: string;
   options: string[];
   label?: string;
-  placeholder?: string;
-  onChange: (newValue: string) => void;
 }
 
 function changeJson(value: string, option: string) {
-  jsonObject[option] = value;
+  if (jsonObject[option] === false) {
+    jsonObject[option] = true;
+  } else {
+    jsonObject[option] = false;
+  }
+
   console.log(jsonObject);
+  return jsonObject;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
-  label,
-  placeholder,
-  options,
-  onChange,
-  value,
-}) => {
+const Dropdown: React.FC<DropdownProps> = ({ label, options, value }) => {
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   let boxLabel = null;
   if (label != null) {
@@ -51,8 +49,12 @@ const Dropdown: React.FC<DropdownProps> = ({
             <label className="text-white ">
               <input
                 type="checkbox"
-                value={value}
-                onClick={(e) => changeJson(e.target.value, option)}
+                onClick={(e) =>
+                  (value = changeJson(
+                    (e.target as HTMLInputElement).value,
+                    option
+                  ))
+                }
               />{" "}
               {option}
             </label>
