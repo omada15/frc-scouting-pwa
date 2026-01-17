@@ -45,8 +45,9 @@ const MatchForm: React.FC = () => {
     const [autoPlayedDefense, setAutoPlayedDefense] = useState(false);
 
     // Teleop values
-    const [teleopShift, setTeleopShift] = useState(1);
+    const [teleopShift, setTeleopShift] = useState(0);
 
+    const [transitionFuel, setTransitionFuel] = useState(0);
     const [shift1HubActive, setShift1HubActive] = useState(false);
     const [shift2HubActive, setShift2HubActive] = useState(false);
     const [shift3HubActive, setShift3HubActive] = useState(false);
@@ -104,7 +105,7 @@ const MatchForm: React.FC = () => {
         "Did not participate": false,
         "Auto Stop": false,
         "Robot could not get off after climb": false,
-        "Other": false,
+        Other: false,
     };
 
     function changeError(newValue: boolean) {
@@ -143,6 +144,7 @@ const MatchForm: React.FC = () => {
             shift3HubActive: shift3HubActive,
             shift4HubActive: shift4HubActive,
 
+            transitionFuel: transitionFuel,
             shift1Fuel: shift1Fuel,
             shift2Fuel: shift2Fuel,
             shift3Fuel: shift3Fuel,
@@ -155,7 +157,7 @@ const MatchForm: React.FC = () => {
 
             notes: notes,
             endgameAction: endgameAction,
-            robotError: robotErrorsCheck, 
+            robotError: robotErrorsCheck,
         };
         /*
         The path for block of data will be submitted as follows:
@@ -190,6 +192,12 @@ const MatchForm: React.FC = () => {
     const tab = (name: string) =>
         `px-5 py-2 rounded-full font-semibold transition-colors ${
             section === name
+                ? "bg-sky-600 text-white"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+        }`;
+    const tab2 = (name: number) =>
+        `px-5 py-2 rounded-full font-semibold transition-colors ${
+            teleopShift === name
                 ? "bg-sky-600 text-white"
                 : "bg-gray-700 text-gray-300 hover:bg-gray-600"
         }`;
@@ -270,7 +278,23 @@ const MatchForm: React.FC = () => {
         );
     } else if (section === "teleop") {
         let shiftcontent = null;
-        if (teleopShift === 1) {
+        if (teleopShift === 0) {
+            shiftcontent = (
+                <>
+                    <MultiCounterInput
+                        min={0}
+                        max={999}
+                        value={transitionFuel}
+                        onChange={setTransitionFuel}
+                        label={"Transition Fuel"}
+                    />
+                    <p className="font-bold text-white text-l pb-1">
+                        If the robot failed to lower from climb, state that in
+                        the errors tab
+                    </p>
+                </>
+            );
+        } else if (teleopShift === 1) {
             shiftcontent = (
                 <>
                     <BinaryChoice
@@ -368,41 +392,45 @@ const MatchForm: React.FC = () => {
             );
         }
         content = (
-            <>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(1)}
-                >
-                    T + S1
-                </button>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(2)}
-                >
-                    S2
-                </button>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(3)}
-                >
-                    S3
-                </button>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(4)}
-                >
-                    S4
-                </button>
+            <div className="justify-center items-center flex flex-col">
+                <div className="flex flex-row space-x-4 pb-5">
+                    <button
+                        className={tab2(0)}
+                        onClick={() => setTeleopShift(0)}
+                    >
+                        Transition
+                    </button>
+                    <button
+                        className={tab2(1)}
+                        onClick={() => setTeleopShift(1)}
+                    >
+                        Shift 1
+                    </button>
+                    <button
+                        className={tab2(2)}
+                        onClick={() => setTeleopShift(2)}
+                    >
+                        Shift 2
+                    </button>
+                    <button
+                        className={tab2(3)}
+                        onClick={() => setTeleopShift(3)}
+                    >
+                        Shift 3
+                    </button>
+                    <button
+                        className={tab2(4)}
+                        onClick={() => setTeleopShift(4)}
+                    >
+                        Shift 4
+                    </button>
+                </div>
 
-                <p className="font-bold text-white text-3xl pb-1">
-                    Shift {teleopShift}
-                </p>
-                {shiftcontent}
-                <p className="font-bold text-white text-l pb-1">
-                    If the robot failed to lower from climb, state that in the
-                    errors tab
-                </p>
-            </>
+                <div className="justify-center items-center flex flex-col">
+                    {shiftcontent}
+                    
+                </div>
+            </div>
         );
     } else if (section === "endgame") {
         content = (
