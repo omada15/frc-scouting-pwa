@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../scripts/firebase";
 
@@ -7,8 +7,8 @@ const SignupPage: React.FC = () => {
 
     const goBack = () => {
         navigate("/");
-    }
-    
+    };
+
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,22 +23,29 @@ const SignupPage: React.FC = () => {
             alert("Passwords do not match!");
             return;
         } else {
-            registerUser(email, password, name)
+            registerUser(email, password, name);
         }
     };
 
     const goToLogin = () => {
         navigate("/login");
     };
-    const buttonStyle: string = "bg-sky-600 text-white font-semibold text-xl px-2 py-2 rounded-full hover:bg-sky-700 transition-colors h-15 w-35";
-
+    const buttonStyle: string =
+        "bg-sky-600 text-white font-semibold text-xl px-2 py-2 rounded-full hover:bg-sky-700 transition-colors h-15 w-35";
 
     return (
         <div className="flex flex-col items-center justify-start space-y-8 pt-20 min-h-screen">
-            <button className={buttonStyle} onClick={goBack}>Back</button>
+            <button className={buttonStyle} onClick={goBack}>
+                Back
+            </button>
             <h1 className="font-bold text-white text-4xl">Sign Up</h1>
-            <p className="font-bold text-white text-xl pl-4 pr-4">Use your REAL, FULL NAME. You cannot change your name after creating your account</p>
-            <p className="font-bold text-white text-xl pl-4 pr-4">Submissions under a false name will not be counted</p>
+            <p className="font-bold text-white text-xl pl-4 pr-4">
+                Use your REAL, FULL NAME. You cannot change your name after
+                creating your account
+            </p>
+            <p className="font-bold text-white text-xl pl-4 pr-4">
+                Submissions under a false name will not be counted
+            </p>
             <div className="flex flex-col space-y-6 w-80">
                 <input
                     type="text"

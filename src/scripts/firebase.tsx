@@ -24,8 +24,6 @@ const firebaseConfig: FirebaseConfig = { // env has not been gitignored, add aft
     measurementId: import.meta.env.VITE_MEASUREMENT_ID as string | undefined,
 };
 
-console.log(firebaseConfig.apiKey);
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -72,7 +70,6 @@ export async function registerUser(email: string, password: string, name: string
         await updateProfile(userCredential.user, {
             displayName: name,
         })
-        console.log(userCredential.user.email)
         window.location.href = "/" // navigate() cannot be used here: invalid hook call
         return userCredential.user;
     } catch (err: any) {
@@ -95,7 +92,7 @@ export async function registerUser(email: string, password: string, name: string
 export async function loginUser(email: string, password: string) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log("User logged in:", userCredential.user.uid);
+        generateCookie("user", userCredential.user.displayName, 7);
         window.location.href="/"; // same as previous
         return userCredential.user.uid;
     } catch (err: any) {

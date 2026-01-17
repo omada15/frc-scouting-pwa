@@ -8,7 +8,13 @@ interface CounterInputProps {
     label?: string;
 }
 
-const CounterInput: React.FC<CounterInputProps> = ({ value = 0, onChange, min = 0, max = Infinity, label }) => {
+const CounterInput: React.FC<CounterInputProps> = ({
+    value = 0,
+    onChange,
+    min = 0,
+    max = Infinity,
+    label,
+}) => {
     const increment = () => {
         if (value < max) {
             onChange(value + 1);
@@ -23,8 +29,10 @@ const CounterInput: React.FC<CounterInputProps> = ({ value = 0, onChange, min = 
 
     let boxLabel = null;
     if (label != null) {
-        boxLabel = <h3 className="font-semibold text-white text-2xl pb-1">{label}</h3>
-    };
+        boxLabel = (
+            <h3 className="font-semibold text-white text-2xl pb-1">{label}</h3>
+        );
+    }
 
     return (
         <div className="flex flex-col items-center space-y-2">
@@ -36,9 +44,7 @@ const CounterInput: React.FC<CounterInputProps> = ({ value = 0, onChange, min = 
                 >
                     −
                 </button>
-                <p className="text-white font-bold text-5xl px-3">
-                    {value}
-                </p>
+                <p className="text-white font-bold text-5xl px-3">{value}</p>
                 <button
                     onClick={increment}
                     className="bg-sky-600 text-white font-semibold text-xl px-3 py-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
