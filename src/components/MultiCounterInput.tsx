@@ -70,104 +70,68 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
     }
 
     return (
-        <div className="flex flex-col items-center space-y-2 h-auto">
+        <div className="flex flex-col items-center w-full space-y-4 py-4">
             {boxLabel}
-            <div className="flex 2xl:flex-row xl:flex-row lg:flex-col md:flex-col sm:flex-col xs:flex-col 2xs:flex-col items-center space-x-2">
-                {isMobile ? (
-                    <>
-                        <button
-                            onClick={decten}
-                            className="bg-sky-600 text-white font-semibold text-xl px-3 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            -10
-                        </button>
-                        <button
-                            onClick={decfive}
-                            className="bg-sky-600 text-white font-semibold text-xl px-2 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            -5
-                        </button>
-                        <button
-                            onClick={decrement}
-                            className="bg-sky-600 text-white font-semibold text-xl px-3 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            -1
-                        </button>
-                        <IntegerInput
-                            min={0}
-                            max={max}
-                            label={""}
-                            placeholder={"hello :)"}
-                            onChange={onChange}
-                            value={value || 0}
-                        />
-                        <button
-                            onClick={increment}
-                            className="bg-sky-600 text-white font-semibold text-xl px-3 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            +1
-                        </button>
-                        <button
-                            onClick={incfive}
-                            className="bg-sky-600 text-white font-semibold text-xl px-2 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            +5
-                        </button>
-                        <button
-                            onClick={incten}
-                            className="bg-sky-600 text-white font-semibold text-xl px-1 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            +10
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <button
-                            onClick={decten}
-                            className="bg-sky-600 text-white font-semibold text-xl px-3 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            -10
-                        </button>
-                        <button
-                            onClick={decfive}
-                            className="bg-sky-600 text-white font-semibold text-xl px-2 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            -5
-                        </button>
-                        <button
-                            onClick={decrement}
-                            className="bg-sky-600 text-white font-semibold text-xl px-3 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            -1
-                        </button>
-                        <IntegerInput
-                            min={0}
-                            max={max}
-                            label={""}
-                            placeholder={"hello :)"}
-                            onChange={onChange}
-                            value={value || 0}
-                        />
-                        <button
-                            onClick={increment}
-                            className="bg-sky-600 text-white font-semibold text-xl px-3 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            +1
-                        </button>
-                        <button
-                            onClick={incfive}
-                            className="bg-sky-600 text-white font-semibold text-xl px-2 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            +5
-                        </button>
-                        <button
-                            onClick={incten}
-                            className="bg-sky-600 text-white font-semibold text-xl px-1 my-1 rounded-full hover:bg-sky-700 transition-colors h-12.5 w-12.5"
-                        >
-                            +10
-                        </button>
-                    </>
-                )}
+
+            {/* On mobile: A column (flex-col) containing two rows of buttons and the input.
+           On large screens (lg:): A single row (lg:flex-row) containing everything.
+        */}
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-4 w-full">
+                {/* Decrement Group */}
+                <div className="flex gap-2 lg:gap-2">
+                    <button
+                        onClick={decten}
+                        className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
+                    >
+                        -10
+                    </button>
+                    <button
+                        onClick={decfive}
+                        className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
+                    >
+                        -5
+                    </button>
+                    <button
+                        onClick={decrement}
+                        className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
+                    >
+                        -1
+                    </button>
+                </div>
+
+                {/* The Input - Stretches on mobile, fixed size on desktop */}
+                <div className="w-full max-w-[280px] lg:w-48">
+                    <IntegerInput
+                        min={0}
+                        max={max}
+                        label={""}
+                        placeholder={"0"}
+                        onChange={onChange}
+                        value={value || 0}
+                    />
+                </div>
+
+                {/* Increment Group */}
+                <div className="flex gap-2 lg:gap-2">
+                    <button
+                        onClick={increment}
+                        className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
+                    >
+                        +1
+                    </button>
+                    <button
+                        onClick={incfive}
+                        className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
+                    >
+                        +5
+                    </button>
+                    <button
+                        onClick={incten}
+                        className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
+                    >
+                        +10
+                    </button>
+                </div>
             </div>
         </div>
     );
