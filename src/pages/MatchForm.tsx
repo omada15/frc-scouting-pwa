@@ -38,15 +38,13 @@ const MatchForm: React.FC = () => {
     const [matchNumber, setMatchNumber] = useState(0);
 
     // Auto values
-    const [autoBump, setAutoBump] = useState(false);
-    const [autoUnderTrench, setAutoUnderTrench] = useState(false);
     const [autoFuel, setAutoFuel] = useState(0);
     const [autoClimbed, setAutoClimbed] = useState(false);
-    const [autoPlayedDefense, setAutoPlayedDefense] = useState(false);
 
     // Teleop values
-    const [teleopShift, setTeleopShift] = useState(1);
+    const [teleopShift, setTeleopShift] = useState(0);
 
+    const [transitionFuel, setTransitionFuel] = useState(0);
     const [shift1HubActive, setShift1HubActive] = useState(false);
     const [shift2HubActive, setShift2HubActive] = useState(false);
     const [shift3HubActive, setShift3HubActive] = useState(false);
@@ -66,13 +64,11 @@ const MatchForm: React.FC = () => {
     const [endgameFuel, setEndgameFuel] = useState(0);
     const [endgameClimbLevel, setEndgameClimbLevel] = useState("0");
 
-    const [endgameAction, setEndgameAction] = useState<string>("");
-    const [hadError, setHadError] = useState<boolean | null>(null);
-    const [robotError, setRobotError] = useState<string>("");
     const [notes, setNotes] = useState<string>("");
 
-    // Error values
-
+    // finale  values
+    const [crossedBump, setCrossedBump] = useState(false);
+    const [underTrench, setUnderTrench] = useState(false);
     const [otherRobotNotes, setOtherRobotNotes] = useState<string>("");
 
     const events = ["NE District Minuteman Event", "NE District URI Event"];
@@ -113,29 +109,24 @@ const MatchForm: React.FC = () => {
         let check: boolean =
             eventName !== "" &&
             teamNumber !== null &&
-            matchNumber !== null &&
-            hadError !== null &&
-            endgameAction !== "";
+            matchNumber !== null
 
         const data = {
             scoutingTeam: scoutingTeam,
-            // sample data object,
             name: readCookie("user"),
             eventName: eventName,
             teamNumber: teamNumber,
             matchNumber: matchNumber,
 
-            autoBump: autoBump,
-            autoUnderTrench: autoUnderTrench,
             autoFuel: autoFuel,
             autoClimbed: autoClimbed,
-            autoPlayedDefense: autoPlayedDefense,
 
             shift1HubActive: shift1HubActive,
             shift2HubActive: shift2HubActive,
             shift3HubActive: shift3HubActive,
             shift4HubActive: shift4HubActive,
 
+            transitionFuel: transitionFuel,
             shift1Fuel: shift1Fuel,
             shift2Fuel: shift2Fuel,
             shift3Fuel: shift3Fuel,
@@ -146,8 +137,12 @@ const MatchForm: React.FC = () => {
             shift3Defense: shift3Defense,
             shift4Defense: shift4Defense,
 
+            endgameFuel: endgameFuel,
+            endgameClimbLevel: endgameClimbLevel,
+
+            crossedBump: crossedBump,
+            underTrench: underTrench,
             notes: notes,
-            endgameAction: endgameAction,
             robotError: robotErrorsCheck,
         };
         /*
@@ -183,6 +178,12 @@ const MatchForm: React.FC = () => {
     const tab = (name: string) =>
         `px-5 py-2 rounded-full font-semibold transition-colors ${
             section === name
+                ? "bg-sky-600 text-white"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+        }`;
+    const tab2 = (name: number) =>
+        `px-5 py-2 rounded-full font-semibold transition-colors ${
+            teleopShift === name
                 ? "bg-sky-600 text-white"
                 : "bg-gray-700 text-gray-300 hover:bg-gray-600"
         }`;
@@ -241,29 +242,27 @@ const MatchForm: React.FC = () => {
                     button1Selected={autoClimbed}
                     onChange={setAutoClimbed}
                 />
-                <BinaryChoice
-                    label={"Over Bump?"}
-                    options={["yes", "no"]}
-                    button1Selected={autoBump}
-                    onChange={setAutoBump}
-                />
-                <BinaryChoice
-                    label={"Under Trench?"}
-                    options={["yes", "no"]}
-                    button1Selected={autoUnderTrench}
-                    onChange={setAutoUnderTrench}
-                />
-                <BinaryChoice
-                    label={"Play Defense"}
-                    options={["yes", "no"]}
-                    button1Selected={autoPlayedDefense}
-                    onChange={setAutoPlayedDefense}
-                />
             </>
         );
     } else if (section === "teleop") {
         let shiftcontent = null;
-        if (teleopShift === 1) {
+        if (teleopShift === 0) {
+            shiftcontent = (
+                <>
+                    <MultiCounterInput
+                        min={0}
+                        max={999}
+                        value={transitionFuel}
+                        onChange={setTransitionFuel}
+                        label={"Transition Fuel"}
+                    />
+                    <p className="font-bold text-white text-l pb-1">
+                        If the robot failed to lower from climb, state that in
+                        the errors tab
+                    </p>
+                </>
+            );
+        } else if (teleopShift === 1) {
             shiftcontent = (
                 <>
                     <BinaryChoice
@@ -361,41 +360,44 @@ const MatchForm: React.FC = () => {
             );
         }
         content = (
-            <>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(1)}
-                >
-                    T + S1
-                </button>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(2)}
-                >
-                    S2
-                </button>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(3)}
-                >
-                    S3
-                </button>
-                <button
-                    className={buttonStyle}
-                    onClick={() => setTeleopShift(4)}
-                >
-                    S4
-                </button>
+            <div className="justify-center items-center flex flex-col">
+                <div className="flex flex-row space-x-4 pb-5">
+                    <button
+                        className={tab2(0)}
+                        onClick={() => setTeleopShift(0)}
+                    >
+                        Transition
+                    </button>
+                    <button
+                        className={tab2(1)}
+                        onClick={() => setTeleopShift(1)}
+                    >
+                        Shift 1
+                    </button>
+                    <button
+                        className={tab2(2)}
+                        onClick={() => setTeleopShift(2)}
+                    >
+                        Shift 2
+                    </button>
+                    <button
+                        className={tab2(3)}
+                        onClick={() => setTeleopShift(3)}
+                    >
+                        Shift 3
+                    </button>
+                    <button
+                        className={tab2(4)}
+                        onClick={() => setTeleopShift(4)}
+                    >
+                        Shift 4
+                    </button>
+                </div>
 
-                <p className="font-bold text-white text-3xl pb-1">
-                    Shift {teleopShift}
-                </p>
-                {shiftcontent}
-                <p className="font-bold text-white text-l pb-1">
-                    If the robot failed to lower from climb, state that in the
-                    errors tab
-                </p>
-            </>
+                <div className="justify-center items-center flex flex-col">
+                    {shiftcontent}
+                </div>
+            </div>
         );
     } else if (section === "endgame") {
         content = (
@@ -419,13 +421,25 @@ const MatchForm: React.FC = () => {
         content = (
             <>
                 <div className="flex flex-col items-center space-y-2">
+                    <BinaryChoice
+                        label={"Over Bump?"}
+                        options={["yes", "no"]}
+                        button1Selected={crossedBump}
+                        onChange={setCrossedBump}
+                    />
+                    <BinaryChoice
+                        label={"Under Trench?"}
+                        options={["yes", "no"]}
+                        button1Selected={underTrench}
+                        onChange={setUnderTrench}
+                    />
                     <div
                         onClick={() =>
                             setShowCheckboxes(
                                 (showCheckboxes) => !showCheckboxes,
                             )
                         }
-                        className="cursor-pointer text-white text-l pl-8 pr-8 p-4 flex-col items-start flex justify-center w-60 bg-gray-700 rounded-full focus-within:outline-auto relative"
+                        className="pt-4 cursor-pointer text-white text-l pl-8 pr-8 p-4 flex-col items-start flex justify-center w-60 bg-gray-700 rounded-full focus-within:outline-auto relative"
                     >
                         <div className="relative">Select Robot Errors</div>
                     </div>
@@ -519,7 +533,7 @@ const MatchForm: React.FC = () => {
                     className={tab("errors")}
                     onClick={() => setSection("errors")}
                 >
-                    Errors
+                    Finale
                 </button>
             </div>
             {content}
