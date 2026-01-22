@@ -1,0 +1,74 @@
+/**
+Uses inputs (redMin, redMax, blueMin, blueMax)
+The DetermineWinner function checks if the minimum a team can make is higher than the max the other team can make.
+It's super inacurracte but kinda works.
+*/
+
+function DetermineWinner(redMin, redMax, blueMin, blueMax) {
+  if (redMin > blueMax) {
+    return "Red Win";
+  } else if (blueMin > redMax) {
+    return "Blue Win";
+  } else {
+    return "Too Close";
+  }
+}
+
+/**
+It creates a variable spreadsheet which is the file(It'll call it all the time to get information from it).
+It creates a variable predictionSheet which is the prediction spreadsheet tab.
+It sets the current sheet that you are going to work to the prediction spreadsheet.
+It creates const for team colors.
+Runs the calculator for Coral, Algae and Climb.
+The a8 box has a Standard Deviation calculator as a percent and sends the output to a9.
+It creates a variable that gets the information from a9.
+Uses that number to find the standard deviation of both teams.
+Gets the total predicted information for each team by using variables from other calculators.
+Finds max and minimum using the standard deviation for each team.
+//
+var blueMin = blueTotal - blueSTDev;
+var blueMax = blueTotal + blueSTDev;
+var redMin = redTotal - redSTDev;
+var redMax = redTotal + redSTDev;
+//
+Sets it to 0 if it's negative.
+Runs the determine victory funciton.
+*/
+
+
+function GamePredictor() {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var predictionSheet = spreadsheet.getSheetByName("Game Predictor");
+  spreadsheet.setActiveSheet(predictionSheet);
+
+  const red = "blue";
+  const blue = "red";
+
+  CoralCalculator();
+  AlgaeCalculator();
+  ClimbCalculator();
+
+  
+  var percentSTDev = predictionSheet.getRange('A9').getValue();
+
+  var blueSTDev = (STDevPoints(red))*percentSTDev;
+  var redSTDev = (STDevPoints(blue))*percentSTDev;
+
+  var total = predictionSheet.getRange('I4:I5').getValues();
+  var blueTotal = total[0][0];
+  var redTotal = total[1][0];
+
+  var blueMin = blueTotal - blueSTDev;
+  var blueMax = blueTotal + blueSTDev;
+  var redMin = redTotal - redSTDev;
+  var redMax = redTotal + redSTDev;
+
+  if(blueMin<0) {
+    blueMin = 0;
+  }
+  if(redMin<0) {
+    redMin = 0;
+  }
+
+  spreadsheet.getRange('E4').setValue((DetermineWinner(redMin, redMax, blueMin, blueMax))+"\n"+blueTotal+" to "+redTotal);
+}

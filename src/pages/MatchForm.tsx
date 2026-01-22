@@ -73,6 +73,13 @@ const MatchForm: React.FC = () => {
 
     const events = ["NE District Minuteman Event", "NE District URI Event"];
 
+    const switchShifts = () => {
+        setShift1HubActive(!shift1HubActive);
+        setShift2HubActive(!shift2HubActive);
+        setShift3HubActive(!shift3HubActive);
+        setShift4HubActive(!shift4HubActive);
+    };
+
     const endgameActions = [
         // add
         "None",
@@ -268,7 +275,7 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Hub Active?"}
                         options={["yes", "no"]}
-                        onChange={setShift1HubActive}
+                        onChange={switchShifts}
                         button1Selected={shift1HubActive}
                     />
                     <MultiCounterInput
@@ -292,7 +299,7 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Hub Active?"}
                         options={["yes", "no"]}
-                        onChange={setShift2HubActive}
+                        onChange={switchShifts}
                         button1Selected={shift2HubActive}
                     />
                     <MultiCounterInput
@@ -316,7 +323,7 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Hub Active?"}
                         options={["yes", "no"]}
-                        onChange={setShift3HubActive}
+                        onChange={switchShifts}
                         button1Selected={shift3HubActive}
                     />
                     <MultiCounterInput
@@ -340,7 +347,7 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Hub Active?"}
                         options={["yes", "no"]}
-                        onChange={setShift4HubActive}
+                        onChange={switchShifts}
                         button1Selected={shift4HubActive}
                     />
                     <MultiCounterInput

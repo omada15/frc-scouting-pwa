@@ -1,0 +1,319 @@
+/**
+Creates the IndivdualCoralPieces function which intakes a teamNumber.
+It gets the spreadsheet and creates the variable spreadsheet.
+Uses the spreadsheet function to get the information sheet.
+Creates a pieceData which is just all the information from the spreadsheet.
+*/
+
+function IndividualCoralPieces(teamNumber) {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var pieceSheet = spreadsheet.getSheetByName("Piece Data");
+
+  const pieceData = pieceSheet.getRange("A:AW"/*man*/).getValues();
+
+/**
+Gets the Auto information for the team number and creates a variable for it
+*/
+  var teamAutoL4 = VLookup(teamNumber, pieceData, 3);
+  var teamAutoL3 = VLookup(teamNumber, pieceData, 4);
+  var teamAutoL2 = VLookup(teamNumber, pieceData, 5);
+  var teamAutoL1 = VLookup(teamNumber, pieceData, 6);
+
+  var teamTeleopL4 = VLookup(teamNumber, pieceData, 13);
+  var teamTeleopL3 = VLookup(teamNumber, pieceData, 14);
+  var teamTeleopL2 = VLookup(teamNumber, pieceData, 15);
+  var teamTeleopL1 = VLookup(teamNumber, pieceData, 16);
+  
+  // Handle potential NaN values and ensure all values are numeric
+  teamAutoL4 = (teamAutoL4 && !isNaN(teamAutoL4)) ? Number(teamAutoL4) : 0;
+  teamAutoL3 = (teamAutoL3 && !isNaN(teamAutoL3)) ? Number(teamAutoL3) : 0;
+  teamAutoL2 = (teamAutoL2 && !isNaN(teamAutoL2)) ? Number(teamAutoL2) : 0;
+  teamAutoL1 = (teamAutoL1 && !isNaN(teamAutoL1)) ? Number(teamAutoL1) : 0;
+
+  teamTeleopL4 = (teamTeleopL4 && !isNaN(teamTeleopL4)) ? Number(teamTeleopL4) : 0;
+  teamTeleopL3 = (teamTeleopL3 && !isNaN(teamTeleopL3)) ? Number(teamTeleopL3) : 0;
+  teamTeleopL2 = (teamTeleopL2 && !isNaN(teamTeleopL2)) ? Number(teamTeleopL2) : 0;
+  teamTeleopL1 = (teamTeleopL1 && !isNaN(teamTeleopL1)) ? Number(teamTeleopL1) : 0;
+
+  var array2D = [
+    [teamNumber, teamAutoL4, teamAutoL3, teamAutoL2, teamAutoL1],
+    [teamNumber, teamTeleopL4, teamTeleopL3, teamTeleopL2, teamTeleopL1]
+  ];
+  return array2D;
+}
+
+function IndividualCoralPoints(teamNumber) {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var pointSheet = spreadsheet.getSheetByName("Point Data");
+
+  const pointData = pointSheet.getRange("A:AE").getValues();
+
+  var teamAutoL4 = VLookup(teamNumber, pointData, 3);
+  var teamAutoL3 = VLookup(teamNumber, pointData, 4);
+  var teamAutoL2 = VLookup(teamNumber, pointData, 5);
+  var teamAutoL1 = VLookup(teamNumber, pointData, 6);
+
+  var teamTeleopL4 = VLookup(teamNumber, pointData, 13);
+  var teamTeleopL3 = VLookup(teamNumber, pointData, 14);
+  var teamTeleopL2 = VLookup(teamNumber, pointData, 15);
+  var teamTeleopL1 = VLookup(teamNumber, pointData, 16);
+  
+  // Handle potential NaN values and ensure all values are numeric
+  teamAutoL4 = (teamAutoL4 && !isNaN(teamAutoL4)) ? Number(teamAutoL4) : 0;
+  teamAutoL3 = (teamAutoL3 && !isNaN(teamAutoL3)) ? Number(teamAutoL3) : 0;
+  teamAutoL2 = (teamAutoL2 && !isNaN(teamAutoL2)) ? Number(teamAutoL2) : 0;
+  teamAutoL1 = (teamAutoL1 && !isNaN(teamAutoL1)) ? Number(teamAutoL1) : 0;
+
+  teamTeleopL4 = (teamTeleopL4 && !isNaN(teamTeleopL4)) ? Number(teamTeleopL4) : 0;
+  teamTeleopL3 = (teamTeleopL3 && !isNaN(teamTeleopL3)) ? Number(teamTeleopL3) : 0;
+  teamTeleopL2 = (teamTeleopL2 && !isNaN(teamTeleopL2)) ? Number(teamTeleopL2) : 0;
+  teamTeleopL1 = (teamTeleopL1 && !isNaN(teamTeleopL1)) ? Number(teamTeleopL1) : 0;
+
+  var array2D = [
+    [teamNumber, teamAutoL4, teamAutoL3, teamAutoL2, teamAutoL1],
+    [teamNumber, teamTeleopL4, teamTeleopL3, teamTeleopL2, teamTeleopL1]
+  ];
+
+  return array2D;
+}
+
+
+function LowestTeam(team1, team2, team3, type) {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  // figure out which type and get that sheet
+  // use vlookup to find each team based on type
+  // find the lowest piece/point value and return the right team
+  if(type == "Points"){
+    var pointSheet = spreadsheet.getSheetByName("Point Data");
+    const pointData = pointSheet.getRange("A:W" /*man*/).getValues();
+    var team1Total = VLookup(team1, pointData, 23);
+    var team2Total = VLookup(team2, pointData, 23);
+    var team3Total = VLookup(team3, pointData, 23);
+  } else {
+    var pieceSheet = spreadsheet.getSheetByName("Piece Data");
+    const pieceData = pieceSheet.getRange("A:AE").getValues();
+    var team1Total = VLookup(team1, pieceData, 30);
+    var team2Total = VLookup(team2, pieceData, 30);
+    var team3Total = VLookup(team3, pieceData, 30);
+  }
+  var lowestValue = Math.min(team1Total, team2Total, team3Total);
+  
+  switch(lowestValue) {
+    case team1Total:
+      return team1;
+    case team2Total:
+      return team2;
+    case team3Total:
+      return team3;
+    default:
+      return 0;
+  }
+}
+
+function OrganizeCoral(allianceColor) {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var predictionSheet = spreadsheet.getSheetByName("Game Predictor");
+
+
+  // Gets the values of the necessary L4 values from the Prediction Sheet
+  const teams = predictionSheet.getRange('B4:D5').getValues();
+
+  // Variable that assigns a boolean to a certain color
+  var teamMode;
+  
+  if(allianceColor == "blue") {
+    teamMode = 0;
+  } else if(allianceColor == "red") {
+    teamMode = 1;
+  }
+  
+  var team1piece = IndividualCoralPieces(teams[teamMode][0]);
+  var team2piece = IndividualCoralPieces(teams[teamMode][1]);
+  var team3piece = IndividualCoralPieces(teams[teamMode][2]);
+
+  // Sets each value to a named variable
+  var autoL4 = team1piece[0][1] + team2piece[0][1] + team3piece[0][1];
+  var autoL3 = team1piece[0][2] + team2piece[0][2] + team3piece[0][2];
+  var autoL2 = team1piece[0][3] + team2piece[0][3] + team3piece[0][3];
+  var autoL1 = team1piece[0][4] + team2piece[0][4] + team3piece[0][4];
+
+  var teleopL4 = team1piece[1][1] + team2piece[1][1] + team3piece[1][1];
+  var teleopL3 = team1piece[1][2] + team2piece[1][2] + team3piece[1][2];
+  var teleopL2 = team1piece[1][3] + team2piece[1][3] + team3piece[1][3];
+  var teleopL1 = team1piece[1][4] + team2piece[1][4] + team3piece[1][4];
+
+  // Get the values of the defense
+  var defenseData = predictionSheet.getRange("D9:E9").getValues();
+
+  // Find the team with the lowest pieces
+  var lowestTeamData;
+  var lowestTeam;
+
+  if(defenseData[0][teamMode] == "Yes (By Piece)"){
+    lowestTeam = LowestTeam(teams[teamMode][0], teams[teamMode][1], teams[teamMode][2], "Pieces");
+    lowestTeamData = IndividualCoralPieces(lowestTeam);
+
+  } else if(defenseData[0][teamMode] == "Yes (By Point)"){
+    lowestTeam = LowestTeam(teams[teamMode][0], teams[teamMode][1], teams[teamMode][2], "Points");
+    lowestTeamData = IndividualCoralPieces(lowestTeam);
+  } else {
+    lowestTeamData = [[0,0,0,0,0],[0,0,0,0,0]];
+  }
+
+  Logger.log(lowestTeam);
+
+  teleopL4 = teleopL4 - lowestTeamData[1][1];
+  teleopL3 = teleopL3 - lowestTeamData[1][2];
+  teleopL2 = teleopL2 - lowestTeamData[1][3];
+  teleopL1 = teleopL1 - lowestTeamData[1][4];
+
+
+  var totalL4 = autoL4 + teleopL4;
+  var totalL3 = autoL3 + teleopL3;
+  var totalL2 = autoL2 + teleopL2;
+  var totalL1 = autoL1 + teleopL1;
+
+
+
+  // Sets limits on the maximum for each level
+  if(totalL4 > 12) {
+    var totalL4Diff = totalL4 - 12;
+    totalL3 += totalL4Diff;
+    totalL4 = 12;
+  }
+
+  if(totalL3 > 12) {
+    var totalL3Diff = totalL3 - 12;
+    totalL2 += totalL3Diff;
+    totalL3 = 12;
+  }
+
+  if(totalL2 > 12) {
+    var totalL2Diff = totalL2 - 12;
+    totalL1 += totalL2Diff;
+    totalL2 = 12;
+  }
+
+  if(totalL1 > 36) {
+    totalL1 = 36;
+  }
+
+ //gets either max auto or highest level depending on how we want to prioritize point scoring
+  gameMode = predictionSheet.getRange('B9').getValue();
+
+  // Calculates Auto and Teleop according to the theoretical maximum (coded above)
+  if (gameMode == "Max Auto") {
+    teleopL4 = totalL4 - autoL4;
+    teleopL3 = totalL3 - autoL3;
+    teleopL2 = totalL2 - autoL2;
+    teleopL1 = totalL1 - autoL1;
+  } else if (gameMode == "Highest Level") {
+    var totalAuto = autoL1 + autoL2 + autoL3 + autoL4;
+    // This does the same thing as before, it is just less concise and more readable
+    if (totalAuto > 12) {
+      autoL4 = 12;
+      totalAuto -= 12;
+    } else {
+      autoL4 = totalAuto;
+      totalAuto = 0;
+    }
+
+    if (totalAuto > 12) {
+      autoL3 = 12;
+      totalAuto -= 12;
+    } else {
+      autoL3 = totalAuto;
+      totalAuto = 0;
+    }
+
+    if (totalAuto > 12) {
+      autoL2 = 12;
+      totalAuto -= 12;
+    } else {
+      autoL2 = totalAuto;
+      totalAuto = 0;
+    }
+
+    if (totalAuto > 24) {
+      autoL1 = 24;
+      totalAuto = 0;
+    } else {
+      autoL1 = totalAuto;
+      totalAuto = 0;
+    }
+
+    teleopL4 = totalL4 - autoL4;
+    teleopL3 = totalL3 - autoL3;
+    teleopL2 = totalL2 - autoL2;
+    teleopL1 = totalL1 - autoL1;
+  }
+
+  var pieces = [totalL4,autoL4,teleopL4,totalL3,autoL3,teleopL3,totalL2,autoL2,teleopL2,totalL1,autoL1,teleopL1]
+  var roundedPieces = pieces.map(function(value) {
+    return Math.round(value);
+  })
+
+  Logger.log(roundedPieces);
+
+  return roundedPieces;
+}
+
+function DefenseCalculator() {
+  var redTeamValue = OrganizeCoral("red");
+  var blueTeamValue = OrganizeCoral("blue");
+
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var predictionSheet = spreadsheet.getSheetByName("Game Predictor");
+  
+  var defenseData = predictionSheet.getRange("D9:E9").getValues();
+  const defenseMult = 2/3;
+
+  var blueMode = defenseData[0][0];
+  var redMode = defenseData[0][1];
+
+
+  if(blueMode == "No") {
+    Logger.log(":)");
+  } else {
+    redTeamValue[2] = redTeamValue[2]*defenseMult;
+    redTeamValue[5] = redTeamValue[5]*defenseMult;
+    redTeamValue[8] = redTeamValue[8]*defenseMult;
+    redTeamValue[11] = redTeamValue[11]*defenseMult;
+    
+    redTeamValue[0] = redTeamValue[2] + redTeamValue[1];
+    redTeamValue[3] = redTeamValue[5] + redTeamValue[4];
+    redTeamValue[6] = redTeamValue[8] + redTeamValue[7];
+    redTeamValue[9] = redTeamValue[11] + redTeamValue[10];
+  }
+
+  if(redMode == "No") {
+    Logger.log(":)");
+  } else {
+    blueTeamValue[2] = blueTeamValue[2]*defenseMult;
+    blueTeamValue[5] = blueTeamValue[5]*defenseMult;
+    blueTeamValue[8] = blueTeamValue[8]*defenseMult;
+    blueTeamValue[11] = blueTeamValue[11]*defenseMult;
+
+    blueTeamValue[0] = blueTeamValue[2] + blueTeamValue[1];
+    blueTeamValue[3] = blueTeamValue[5] + blueTeamValue[4];
+    blueTeamValue[6] = blueTeamValue[8] + blueTeamValue[7];
+    blueTeamValue[9] = blueTeamValue[11] + blueTeamValue[10];
+  }
+
+  var roundedBlue = blueTeamValue.map(function(value) {
+    return Math.round(value);
+  })
+
+  var roundedRed = redTeamValue.map(function(value) {
+    return Math.round(value);
+  })
+
+  var allValues = [roundedBlue,roundedRed];
+  Logger.log(allValues);
+
+  predictionSheet.getRange('J4:U5').setValues(allValues);
+}
+
+function CoralCalculator() {
+  DefenseCalculator();
+}
