@@ -69,7 +69,6 @@ const MatchForm: React.FC = () => {
     // finale  values
     const [crossedBump, setCrossedBump] = useState(false);
     const [underTrench, setUnderTrench] = useState(false);
-    const [otherRobotNotes, setOtherRobotNotes] = useState<string>("");
 
     const events = ["NE District Minuteman Event", "NE District URI Event"];
 
@@ -521,8 +520,8 @@ const MatchForm: React.FC = () => {
                     </div>
                 </div>
                 <AutoResizeTextarea
-                    value={otherRobotNotes}
-                    onChange={setOtherRobotNotes}
+                    value={notes}
+                    onChange={setNotes}
                     placeholder="Other notes about robot"
                 />
                 <button className={buttonStyle} onClick={submitData}>
