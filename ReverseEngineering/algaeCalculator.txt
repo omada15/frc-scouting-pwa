@@ -1,0 +1,87 @@
+/**
+Creates a function AlgaeFunction which takes allianceColor as an input.
+Creates variables for the file and predictionSheet
+*/
+function AlgaeFunction(allianceColor) {
+  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  var predictionSheet = spreadsheet.getSheetByName("Game Predictor");
+
+
+  // Determines which team data is recieved from by turning text to a number
+  var teamMode;
+
+  if(allianceColor == "blue") {
+    teamMode = 0;
+  } else if(allianceColor == "red") {
+    teamMode = 1;
+  }
+
+  // Gets the specified team's data
+  originalPieces = predictionSheet.getRange('V9:Z10').getValues();
+
+  processor = originalPieces[teamMode][0];
+  net = originalPieces[teamMode][1];
+  total = originalPieces[teamMode][4];
+
+  // Gets what type of match it is from the dropdown
+  gameMode = predictionSheet.getRange('C9').getValue();
+
+  // Limits the amount of algae
+  if(total>9) {
+    total = 9;
+  }
+
+  net = Math.round(net);
+  processor = Math.round(processor);
+  total = Math.round(total);
+
+  Logger.log(net);
+  Logger.log(processor);
+
+  // Determines how many game pieces according to type of match
+  if(gameMode == "Min Processor") {
+    if(processor>2) {
+      processor = 2;
+    }
+    if((net+processor)>=total) {
+      net = total-processor;
+    }
+  }else if(gameMode == "Ratio") {
+    divTotal = net + processor;
+    if(divTotal <= 0) {divTotal = 1;}
+    net = Math.round((net/divTotal)*total);
+    processor = Math.round((processor/divTotal)*total);
+
+    Logger.log(net);
+    Logger.log(processor);
+  }else if(gameMode == "No Net") {
+    processor = total;
+    net = 0;
+  }else if(gameMode == "No Processor") {
+    net = total;
+    processor = 0;
+  }
+
+
+  // Places values in target location
+  if(teamMode == 0) {
+    spreadsheet.getRange('V4').setValue(processor);
+    spreadsheet.getRange('W4').setValue(net);
+    spreadsheet.getRange('Z4').setValue(total);
+  } else if(teamMode == 1) {
+    spreadsheet.getRange('V5').setValue(processor);
+    spreadsheet.getRange('W5').setValue(net);
+    spreadsheet.getRange('Z5').setValue(total);
+  }
+
+}
+/**
+Uses the calculator and finds the algae for each team.
+*/
+function AlgaeCalculator() {
+  red = "blue";
+  blue = "red";
+
+  AlgaeFunction(red);
+  AlgaeFunction(blue);
+}
