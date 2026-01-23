@@ -245,7 +245,7 @@ function getRandomInt(min: number, max: number): number {
     }
 
     // notes
-    notes = noteList[getRandomInt(0,7)];
+    notes = noteList[getRandomInt(0,15)];
 
     // setup
     baseJsonList["eventName"] = eventName;
