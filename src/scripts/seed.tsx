@@ -1,7 +1,7 @@
 const emptyList = '{"eventName" : "", "teamNumber": 0, "matchNumber": 0, "name": "seed", "scoutingTeam": 0, "autoFuel": 0, "autoClimbed": false, "transitionFuel": 0, "shift1HubActive": false, "shift1Fuel": 0, "shift1Defense": false, "shift2HubActive": false, "shift2Fuel": 0, "shift2Defense": false, "shift3HubActive": false, "shift3Fuel": 0, "shift3Defense": false, "shift4HubActive": false, "shift4Fuel": 0, "shift4Defense": false, "endgameFuel": 0, "endgameClimbLevel": "Level 1", "crossedBump": false, "underTrench": false, "robotError": [], "notes": ""}';
 
-    // Setup values
-    let scoutingTeam = 0;
+// Setup values
+let scoutingTeam = 0;
     let eventName = "";
     let teamNumber = 0;
     let matchNumber = 0;
@@ -83,7 +83,7 @@ function getRandomInt(min: number, max: number): number {
     scoutingTeam = getRandomInt(1,9998)
 
     // teamNumber
-    teamNumber = 9998;
+    teamNumber = 9999;
 
     // matchNumber
     matchNumber = getRandomInt(1,70);
@@ -107,7 +107,7 @@ function getRandomInt(min: number, max: number): number {
 
 
     // shift1HubActive
-    if (autoFuel > 25){
+    if (autoFuel > 28){
         shift1HubActive = false;
     } else {
         shift1HubActive = true;

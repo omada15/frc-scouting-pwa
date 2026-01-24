@@ -11,6 +11,7 @@ import { writeToDb } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
 import isMobile from "../scripts/isMobileDevice";
 import isMobileDevice from "../scripts/isMobileDevice";
+import { debug } from "./Home";
 
 const MatchForm: React.FC = () => {
     const navigate = useNavigate();
@@ -27,6 +28,7 @@ const MatchForm: React.FC = () => {
     const [section, setSection] = useState<
         "setup" | "auto" | "teleop" | "endgame" | "errors"
     >("setup");
+
 
     const [showCheckboxes, setShowCheckboxes] = useState<boolean>(false);
     // this boolean is used to show a message if the data was not sent
@@ -160,7 +162,6 @@ const MatchForm: React.FC = () => {
 
     async function submitData() {
         //make sure certain fields are filled out
-        let debug = true;
         let check: boolean =
             eventName !== "" &&
             teamNumber !== null &&

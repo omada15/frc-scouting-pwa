@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { writeToDb } from "../scripts/firebase";
 import ReactJsonView from '@microlink/react-json-view'
 import seedDataBase from "../scripts/seed";
+import IntegerInput from "../components/IntegerInput";
 
 interface ActionComponentProps {
     onSubmit: () => void;
@@ -44,6 +45,9 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
 };
 
 const LocalStorageView: React.FC = () => {
+
+    const [seedNumber, setSeedNumber] = useState(9999);
+
     const [show, setShow] = React.useState<boolean>(true);
     const [keys, setKeys] = React.useState<string[]>([]);
     const [selectedKey, setSelectedKey] = React.useState<string>("");
@@ -81,20 +85,10 @@ const LocalStorageView: React.FC = () => {
         const seedJson = seedDataBase()
         console.log(seedJson);
         writeToDb(
-            `${seedJson.teamNumber?.toString()}/${seedJson.matchNumber?.toString()}`,
+            `${seedNumber.toString()}/${seedJson.matchNumber?.toString()}`,
         seedJson
         )
         console.log("Attemped to seed.");
-    }
-    const seedMulti = () => {
-        const seedJson = seedDataBase()
-        console.log(seedJson);
-        for (let i = 0; i<20; i++)
-            writeToDb(
-                `${seedJson.teamNumber?.toString()}/${seedJson.matchNumber?.toString()}`,
-            seedJson
-        )
-        console.log("Attemped to seed 20.");
     }
 
     return (
@@ -151,13 +145,23 @@ const LocalStorageView: React.FC = () => {
 
             <ActionComponent onSubmit={submitItem} onDelete={deleteItem} />
 
+            <div>
+                <IntegerInput 
+                    min={0}
+                    max={9999}
+                    placeholder="9999"
+                    label="Seed number"
+                    onChange={setSeedNumber}
+                    value={seedNumber}
+                />
 
-            <button
-                onClick={seed}
-                className="bg-violet-600 hover:bg-violet-800 text-white px-4 py-2 rounded-xl"
-            >
-                 Seed, DO NOT SPAM!!
-            </button>
+                <button
+                    onClick={seed}
+                    className="bg-violet-600 hover:bg-violet-800 text-white px-4 py-2 rounded-xl"
+                >
+                    Seed, DO NOT SPAM!!
+                </button>
+            </div>
             {/*<button
                 onClick={seedMulti}
                 className="bg-pink-700 hover:bg-pink-900 text-white px-4 py-2 rounded-xl"
