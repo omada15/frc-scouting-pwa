@@ -1,29 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { readCookie } from "../scripts/user";
-
+import { getDebugStatus } from "../scripts/debug";
 // Debug mode
-let debug = false
 
-//console.log(import.meta.env.TEST as string);
-
-let rawWhiteList = "dev,Daniel Senchukov";
-
-let debugWhiteList = ['']
-
-if (rawWhiteList !== undefined){
-    debugWhiteList = rawWhiteList.split(',');
-}
-
+let debug = getDebugStatus();
 export { debug };
 
 const Home: React.FC = () => {
-
-    const user = readCookie("user");
-
-    if (user !== undefined && debugWhiteList.includes(user)) {
-        debug = true;
-    }
     const navigate = useNavigate();
     const goToMatchForm = () => {
         navigate("/match");
@@ -56,8 +40,12 @@ const Home: React.FC = () => {
             >
                 View Local Data
             </button>
-            
-            { debug && <button className="bg-red-600 font-medium text-white text-3xl px-4 py-3 rounded-2xl hover:bg-red-700 transition-colors">debug mode is on</button>}
+
+            {debug && (
+                <button className="bg-red-600 font-medium text-white text-3xl px-4 py-3 rounded-2xl hover:bg-red-700 transition-colors">
+                    debug mode is on
+                </button>
+            )}
         </div>
     );
 };
