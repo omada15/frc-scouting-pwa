@@ -42,6 +42,7 @@ const MatchForm: React.FC = () => {
     // Auto values
     const [autoFuel, setAutoFuel] = useState(0);
     const [autoClimbed, setAutoClimbed] = useState(false);
+    const [hoardedFuel, setHoardedFuel] = useState(false);
 
     // Teleop values
     const [teleopShift, setTeleopShift] = useState(0);
@@ -176,6 +177,7 @@ const MatchForm: React.FC = () => {
 
             autoFuel: autoFuel,
             autoClimbed: autoClimbed,
+            hoardedFuel: hoardedFuel,
 
             shift1HubActive: shift1HubActive,
             shift2HubActive: shift2HubActive,
@@ -201,6 +203,8 @@ const MatchForm: React.FC = () => {
             notes: notes,
             robotError: robotErrorsCheck,
         };
+
+        console.log(data);
         /*
         The path for block of data will be submitted as follows:
         /{eventName}/{teamNumber}/{matchNumber}/{timestamp}, timestamp is not finished
@@ -297,6 +301,12 @@ const MatchForm: React.FC = () => {
                     options={["yes", "no"]}
                     button1Selected={autoClimbed}
                     onChange={setAutoClimbed}
+                />
+                <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setHoardedFuel}
+                        button1Selected={hoardedFuel}
                 />
             </>
         );

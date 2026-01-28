@@ -1,5 +1,5 @@
 const emptyList =
-    '{"eventName" : "", "teamNumber": 0, "matchNumber": 0, "name": "seed", "scoutingTeam": 0, "autoFuel": 0, "autoClimbed": false, "transitionFuel": 0, "shift1HubActive": false, "shift1Fuel": 0, "shift1Defense": false, "shift2HubActive": false, "shift2Fuel": 0, "shift2Defense": false, "shift3HubActive": false, "shift3Fuel": 0, "shift3Defense": false, "shift4HubActive": false, "shift4Fuel": 0, "shift4Defense": false, "endgameFuel": 0, "endgameClimbLevel": "Level 1", "crossedBump": false, "underTrench": false, "robotError": [], "notes": ""}';
+    '{"eventName" : "", "teamNumber": 0, "matchNumber": 0, "name": "seed", "scoutingTeam": 0, "autoFuel": 0, "autoClimbed": false, "hoardedFuel": false, "transitionFuel": 0, "shift1HubActive": false, "shift1Fuel": 0, "shift1Defense": false, "shift2HubActive": false, "shift2Fuel": 0, "shift2Defense": false, "shift3HubActive": false, "shift3Fuel": 0, "shift3Defense": false, "shift4HubActive": false, "shift4Fuel": 0, "shift4Defense": false, "endgameFuel": 0, "endgameClimbLevel": "Level 1", "crossedBump": false, "underTrench": false, "robotError": [], "notes": ""}';
 
 // Setup values
 let scoutingTeam = 0;
@@ -10,6 +10,7 @@ let matchNumber = 0;
 // Auto values
 let autoFuel = 0;
 let autoClimbed = false;
+let hoardedFuel = false;
 
 // Teleop values
 let transitionFuel = 0;
@@ -121,6 +122,15 @@ export default function seedDataBase() {
     } else {
         autoClimbed = true;
     }
+
+    // hoardedFuel
+    if (getRandomInt(0, 9) == 0) {
+        hoardedFuel = true;
+    } else {
+        hoardedFuel = false;
+    }
+
+
 
     // transitionFuel
     transitionFuel = getRandomInt(4, 17);
@@ -262,6 +272,7 @@ export default function seedDataBase() {
     // auto
     baseJsonList["autoFuel"] = autoFuel;
     baseJsonList["autoClimbed"] = autoClimbed;
+    baseJsonList["hoardedFuel"] = hoardedFuel;
 
     // teleop
     baseJsonList["transitionFuel"] = transitionFuel;
