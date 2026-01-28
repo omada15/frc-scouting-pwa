@@ -35,16 +35,19 @@ other stuff like climbing speed and more
 
 Pit Scouting:
 Team Number
-Robot Picture(we can use links - google drive ... )
-Chassis size
-Height
-Max Height
-Width
-Motor Type
-Game pieces and logging stuff
-Piece interactions(stuff the robot can do)
-Endgame Ability
-Driver Experience
-Stratergy
+Robot Picture(we can use links - google drive , Imgur, Imgbox, Postimages... )
+Chassis size (Length x Width in inches)
+Height in inches(Without anything(starting height))
+Max Height possible(With the climber fully extended or some other stuff)
+Motor Types Used(CTR Kraken, REV Neo, CTR Falcon etc.)
+Game pieces information and logging stuff(Pieces per game and stuff we get from the other things)
+Piece interactions(stuff the robot can do, push balls, take balls, shoot balls)
+Endgame Ability(Climbing, Shooting etc.)
+Driver Experience (to know if the driver is good or not)
+Strategy(Climbing from the start, hoarding balls, shooting fast but not accurate, playing defense when the hub is inactive, pinning other robots)
 Other capabilities
 List to check if we have scoutted the team
+Robot Type(Shooter, Hoarder, maybe some other stuff if implemented)
+Maximum raise level and time it takes to achieve (in seconds)
+
+We could theoretically create a function that checks what teams aren't in a alliance and recommends a team
