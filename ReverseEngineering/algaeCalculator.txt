@@ -2,86 +2,21 @@
 Creates a function AlgaeFunction which takes allianceColor as an input.
 Creates variables for the file and predictionSheet
 */
-function AlgaeFunction(allianceColor) {
-  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  var predictionSheet = spreadsheet.getSheetByName("Game Predictor");
 
+#function AlgaeFunction
+Accepts 1 argument allianceColor
+Gets the spreadsheet, gets the prediction spreadsheet "game predictor".
+Sets the teamMode based on the allianceColor (this is meant to turn the text from the allianceColor into a number/boolean).
+Gets the data of the team specified
+Makes the processor, net, and total from the pieces
+Gets what type of match it is from the dropdown in the data
+Limits the amount of algae to 9
+Rounds the net, processor, and total
+Logs the net and processor (not the total)
+Determines how many game pieces were placed based on the type of match (limits processor to 2 during min processor and gets the divTotal (net+processor)and adds more for example)
+Logs the net and processor again
+If the gamemode is No net or No Processor, it sets the net or processor to 0 and sets the other one to total
+Puts the values given from in the target location with teamMode (allianceColor)
 
-  // Determines which team data is recieved from by turning text to a number
-  var teamMode;
-
-  if(allianceColor == "blue") {
-    teamMode = 0;
-  } else if(allianceColor == "red") {
-    teamMode = 1;
-  }
-
-  // Gets the specified team's data
-  originalPieces = predictionSheet.getRange('V9:Z10').getValues();
-
-  processor = originalPieces[teamMode][0];
-  net = originalPieces[teamMode][1];
-  total = originalPieces[teamMode][4];
-
-  // Gets what type of match it is from the dropdown
-  gameMode = predictionSheet.getRange('C9').getValue();
-
-  // Limits the amount of algae
-  if(total>9) {
-    total = 9;
-  }
-
-  net = Math.round(net);
-  processor = Math.round(processor);
-  total = Math.round(total);
-
-  Logger.log(net);
-  Logger.log(processor);
-
-  // Determines how many game pieces according to type of match
-  if(gameMode == "Min Processor") {
-    if(processor>2) {
-      processor = 2;
-    }
-    if((net+processor)>=total) {
-      net = total-processor;
-    }
-  }else if(gameMode == "Ratio") {
-    divTotal = net + processor;
-    if(divTotal <= 0) {divTotal = 1;}
-    net = Math.round((net/divTotal)*total);
-    processor = Math.round((processor/divTotal)*total);
-
-    Logger.log(net);
-    Logger.log(processor);
-  }else if(gameMode == "No Net") {
-    processor = total;
-    net = 0;
-  }else if(gameMode == "No Processor") {
-    net = total;
-    processor = 0;
-  }
-
-
-  // Places values in target location
-  if(teamMode == 0) {
-    spreadsheet.getRange('V4').setValue(processor);
-    spreadsheet.getRange('W4').setValue(net);
-    spreadsheet.getRange('Z4').setValue(total);
-  } else if(teamMode == 1) {
-    spreadsheet.getRange('V5').setValue(processor);
-    spreadsheet.getRange('W5').setValue(net);
-    spreadsheet.getRange('Z5').setValue(total);
-  }
-
-}
-/**
-Uses the calculator and finds the algae for each team.
-*/
-function AlgaeCalculator() {
-  red = "blue";
-  blue = "red";
-
-  AlgaeFunction(red);
-  AlgaeFunction(blue);
-}
+#function AlgaeCalculator
+Finds the algae for each team using the calculator (sets red to blue, blue to red and runs AlgaeFunction on red and blue)

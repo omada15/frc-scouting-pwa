@@ -1,48 +1,9 @@
-/**
+#CalculateClimb function
+Take in the allianceColor as an input(We should use a set of team numbers)
+Gets the spreadsheet and predictionSheet
+Takes the climbData information
+It checks how far it gets on average and tells you how much every robot gets on average each game
 
-*/
-function CalculateClimb(allianceColor) {
-  var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  var predictionSheet = spreadsheet.getSheetByName("Game Predictor");
-
-
-  climbData = predictionSheet.getRange("X9:X10").getValues();
-
-  // Variable that assigns a boolean to a certain color
-  var teamMode;
-  
-  if(allianceColor == "blue") {
-    teamMode = 0;
-  } else if(allianceColor == "red") {
-    teamMode = 1;
-  }
-
-  var climbPoints = climbData[teamMode][0];
-
-  var sixes = Math.ceil(climbPoints / 6);
-  var deepClimbs = Math.floor(sixes / 2);
-  var shallowClimbs = Math.ceil(sixes - (deepClimbs * 2));
-
-  if (!climbPoints) {
-  deepClimbs = shallowClimbs = 0;
-}
-
-  var parks = 3 - shallowClimbs - deepClimbs;
-
-  if (teamMode == 0) {
-    predictionSheet.getRange('X4').setValue((12*deepClimbs) + (6*shallowClimbs) + (2*parks));
-  } else if (teamMode == 1) {
-    predictionSheet.getRange('X5').setValue((12*deepClimbs) + (6*shallowClimbs) + (2*parks));
-  }
-
-}
-/**
-Runs the climb calculator for both teams
-*/
-function ClimbCalculator() {
-  blue = "red";
-  red = "blue";
-
-  CalculateClimb(red);
-  CalculateClimb(blue);
-}
+#ClimbCalculator function
+Uses the CalculateClimb function to read the information for each of the teams instead of just one
+(We can probably just combine the two and create a singular function which intakes 6 inputs(Team numbers))
