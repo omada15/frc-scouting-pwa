@@ -1,5 +1,5 @@
 const emptyList =
-    '{"eventName" : "", "teamNumber": 0, "matchNumber": 0, "name": "seed", "scoutingTeam": 0, "autoFuel": 0, "autoClimbed": false, "hoardedFuel": false, "transitionFuel": 0, "shift1HubActive": false, "shift1Fuel": 0, "shift1Defense": false, "shift2HubActive": false, "shift2Fuel": 0, "shift2Defense": false, "shift3HubActive": false, "shift3Fuel": 0, "shift3Defense": false, "shift4HubActive": false, "shift4Fuel": 0, "shift4Defense": false, "endgameFuel": 0, "endgameClimbLevel": "Level 1", "crossedBump": false, "underTrench": false, "robotError": [], "notes": ""}';
+    '{"eventName" : "", "teamNumber": 0, "matchNumber": 0, "name": "seed", "scoutingTeam": 0, "autoFuel": 0, "autoClimbed": false, "autoHoardedFuel": false, "transitionFuel": 0, "shift1HubActive": false, "shift1Fuel": 0, "shift1Defense" = false, "shift1HoardedFuel": false, "shift2HubActive": false, "shift2Fuel": 0, "shift2Defense": false, "shift2HoardedFuel": false, "shift3HubActive": false, "shift3Fuel": 0, "shift3Defense": false, "shift3HoardedFuel": false, "shift4HubActive": false, "shift4Fuel": 0, "shift4Defense": false, "shift4HoardedFuel": false, "endgameFuel": 0, "endgameClimbLevel": "Level 1", "crossedBump": false, "underTrench": false, "robotError": [], "notes": ""}';
 
 // Setup values
 let scoutingTeam = 0;
@@ -10,7 +10,7 @@ let matchNumber = 0;
 // Auto values
 let autoFuel = 0;
 let autoClimbed = false;
-let hoardedFuel = false;
+let autoHoardedFuel = false;
 
 // Teleop values
 let transitionFuel = 0;
@@ -28,6 +28,12 @@ let shift1Defense = false;
 let shift2Defense = false;
 let shift3Defense = false;
 let shift4Defense = false;
+
+let shift1HoardedFuel = false;
+let shift2HoardedFuel = false;
+let shift3HoardedFuel = false;
+let shift4HoardedFuel = false;
+
 
 // Endgame values
 let endgameFuel = 0;
@@ -123,11 +129,11 @@ export default function seedDataBase() {
         autoClimbed = true;
     }
 
-    // hoardedFuel
+    // autoHoardedFuel
     if (getRandomInt(0, 9) == 0) {
-        hoardedFuel = true;
+        autoHoardedFuel = true;
     } else {
-        hoardedFuel = false;
+        autoHoardedFuel = false;
     }
 
 
@@ -155,6 +161,15 @@ export default function seedDataBase() {
         shift1Defense = false;
     }
 
+    // shift1HoardedFuel
+    if (getRandomInt(0, 4) == 0) {
+        shift1HoardedFuel = true;
+    } else {
+        shift1HoardedFuel = false;
+    }
+
+
+
     // shift2HubActive
     if (shift1HubActive) {
         shift2HubActive = false;
@@ -177,6 +192,13 @@ export default function seedDataBase() {
             shift2Fuel = getRandomInt(15, 41);
         }
         shift2Defense = false;
+    }
+
+    // shift2HoardedFuel
+    if (getRandomInt(0, 4) == 0) {
+        shift2HoardedFuel = true;
+    } else {
+        shift2HoardedFuel = false;
     }
 
     // shift3HubActive
@@ -204,6 +226,13 @@ export default function seedDataBase() {
         shift3Defense = false;
     }
 
+    // shift3HoardedFuel
+    if (getRandomInt(0, 4) == 0) {
+        shift3HoardedFuel = true;
+    } else {
+        shift3HoardedFuel = false;
+    }
+
     // shift4HubActive
     if (shift1HubActive) {
         shift4HubActive = false;
@@ -227,6 +256,13 @@ export default function seedDataBase() {
         }
 
         shift4Defense = false;
+    }
+
+    // shift4HoardedFuel
+    if (getRandomInt(0, 4) == 0) {
+        shift4HoardedFuel = true;
+    } else {
+        shift4HoardedFuel = false;
     }
 
     // endgameFuel
@@ -272,7 +308,7 @@ export default function seedDataBase() {
     // auto
     baseJsonList["autoFuel"] = autoFuel;
     baseJsonList["autoClimbed"] = autoClimbed;
-    baseJsonList["hoardedFuel"] = hoardedFuel;
+    baseJsonList["autoHoardedFuel"] = autoHoardedFuel;
 
     // teleop
     baseJsonList["transitionFuel"] = transitionFuel;
@@ -291,6 +327,11 @@ export default function seedDataBase() {
     baseJsonList["shift2Defense"] = shift2Defense;
     baseJsonList["shift3Defense"] = shift3Defense;
     baseJsonList["shift4Defense"] = shift4Defense;
+
+    baseJsonList["shift1HoardedFuel"] = shift1HoardedFuel;
+    baseJsonList["shift2HoardedFuel"] = shift2HoardedFuel;
+    baseJsonList["shift3HoardedFuel"] = shift3HoardedFuel;
+    baseJsonList["shift4HoardedFuel"] = shift4HoardedFuel;
 
     // endgame
     baseJsonList["endgameFuel"] = endgameFuel;

@@ -42,7 +42,7 @@ const MatchForm: React.FC = () => {
     // Auto values
     const [autoFuel, setAutoFuel] = useState(0);
     const [autoClimbed, setAutoClimbed] = useState(false);
-    const [hoardedFuel, setHoardedFuel] = useState(false);
+    const [autoHoardedFuel, setautoHoardedFuel] = useState(false);
 
     // Teleop values
     const [teleopShift, setTeleopShift] = useState(0);
@@ -62,6 +62,12 @@ const MatchForm: React.FC = () => {
     const [shift2Defense, setShift2Defense] = useState(false);
     const [shift3Defense, setShift3Defense] = useState(false);
     const [shift4Defense, setShift4Defense] = useState(false);
+
+    const [shift1HoardedFuel, setShift1HoardedFuel] = useState(false);
+    const [shift2HoardedFuel, setShift2HoardedFuel] = useState(false);
+    const [shift3HoardedFuel, setShift3HoardedFuel] = useState(false);
+    const [shift4HoardedFuel, setShift4HoardedFuel] = useState(false);
+
 
     // Endgame values
     const [endgameFuel, setEndgameFuel] = useState(0);
@@ -177,7 +183,7 @@ const MatchForm: React.FC = () => {
 
             autoFuel: autoFuel,
             autoClimbed: autoClimbed,
-            hoardedFuel: hoardedFuel,
+            autoHoardedFuel: autoHoardedFuel,
 
             shift1HubActive: shift1HubActive,
             shift2HubActive: shift2HubActive,
@@ -194,6 +200,12 @@ const MatchForm: React.FC = () => {
             shift2Defense: shift2Defense,
             shift3Defense: shift3Defense,
             shift4Defense: shift4Defense,
+
+            shift1HoardedFuel: shift1HoardedFuel,
+            shift2HoardedFuel: shift2HoardedFuel,
+            shift3HoardedFuel: shift3HoardedFuel,
+            shift4HoardedFuel: shift4HoardedFuel,
+
 
             endgameFuel: endgameFuel,
             endgameClimbLevel: endgameClimbLevel,
@@ -305,8 +317,8 @@ const MatchForm: React.FC = () => {
                 <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
-                        onChange={setHoardedFuel}
-                        button1Selected={hoardedFuel}
+                        onChange={setautoHoardedFuel}
+                        button1Selected={autoHoardedFuel}
                 />
             </>
         );
@@ -350,6 +362,12 @@ const MatchForm: React.FC = () => {
                         onChange={setShift1Defense}
                         button1Selected={shift1Defense}
                     />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift1HoardedFuel}
+                        button1Selected={shift1HoardedFuel}
+                    />
                 </>
             );
         } else if (teleopShift === 2) {
@@ -373,6 +391,12 @@ const MatchForm: React.FC = () => {
                         options={["yes", "no"]}
                         onChange={setShift2Defense}
                         button1Selected={shift2Defense}
+                    />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift2HoardedFuel}
+                        button1Selected={shift2HoardedFuel}
                     />
                 </>
             );
@@ -398,6 +422,12 @@ const MatchForm: React.FC = () => {
                         onChange={setShift3Defense}
                         button1Selected={shift3Defense}
                     />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift3HoardedFuel}
+                        button1Selected={shift3HoardedFuel}
+                    />
                 </>
             );
         } else if (teleopShift === 4) {
@@ -421,6 +451,12 @@ const MatchForm: React.FC = () => {
                         options={["yes", "no"]}
                         onChange={setShift4Defense}
                         button1Selected={shift4Defense}
+                    />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift4HoardedFuel}
+                        button1Selected={shift4HoardedFuel}
                     />
                 </>
             );

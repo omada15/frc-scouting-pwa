@@ -50,4 +50,4 @@ List to check if we have scoutted the team
 Robot Type(Shooter, Hoarder, maybe some other stuff if implemented)
 Maximum raise level and time it takes to achieve (in seconds)
 
-We could theoretically create a function that checks what teams aren't in a alliance and recommends a team
+We could theoretically create a function that checks what teams aren't in an alliance and recommends an alliance
