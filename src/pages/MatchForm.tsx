@@ -334,12 +334,6 @@ const MatchForm: React.FC = () => {
                         onChange={setTransitionFuel}
                         label={"Transition Fuel"}
                     />
-                    <BinaryChoice
-                        label={"Collected from Neutral"}
-                        options={["yes", "no"]}
-                        button1Selected={autoCollected}
-                        onChange={setAutoCollected}
-                    />
                     <p className="font-bold text-white text-l pb-1">
                         If the robot failed to lower from climb, state that in
                         the errors tab
