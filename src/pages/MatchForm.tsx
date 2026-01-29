@@ -1,16 +1,12 @@
 import React, { useEffect, useState, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
-import CounterInput from "../components/CounterInput";
 import BinaryChoice from "../components/BinaryChoice";
-import NumericInput from "../components/IntegerInput";
 import MultiCounterInput from "../components/MultiCounterInput";
 import IntegerInput from "../components/IntegerInput";
 import Dropdown from "../components/Dropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
 import { writeToDb } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
-import isMobile from "../scripts/isMobileDevice";
-import isMobileDevice from "../scripts/isMobileDevice";
 import { debug } from "./Home";
 
 const MatchForm: React.FC = () => {
@@ -42,6 +38,7 @@ const MatchForm: React.FC = () => {
     // Auto values
     const [autoFuel, setAutoFuel] = useState(0);
     const [autoClimbed, setAutoClimbed] = useState(false);
+    const [autoCollected, setAutoCollected] = useState(false);
 
     // Teleop values
     const [teleopShift, setTeleopShift] = useState(0);
@@ -56,6 +53,12 @@ const MatchForm: React.FC = () => {
     const [shift2Fuel, setShift2Fuel] = useState(0);
     const [shift3Fuel, setShift3Fuel] = useState(0);
     const [shift4Fuel, setShift4Fuel] = useState(0);
+
+    const [transitionCollected, setTransitionCollected] = useState(false);
+    const [shift1Collected, setShift1Collected] = useState(false);
+    const [shift2Collected, setShift2Collected] = useState(false);
+    const [shift3Collected, setShift3Collected] = useState(false);
+    const [shift4Collected, setShift4Collected] = useState(false);
 
     const [shift1Defense, setShift1Defense] = useState(false);
     const [shift2Defense, setShift2Defense] = useState(false);
@@ -130,14 +133,6 @@ const MatchForm: React.FC = () => {
         }
     }
 
-    const endgameActions = [
-        // add
-        "None",
-        "Parked",
-        "Shallow Climb",
-        "Deep Climb",
-    ];
-
     const robotErrors = [
         "Intake issues",
         "Climb Failed",
@@ -175,12 +170,19 @@ const MatchForm: React.FC = () => {
             matchNumber: matchNumber,
 
             autoFuel: autoFuel,
+            autoCollected: autoCollected,   
             autoClimbed: autoClimbed,
 
             shift1HubActive: shift1HubActive,
             shift2HubActive: shift2HubActive,
             shift3HubActive: shift3HubActive,
             shift4HubActive: shift4HubActive,
+
+            transitionCollected: transitionCollected,
+            shift1Collected: shift1Collected,
+            shift2Collected: shift2Collected,
+            shift3Collected: shift3Collected,
+            shift4Collected: shift4Collected,
 
             transitionFuel: transitionFuel,
             shift1Fuel: shift1Fuel,
@@ -293,6 +295,12 @@ const MatchForm: React.FC = () => {
                     label={"Auto fuel"}
                 />
                 <BinaryChoice
+                    label={"Auto collected fuel?"}
+                    options={["yes", "no"]}
+                    button1Selected={autoCollected}
+                    onChange={setAutoCollected}
+                />
+                <BinaryChoice
                     label={"Auto climb succeed?"}
                     options={["yes", "no"]}
                     button1Selected={autoClimbed}
@@ -311,6 +319,12 @@ const MatchForm: React.FC = () => {
                         value={transitionFuel}
                         onChange={setTransitionFuel}
                         label={"Transition Fuel"}
+                    />
+                    <BinaryChoice
+                        label={"Collected from Neutral"}
+                        options={["yes", "no"]}
+                        button1Selected={autoCollected}
+                        onChange={setAutoCollected}
                     />
                     <p className="font-bold text-white text-l pb-1">
                         If the robot failed to lower from climb, state that in
@@ -333,6 +347,12 @@ const MatchForm: React.FC = () => {
                         value={shift1Fuel}
                         onChange={setShift1Fuel}
                         label={"Fuel"}
+                    />
+                    <BinaryChoice
+                        label={"Collected from Neutral"}
+                        options={["yes", "no"]}
+                        button1Selected={shift1Collected}
+                        onChange={setShift1Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
@@ -359,6 +379,12 @@ const MatchForm: React.FC = () => {
                         label={"Fuel"}
                     />
                     <BinaryChoice
+                        label={"Collected from Neutral"}
+                        options={["yes", "no"]}
+                        button1Selected={shift2Collected}
+                        onChange={setShift2Collected}
+                    />
+                    <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift2Defense}
@@ -383,6 +409,12 @@ const MatchForm: React.FC = () => {
                         label={"Fuel"}
                     />
                     <BinaryChoice
+                        label={"Collected from Neutral"}
+                        options={["yes", "no"]}
+                        button1Selected={shift3Collected}
+                        onChange={setShift3Collected}
+                    />
+                    <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift3Defense}
@@ -405,6 +437,12 @@ const MatchForm: React.FC = () => {
                         value={shift4Fuel}
                         onChange={setShift4Fuel}
                         label={"Fuel"}
+                    />
+                    <BinaryChoice
+                        label={"Collected from Neutral"}
+                        options={["yes", "no"]}
+                        button1Selected={shift4Collected}
+                        onChange={setShift4Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
@@ -561,36 +599,43 @@ const MatchForm: React.FC = () => {
                 Scouting Match
             </h1>
             <div className="flex flex-row space-x-4 pb-5">
-                <button
-                    className={tab("setup")}
-                    onClick={() => setSection("setup")}
-                >
-                    Setup
-                </button>
-                <button
-                    className={tab("auto")}
-                    onClick={() => setSection("auto")}
-                >
-                    Auto
-                </button>
-                <button
-                    className={tab("teleop")}
-                    onClick={() => setSection("teleop")}
-                >
-                    Teleop
-                </button>
-                <button
-                    className={tab("endgame")}
-                    onClick={() => setSection("endgame")}
-                >
-                    Endgame
-                </button>
-                <button
-                    className={tab("errors")}
-                    onClick={() => setSection("errors")}
-                >
-                    Finale
-                </button>
+                <div className="flex flex-col space-y-4">
+                    <div className="flex flex-row space-x-4">
+                        <button
+                            className={tab("setup")}
+                            onClick={() => setSection("setup")}
+                        >
+                            Setup
+                        </button>
+                        <button
+                            className={tab("auto")}
+                            onClick={() => setSection("auto")}
+                        >
+                            Auto
+                        </button>
+                        <button
+                            className={tab("teleop")}
+                            onClick={() => setSection("teleop")}
+                        >
+                            Teleop
+                        </button>
+                    </div>
+
+                    <div className="flex flex-row space-x-4">
+                        <button
+                            className={tab("endgame")}
+                            onClick={() => setSection("endgame")}
+                        >
+                            Endgame
+                        </button>
+                        <button
+                            className={tab("errors")}
+                            onClick={() => setSection("errors")}
+                        >
+                            Finale
+                        </button>
+                    </div>
+                </div>
             </div>
             {content}
         </div>

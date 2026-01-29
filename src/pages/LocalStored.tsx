@@ -46,7 +46,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
 
 const LocalStorageView: React.FC = () => {
 
-    const [seedNumber, setSeedNumber] = useState(9999);
+    const [seedNumber, setSeedNumber] = useState(1);
 
     const [show, setShow] = React.useState<boolean>(true);
     const [keys, setKeys] = React.useState<string[]>([]);
