@@ -38,7 +38,7 @@ const MatchForm: React.FC = () => {
     // Auto values
     const [autoFuel, setAutoFuel] = useState(0);
     const [autoClimbed, setAutoClimbed] = useState(false);
-    const [autoCollected, setAutoCollected] = useState(false);
+    const [autoHoardedFuel, setautoHoardedFuel] = useState(false);
 
     // Teleop values
     const [teleopShift, setTeleopShift] = useState(0);
@@ -64,6 +64,12 @@ const MatchForm: React.FC = () => {
     const [shift2Defense, setShift2Defense] = useState(false);
     const [shift3Defense, setShift3Defense] = useState(false);
     const [shift4Defense, setShift4Defense] = useState(false);
+
+    const [shift1HoardedFuel, setShift1HoardedFuel] = useState(false);
+    const [shift2HoardedFuel, setShift2HoardedFuel] = useState(false);
+    const [shift3HoardedFuel, setShift3HoardedFuel] = useState(false);
+    const [shift4HoardedFuel, setShift4HoardedFuel] = useState(false);
+
 
     // Endgame values
     const [endgameFuel, setEndgameFuel] = useState(0);
@@ -139,7 +145,7 @@ const MatchForm: React.FC = () => {
         "Robot unresponsive",
         "Robot part fell off",
         "Did not participate",
-        "Auto Stop",
+        "Auto stop",
         "Robot could not get off after climb",
         "Other",
     ];
@@ -150,7 +156,7 @@ const MatchForm: React.FC = () => {
         "Robot unresponsive": false,
         "Robot part fell off": false,
         "Did not participate": false,
-        "Auto Stop": false,
+        "Auto stop": false,
         "Robot could not get off after climb": false,
         Other: false,
     };
@@ -170,8 +176,8 @@ const MatchForm: React.FC = () => {
             matchNumber: matchNumber,
 
             autoFuel: autoFuel,
-            autoCollected: autoCollected,   
             autoClimbed: autoClimbed,
+            autoHoardedFuel: autoHoardedFuel,
 
             shift1HubActive: shift1HubActive,
             shift2HubActive: shift2HubActive,
@@ -195,6 +201,12 @@ const MatchForm: React.FC = () => {
             shift3Defense: shift3Defense,
             shift4Defense: shift4Defense,
 
+            shift1HoardedFuel: shift1HoardedFuel,
+            shift2HoardedFuel: shift2HoardedFuel,
+            shift3HoardedFuel: shift3HoardedFuel,
+            shift4HoardedFuel: shift4HoardedFuel,
+
+
             endgameFuel: endgameFuel,
             endgameClimbLevel: endgameClimbLevel,
 
@@ -203,6 +215,8 @@ const MatchForm: React.FC = () => {
             notes: notes,
             robotError: robotErrorsCheck,
         };
+
+        console.log(data);
         /*
         The path for block of data will be submitted as follows:
         /{eventName}/{teamNumber}/{matchNumber}/{timestamp}, timestamp is not finished
@@ -295,16 +309,16 @@ const MatchForm: React.FC = () => {
                     label={"Auto fuel"}
                 />
                 <BinaryChoice
-                    label={"Auto collected fuel?"}
-                    options={["yes", "no"]}
-                    button1Selected={autoCollected}
-                    onChange={setAutoCollected}
-                />
-                <BinaryChoice
                     label={"Auto climb succeed?"}
                     options={["yes", "no"]}
                     button1Selected={autoClimbed}
                     onChange={setAutoClimbed}
+                />
+                <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setautoHoardedFuel}
+                        button1Selected={autoHoardedFuel}
                 />
             </>
         );
@@ -360,6 +374,12 @@ const MatchForm: React.FC = () => {
                         onChange={setShift1Defense}
                         button1Selected={shift1Defense}
                     />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift1HoardedFuel}
+                        button1Selected={shift1HoardedFuel}
+                    />
                 </>
             );
         } else if (teleopShift === 2) {
@@ -389,6 +409,12 @@ const MatchForm: React.FC = () => {
                         options={["yes", "no"]}
                         onChange={setShift2Defense}
                         button1Selected={shift2Defense}
+                    />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift2HoardedFuel}
+                        button1Selected={shift2HoardedFuel}
                     />
                 </>
             );
@@ -420,6 +446,12 @@ const MatchForm: React.FC = () => {
                         onChange={setShift3Defense}
                         button1Selected={shift3Defense}
                     />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift3HoardedFuel}
+                        button1Selected={shift3HoardedFuel}
+                    />
                 </>
             );
         } else if (teleopShift === 4) {
@@ -449,6 +481,12 @@ const MatchForm: React.FC = () => {
                         options={["yes", "no"]}
                         onChange={setShift4Defense}
                         button1Selected={shift4Defense}
+                    />
+                    <BinaryChoice
+                        label={"Hoarded Fuel?"}
+                        options={["yes", "no"]}
+                        onChange={setShift4HoardedFuel}
+                        button1Selected={shift4HoardedFuel}
                     />
                 </>
             );
