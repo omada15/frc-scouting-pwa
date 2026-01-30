@@ -15,7 +15,9 @@ const Home: React.FC = () => {
     const goToLocalStorage = () => {
         navigate("/stored");
     };
-
+    const goToPitScoutingForm = () => {
+        navigate("/pitscouting");
+    }
     return (
         <div className="flex flex-col items-center justify-center space-y-6">
             <h1 className="font-bold text-white text-4xl underline">

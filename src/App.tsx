@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import LocalStorageView from "./pages/LocalStored";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
+import PitScoutingForm from "./pages/pitScoutingForm";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                         <Route path="/stored" element={<LocalStorageView />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/signup" element={<SignupPage />} />
+                        <Route path="/pitScouting" element={<PitScoutingForm />} />
                     </Routes>
                 </div>
                 {/* Footer always at bottom */}

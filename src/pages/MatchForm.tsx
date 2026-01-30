@@ -492,7 +492,7 @@ const MatchForm: React.FC = () => {
                         className={tab2(0)}
                         onClick={() => setTeleopShift(0)}
                     >
-                        Transition
+                        Tran
                     </button>
                     <button
                         className={tab2(1)}

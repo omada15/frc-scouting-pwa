@@ -294,7 +294,7 @@ export default function seedDataBase() {
 
     for (let i = 0; i < 3; i++) {
         robotErrorCheck[robotErrorList[selectedErrors[i]]] = true;
-    }*/
+    }
 
     // notes
     notes = noteList[getRandomInt(0, 15)];
