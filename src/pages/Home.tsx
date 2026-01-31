@@ -42,6 +42,12 @@ const Home: React.FC = () => {
             >
                 View Local Data
             </button>
+                        <button
+                className="bg-rose-600 font-medium text-white text-3xl px-4 py-3 rounded-2xl hover:bg-rose-700 transition-colors"
+                onClick={goToPitScoutingForm}
+            >
+                Pit scouting
+            </button>
 
             {debug && (
                 <button className="bg-red-600 font-medium text-white text-3xl px-4 py-3 rounded-2xl hover:bg-red-700 transition-colors">

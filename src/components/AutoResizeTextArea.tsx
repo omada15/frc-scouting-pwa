@@ -16,7 +16,7 @@ const AutoResizeTextarea: React.FC<Props> = ({
     let boxLabel = null;
     if (label != null) {
         boxLabel = (
-            <h3 className="font-semibold text-white text-2xl pb-100">{label}</h3>
+            <h3 className="font-semibold text-white text-2xl pb-5">{label}</h3>
         );
     }
 
@@ -31,15 +31,17 @@ const AutoResizeTextarea: React.FC<Props> = ({
     };
 
     return (
-        <div className="bg-gray-700 w-60 py-1 rounded-3xl flex justify-center pr-2.5">
+        <div className="justify-items-center">
             {boxLabel}
-            <textarea
-                ref={textareaRef}
-                value={value}
-                onInput={handleInput}
-                placeholder={placeholder}
-                className="bg-gray-700 text-white placeholder:text-gray-400 rounded-3xl focus:outline-none max-h-22.5 w-70 px-5 py-3 resize-none overflow-auto custom-scrollbar"
-            />
+            <div className="bg-gray-700 w-60 py-1 rounded-3xl flex justify-center pr-2.5">
+                <textarea
+                    ref={textareaRef}
+                    value={value}
+                    onInput={handleInput}
+                    placeholder={placeholder}
+                    className="bg-gray-700 text-white placeholder:text-gray-400 rounded-3xl focus:outline-none max-h-22.5 w-70 px-5 py-3 resize-none overflow-auto custom-scrollbar"
+                />
+            </div>
         </div>
     );
 };

@@ -46,6 +46,11 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
 };
 
 const LocalStorageView: React.FC = () => {
+    const navigate = useNavigate();
+    const goBack = () => {
+        navigate("/");
+    };
+
     const [seedNumber, setSeedNumber] = useState(1);
 
     const [show, setShow] = React.useState<boolean>(true);
@@ -89,10 +94,20 @@ const LocalStorageView: React.FC = () => {
             seedJson,
         );
         console.log("Attemped to seed.");
-    };
+    }
+
+
+    const buttonStyle: string =
+        "bg-sky-600 text-white font-semibold text-xl px-2 py-2 rounded-full hover:bg-sky-700 transition-colors h-15 w-35";
+
 
     return (
         <div className="flex flex-col items-center justify-start space-y-6 pt-12">
+            
+            <button className={buttonStyle} onClick={goBack}>
+                Back
+            </button>
+
             <h1 className="font-bold text-white text-4xl">
                 LocalStorage Viewer{" "}
             </h1>

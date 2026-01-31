@@ -25,7 +25,6 @@ const MatchForm: React.FC = () => {
         "setup" | "auto" | "teleop" | "endgame" | "errors"
     >("setup");
 
-
     const [showCheckboxes, setShowCheckboxes] = useState<boolean>(false);
     // this boolean is used to show a message if the data was not sent
     const [sent, setSent] = useState<boolean>(true);
@@ -69,7 +68,6 @@ const MatchForm: React.FC = () => {
     const [shift2HoardedFuel, setShift2HoardedFuel] = useState(false);
     const [shift3HoardedFuel, setShift3HoardedFuel] = useState(false);
     const [shift4HoardedFuel, setShift4HoardedFuel] = useState(false);
-
 
     // Endgame values
     const [endgameFuel, setEndgameFuel] = useState(0);
@@ -206,7 +204,6 @@ const MatchForm: React.FC = () => {
             shift3HoardedFuel: shift3HoardedFuel,
             shift4HoardedFuel: shift4HoardedFuel,
 
-
             endgameFuel: endgameFuel,
             endgameClimbLevel: endgameClimbLevel,
 
@@ -221,7 +218,6 @@ const MatchForm: React.FC = () => {
         The path for block of data will be submitted as follows:
         /{eventName}/{teamNumber}/{matchNumber}/{timestamp}, timestamp is not finished
         */
-
         if (!check && !debug) {
             alert("Please fill out all required fields before submitting.");
         } else {
@@ -281,6 +277,7 @@ const MatchForm: React.FC = () => {
                     label={"Your team number"}
                     placeholder="e.g. 3464"
                     min={1}
+                    max={99999}
                 />
                 <IntegerInput
                     value={matchNumber}
@@ -288,6 +285,7 @@ const MatchForm: React.FC = () => {
                     label={"Match Number"}
                     placeholder="e.g. 42"
                     min={1}
+                    max={99999}
                 />
                 <IntegerInput
                     value={teamNumber}
@@ -295,6 +293,7 @@ const MatchForm: React.FC = () => {
                     label={"Team Number"}
                     placeholder="e.g. 3464"
                     min={1}
+                    max={99999}
                 />
             </>
         );
@@ -673,5 +672,5 @@ const MatchForm: React.FC = () => {
         </div>
     );
 };
-
+ 
 export default MatchForm;
