@@ -88,49 +88,45 @@ const MatchForm: React.FC = () => {
         setShift4HubActive(!shift4HubActive);
     };
 
-    function switchShiftsBetter(buttonPressed : boolean) {
+    function switchShiftsBetter(buttonPressed: boolean) {
         if (buttonPressed) {
             if (!shift1HubActive) {
                 switchShifts();
             }
-        }
-        else {
+        } else {
             if (shift1HubActive) {
                 switchShifts();
             }
         }
     }
-    function switchShiftsBetter2(buttonPressed : boolean) {
+    function switchShiftsBetter2(buttonPressed: boolean) {
         if (buttonPressed) {
             if (!shift2HubActive) {
                 switchShifts();
             }
-        }
-        else {
+        } else {
             if (shift2HubActive) {
                 switchShifts();
             }
         }
     }
-    function switchShiftsBetter3(buttonPressed : boolean) {
+    function switchShiftsBetter3(buttonPressed: boolean) {
         if (buttonPressed) {
             if (!shift3HubActive) {
                 switchShifts();
             }
-        }
-        else {
+        } else {
             if (shift3HubActive) {
                 switchShifts();
             }
         }
     }
-    function switchShiftsBetter4(buttonPressed : boolean) {
+    function switchShiftsBetter4(buttonPressed: boolean) {
         if (buttonPressed) {
             if (!shift4HubActive) {
                 switchShifts();
             }
-        }
-        else {
+        } else {
             if (shift4HubActive) {
                 switchShifts();
             }
@@ -162,9 +158,7 @@ const MatchForm: React.FC = () => {
     async function submitData() {
         //make sure certain fields are filled out
         let check: boolean =
-            eventName !== "" &&
-            teamNumber !== null &&
-            matchNumber !== null
+            eventName !== "" && teamNumber !== null && matchNumber !== null;
 
         const data = {
             scoutingTeam: scoutingTeam,
@@ -314,10 +308,10 @@ const MatchForm: React.FC = () => {
                     onChange={setAutoClimbed}
                 />
                 <BinaryChoice
-                        label={"Hoarded Fuel?"}
-                        options={["yes", "no"]}
-                        onChange={setautoHoardedFuel}
-                        button1Selected={autoHoardedFuel}
+                    label={"Hoarded Fuel?"}
+                    options={["yes", "no"]}
+                    onChange={setautoHoardedFuel}
+                    button1Selected={autoHoardedFuel}
                 />
             </>
         );
@@ -487,36 +481,40 @@ const MatchForm: React.FC = () => {
         content = (
             <div className="justify-center items-center flex flex-col">
                 <div className="flex flex-row space-x-4 pb-5">
-                    <button
-                        className={tab2(0)}
-                        onClick={() => setTeleopShift(0)}
-                    >
-                        Tran
-                    </button>
-                    <button
-                        className={tab2(1)}
-                        onClick={() => setTeleopShift(1)}
-                    >
-                        Shift 1
-                    </button>
-                    <button
-                        className={tab2(2)}
-                        onClick={() => setTeleopShift(2)}
-                    >
-                        Shift 2
-                    </button>
-                    <button
-                        className={tab2(3)}
-                        onClick={() => setTeleopShift(3)}
-                    >
-                        Shift 3
-                    </button>
-                    <button
-                        className={tab2(4)}
-                        onClick={() => setTeleopShift(4)}
-                    >
-                        Shift 4
-                    </button>
+                    <div className="flex flex-col space-y-4">
+                        <div className="flex flex-row space-x-4">
+                            <button
+                                className={tab2(0)}
+                                onClick={() => setTeleopShift(0)}
+                            >
+                                Tran
+                            </button>
+                            <button
+                                className={tab2(1)}
+                                onClick={() => setTeleopShift(1)}
+                            >
+                                Shift 1
+                            </button>
+                            <button
+                                className={tab2(2)}
+                                onClick={() => setTeleopShift(2)}
+                            >
+                                Shift 2
+                            </button>
+                            <button
+                                className={tab2(3)}
+                                onClick={() => setTeleopShift(3)}
+                            >
+                                Shift 3
+                            </button>
+                            <button
+                                className={tab2(4)}
+                                onClick={() => setTeleopShift(4)}
+                            >
+                                Shift 4
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="justify-center items-center flex flex-col">
@@ -672,5 +670,5 @@ const MatchForm: React.FC = () => {
         </div>
     );
 };
- 
+
 export default MatchForm;
