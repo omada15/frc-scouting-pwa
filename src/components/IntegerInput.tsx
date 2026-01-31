@@ -43,7 +43,7 @@ const IntegerInput: React.FC<IntegerInputProps> = ({
         <div className="flex flex-col items-center space-y-2">
             {boxLabel}
             <input
-                type="text"
+                type="number"
                 value={value !== null ? value : ""}
                 placeholder={placeholder}
                 onChange={handleChange}
