@@ -6,6 +6,7 @@ import { readCookie } from "../scripts/user";
 import debug from "../pages/Home";
 import { writeToDb } from "../scripts/firebase";
 import Dropdown from "../components/Dropdown";
+import BinaryChoice from "../components/BinaryChoice";
 
 
 
@@ -62,10 +63,14 @@ async function submitData() {
         scoutingTeam: scoutingTeam,
         eventName: eventName,
         matchNumber: matchNumber,
+
         chassisSizel: chassisSizel,
         chassisSizew: chassisSizew,
         startingHeight: startingHeight,
-        maxHeight: maxHeight
+        maxHeight: maxHeight,
+
+        motorTypes: motorTypes,
+        outpost: outpost
 
     };
 
@@ -102,7 +107,7 @@ async function submitData() {
 
         const pathname = window.location.pathname;
 
-        if (pathname === "/match") {
+        if (pathname === "/pitscouting") {
             goBack();
         }
     }
@@ -175,10 +180,40 @@ async function submitData() {
                 onChange={(val) => setMaxHeight(val.toString())}
                 label="Max Height (inches)"
             />
-
+            <AutoResizeTextarea
+                value={motorTypes}
+                onChange={(val) => setMotorTypes(val.toString())}
+                label="Motor types"
+            />
+            <BinaryChoice 
+                label={"Used Outpost"}
+                options={["no", "yes"]}
+                button1Selected={false}
+                onChange={setOutpost}        
+            />  
             <button className={buttonStyle} onClick={submitData}>
                     Submit
             </button>
+            {!sent ? (
+                    <div className="flex flex-col items-center space-y-2 ">
+                        <h3 className="font-semibold text-red-800 text-2xl pb-1">
+                            If you are seeing this message, you either have poor
+                            connectivity, or you have encountered an error. If
+                            you encountered an error, a message should have
+                            shown up stating you had an error. If no message
+                            showed up, then you're connectivity is poor. If your
+                            data gets sent, then this page will automatically
+                            close. If you need to fill out another form, you may
+                            press the back button, but remember to submit later
+                            in the "view local storage" page.
+                        </h3>
+                        <button className={buttonStyle} onClick={goBack}>
+                            Back
+                        </button>
+                    </div>
+                ) : (
+                    <></>
+                )}
         </div>
     );
 };
