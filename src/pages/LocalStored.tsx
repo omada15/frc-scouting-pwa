@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { writeToDb } from "../scripts/firebase";
-import ReactJsonView from '@microlink/react-json-view'
+import ReactJsonView from "@microlink/react-json-view";
 import seedDataBase from "../scripts/seed";
 import IntegerInput from "../components/IntegerInput";
+import { getDebugStatus } from "../scripts/debug";
 
 interface ActionComponentProps {
     onSubmit: () => void;
@@ -18,7 +19,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
     const goBack = () => {
         navigate("/");
     };
-    
+
     return (
         <div className="flex flex-row justify-center items-center space-x-32 pt-6">
             <button
@@ -81,17 +82,17 @@ const LocalStorageView: React.FC = () => {
         let json = JSON.parse(value);
         writeToDb(
             `${json.teamNumber?.toString()}/${json.matchNumber?.toString()}`,
-            json
+            json,
         );
     };
-    
+
     const seed = () => {
-        const seedJson = seedDataBase()
+        const seedJson = seedDataBase();
         console.log(seedJson);
         writeToDb(
             `${seedNumber.toString()}/${seedJson.matchNumber?.toString()}`,
-        seedJson
-        )
+            seedJson,
+        );
         console.log("Attemped to seed.");
     }
 
@@ -158,23 +159,25 @@ const LocalStorageView: React.FC = () => {
 
             <ActionComponent onSubmit={submitItem} onDelete={deleteItem} />
 
-            <div>
-                <IntegerInput 
-                    min={0}
-                    max={9999}
-                    placeholder="9999"
-                    label="Seed number"
-                    onChange={setSeedNumber}
-                    value={seedNumber}
-                />
+            {getDebugStatus() ? (
+                <div>
+                    <IntegerInput
+                        min={0}
+                        max={9999}
+                        placeholder="9999"
+                        label="Seed number"
+                        onChange={setSeedNumber}
+                        value={seedNumber}
+                    />
 
-                <button
-                    onClick={seed}
-                    className="bg-violet-600 hover:bg-violet-800 text-white px-4 py-2 rounded-xl"
-                >
-                    Seed, DO NOT SPAM!!
-                </button>
-            </div>
+                    <button
+                        onClick={seed}
+                        className="bg-violet-600 hover:bg-violet-800 text-white px-4 py-2 rounded-xl"
+                    >
+                        Seed, DO NOT SPAM!!
+                    </button>
+                </div>
+            ) : null}
             {/*<button
                 onClick={seedMulti}
                 className="bg-pink-700 hover:bg-pink-900 text-white px-4 py-2 rounded-xl"
