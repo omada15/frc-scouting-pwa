@@ -1,9 +1,15 @@
 {
-  "type":"module",
+  "type": "module",
   "dependencies": {
-    "express": "^5.2.1"
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "firebase": "^12.8.0",
+    "firebase-admin": "^12.7.0",
+    "nodemon": "^3.1.11"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "tip": "nodemon ./backend/server.js"
   }
 }

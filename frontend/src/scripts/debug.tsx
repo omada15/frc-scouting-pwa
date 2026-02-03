@@ -6,6 +6,5 @@ export const getDebugStatus = (): boolean => {
     const rawWhiteList = import.meta.env.VITE_DEBUG || "";
 
     const whiteList = rawWhiteList.split(",").map((s: string) => s.trim());
-    console.log("Debug whitelist:", rawWhiteList);
     return user !== undefined && whiteList.includes(user);
 };
