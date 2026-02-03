@@ -5,6 +5,7 @@ import MultiCounterInput from "../components/MultiCounterInput";
 import IntegerInput from "../components/IntegerInput";
 import Dropdown from "../components/Dropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
+import CheckboxDropdown from "../components/CheckboxDropdown";
 import { writeToDb } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
 import { debug } from "./Home";
@@ -25,6 +26,8 @@ const MatchForm: React.FC = () => {
         "setup" | "auto" | "teleop" | "endgame" | "errors"
     >("setup");
 
+     type checkboxDropdownList = Record<string, boolean>;
+ 
     const [showCheckboxes, setShowCheckboxes] = useState<boolean>(false);
     // this boolean is used to show a message if the data was not sent
     const [sent, setSent] = useState<boolean>(true);
@@ -76,6 +79,20 @@ const MatchForm: React.FC = () => {
     const [notes, setNotes] = useState<string>("");
 
     // finale  values
+
+    const [robotErrorsCheck, setRobotErrorsCheck] = useState<checkboxDropdownList>(
+        {
+        "Intake issues": false,
+        "Climb Failed": false,
+        "Robot unresponsive": false,
+        "Robot part fell off": false,
+        "Did not participate": false,
+        "Auto stop": false,
+        "Robot could not get off after climb": false,
+        Other: false,
+    }
+    );
+
     const [crossedBump, setCrossedBump] = useState(false);
     const [underTrench, setUnderTrench] = useState(false);
 
@@ -144,7 +161,7 @@ const MatchForm: React.FC = () => {
         "Other",
     ];
 
-    let robotErrorsCheck: Record<string, boolean> = {
+    let samjohn: Record<string, boolean> = {
         "Intake issues": false,
         "Climb Failed": false,
         "Robot unresponsive": false,
@@ -304,14 +321,14 @@ const MatchForm: React.FC = () => {
                 <BinaryChoice
                     label={"Auto climb succeed?"}
                     options={["yes", "no"]}
-                    button1Selected={autoClimbed}
+                    value={autoClimbed}
                     onChange={setAutoClimbed}
                 />
                 <BinaryChoice
                     label={"Hoarded Fuel?"}
                     options={["yes", "no"]}
                     onChange={setautoHoardedFuel}
-                    button1Selected={autoHoardedFuel}
+                    value={autoHoardedFuel}
                 />
             </>
         );
@@ -340,7 +357,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter}
-                        button1Selected={shift1HubActive}
+                        value={shift1HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -352,20 +369,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift1Collected}
+                        value={shift1Collected}
                         onChange={setShift1Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift1Defense}
-                        button1Selected={shift1Defense}
+                        value={shift1Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift1HoardedFuel}
-                        button1Selected={shift1HoardedFuel}
+                        value={shift1HoardedFuel}
                     />
                 </>
             );
@@ -376,7 +393,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter2}
-                        button1Selected={shift2HubActive}
+                        value={shift2HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -388,20 +405,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift2Collected}
+                        value={shift2Collected}
                         onChange={setShift2Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift2Defense}
-                        button1Selected={shift2Defense}
+                        value={shift2Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift2HoardedFuel}
-                        button1Selected={shift2HoardedFuel}
+                        value={shift2HoardedFuel}
                     />
                 </>
             );
@@ -412,7 +429,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter3}
-                        button1Selected={shift3HubActive}
+                        value={shift3HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -424,20 +441,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift3Collected}
+                        value={shift3Collected}
                         onChange={setShift3Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift3Defense}
-                        button1Selected={shift3Defense}
+                        value={shift3Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift3HoardedFuel}
-                        button1Selected={shift3HoardedFuel}
+                        value={shift3HoardedFuel}
                     />
                 </>
             );
@@ -448,7 +465,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter4}
-                        button1Selected={shift4HubActive}
+                        value={shift4HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -460,20 +477,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift4Collected}
+                        value={shift4Collected}
                         onChange={setShift4Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift4Defense}
-                        button1Selected={shift4Defense}
+                        value={shift4Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift4HoardedFuel}
-                        button1Selected={shift4HoardedFuel}
+                        value={shift4HoardedFuel}
                     />
                 </>
             );
@@ -547,78 +564,57 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Over Bump?"}
                         options={["yes", "no"]}
-                        button1Selected={crossedBump}
+                        value={crossedBump}
                         onChange={setCrossedBump}
                     />
                     <BinaryChoice
                         label={"Under Trench?"}
                         options={["yes", "no"]}
-                        button1Selected={underTrench}
+                        value={underTrench}
                         onChange={setUnderTrench}
                     />
-                    <div
-                        onClick={() =>
-                            setShowCheckboxes(
-                                (showCheckboxes) => !showCheckboxes,
-                            )
-                        }
-                        className="pt-4 cursor-pointer text-white text-l pl-8 pr-8 p-4 flex-col items-start flex justify-center w-60 bg-gray-700 rounded-full focus-within:outline-auto relative"
-                    >
-                        <div className="relative">Select Robot Errors</div>
-                    </div>
-                    <div
-                        style={{ display: showCheckboxes ? "block" : "none" }}
-                        className="bg-gray-700 p-4 border-gray-200"
-                    >
-                        {robotErrors.map((option) => (
-                            <>
-                                <label className="text-white ">
-                                    <input
-                                        type="checkbox"
-                                        onClick={() => {
-                                            robotErrorsCheck[option] =
-                                                !robotErrorsCheck[option];
-                                        }}
-                                    />{" "}
-                                    {option}
-                                </label>
-                                <br></br>
-                            </>
-                        ))}
-                    </div>
+
+                    <CheckboxDropdown 
+                        label = {"Select Robot Errors"}
+                        optionList={robotErrors}
+                        optionCheck = {robotErrorsCheck}
+                        onChange = {setRobotErrorsCheck}
+                    />
+
+                    <AutoResizeTextarea
+                        value={notes}
+                        onChange={setNotes}
+                        placeholder="Other notes about robot"
+                    />
+                    <button className={buttonStyle} onClick={submitData}>
+                        Submit
+                    </button>
+                    {!sent ? (
+                        <div className="flex flex-col items-center space-y-2 ">
+                            <h3 className="font-semibold text-red-800 text-2xl pb-1">
+                                If you are seeing this message, you either have poor
+                                connectivity, or you have encountered an error. If
+                                you encountered an error, a message should have
+                                shown up stating you had an error. If no message
+                                showed up, then you're connectivity is poor. If your
+                                data gets sent, then this page will automatically
+                                close. If you need to fill out another form, you may
+                                press the back button, but remember to submit later
+                                in the "view local storage" page.
+                            </h3>
+                            <button className={buttonStyle} onClick={goBack}>
+                                Back
+                            </button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
-                <AutoResizeTextarea
-                    value={notes}
-                    onChange={setNotes}
-                    placeholder="Other notes about robot"
-                />
-                <button className={buttonStyle} onClick={submitData}>
-                    Submit
-                </button>
-                {!sent ? (
-                    <div className="flex flex-col items-center space-y-2 ">
-                        <h3 className="font-semibold text-red-800 text-2xl pb-1">
-                            If you are seeing this message, you either have poor
-                            connectivity, or you have encountered an error. If
-                            you encountered an error, a message should have
-                            shown up stating you had an error. If no message
-                            showed up, then you're connectivity is poor. If your
-                            data gets sent, then this page will automatically
-                            close. If you need to fill out another form, you may
-                            press the back button, but remember to submit later
-                            in the "view local storage" page.
-                        </h3>
-                        <button className={buttonStyle} onClick={goBack}>
-                            Back
-                        </button>
-                    </div>
-                ) : (
-                    <></>
-                )}
-            </>
+           </>
+
         );
     }
-
+    
     return (
         <div className="overflow-x-auto flex flex-col items-center justify-start space-y-6 pt-12.5">
             <button className={buttonStyle} onClick={goBack}>
