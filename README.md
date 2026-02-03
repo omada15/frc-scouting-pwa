@@ -32,3 +32,55 @@ To build app:
 ```
 npm build
 ```
+
+
+## Components and scripts
+
+>AutoResizeTextArea
+- label: string that appears above the text area.
+- value: Value that the input is changing.
+- onChange: Method that changes the value.
+- placeholder: Placeholder value that shows when text area is left blank.
+
+
+>BinaryChoice
+- label: string that appears above the text area.
+- options: Array of strings that shows up as toggleable buttons.
+- button1Selected: Boolean, that is the value from a hook call that changes, if true, the first option is highlighted.
+- onChange: Method that changes the value.
+
+
+>CheckboxDropdown
+- label: The placeholder text that shows on the collapsed dropdown.
+- optionList: An array that has every robot error.
+- optionCheck: Record<string, boolean> dictionary, that has the same keys as optionList, but has booleans as values.
+- onChange: The other part of the hook call.
+
+>CounterInput
+- value: Int, first part of a hook call.
+- onChange: Second part of a hook call.
+- min: Minimum value that the value can be
+- max: Maximum value that the value can be
+- label: 
+
+>Dropdown
+- value:
+- option:
+- label:
+- onChange:
+- placeholder:
+
+>IntegerInput
+- value:
+- onChange:
+- placeholder:
+- min:
+- max:
+- label:
+
+>MultiCounterInput
+- value:
+- onChange:
+- min:
+- max:
+- label:
