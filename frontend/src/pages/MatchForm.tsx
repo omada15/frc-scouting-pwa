@@ -321,14 +321,14 @@ const MatchForm: React.FC = () => {
                 <BinaryChoice
                     label={"Auto climb succeed?"}
                     options={["yes", "no"]}
-                    button1Selected={autoClimbed}
+                    value={autoClimbed}
                     onChange={setAutoClimbed}
                 />
                 <BinaryChoice
                     label={"Hoarded Fuel?"}
                     options={["yes", "no"]}
                     onChange={setautoHoardedFuel}
-                    button1Selected={autoHoardedFuel}
+                    value={autoHoardedFuel}
                 />
             </>
         );
@@ -357,7 +357,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter}
-                        button1Selected={shift1HubActive}
+                        value={shift1HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -369,20 +369,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift1Collected}
+                        value={shift1Collected}
                         onChange={setShift1Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift1Defense}
-                        button1Selected={shift1Defense}
+                        value={shift1Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift1HoardedFuel}
-                        button1Selected={shift1HoardedFuel}
+                        value={shift1HoardedFuel}
                     />
                 </>
             );
@@ -393,7 +393,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter2}
-                        button1Selected={shift2HubActive}
+                        value={shift2HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -405,20 +405,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift2Collected}
+                        value={shift2Collected}
                         onChange={setShift2Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift2Defense}
-                        button1Selected={shift2Defense}
+                        value={shift2Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift2HoardedFuel}
-                        button1Selected={shift2HoardedFuel}
+                        value={shift2HoardedFuel}
                     />
                 </>
             );
@@ -429,7 +429,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter3}
-                        button1Selected={shift3HubActive}
+                        value={shift3HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -441,20 +441,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift3Collected}
+                        value={shift3Collected}
                         onChange={setShift3Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift3Defense}
-                        button1Selected={shift3Defense}
+                        value={shift3Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift3HoardedFuel}
-                        button1Selected={shift3HoardedFuel}
+                        value={shift3HoardedFuel}
                     />
                 </>
             );
@@ -465,7 +465,7 @@ const MatchForm: React.FC = () => {
                         label={"Hub Active?"}
                         options={["yes", "no"]}
                         onChange={switchShiftsBetter4}
-                        button1Selected={shift4HubActive}
+                        value={shift4HubActive}
                     />
                     <MultiCounterInput
                         min={0}
@@ -477,20 +477,20 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Collected from Neutral"}
                         options={["yes", "no"]}
-                        button1Selected={shift4Collected}
+                        value={shift4Collected}
                         onChange={setShift4Collected}
                     />
                     <BinaryChoice
                         label={"Played Defense?"}
                         options={["yes", "no"]}
                         onChange={setShift4Defense}
-                        button1Selected={shift4Defense}
+                        value={shift4Defense}
                     />
                     <BinaryChoice
                         label={"Hoarded Fuel?"}
                         options={["yes", "no"]}
                         onChange={setShift4HoardedFuel}
-                        button1Selected={shift4HoardedFuel}
+                        value={shift4HoardedFuel}
                     />
                 </>
             );
@@ -564,13 +564,13 @@ const MatchForm: React.FC = () => {
                     <BinaryChoice
                         label={"Over Bump?"}
                         options={["yes", "no"]}
-                        button1Selected={crossedBump}
+                        value={crossedBump}
                         onChange={setCrossedBump}
                     />
                     <BinaryChoice
                         label={"Under Trench?"}
                         options={["yes", "no"]}
-                        button1Selected={underTrench}
+                        value={underTrench}
                         onChange={setUnderTrench}
                     />
 

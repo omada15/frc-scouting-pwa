@@ -3,14 +3,14 @@ import React from "react";
 interface BinaryChoiceProps {
     label?: string; // Label for the choice
     options: [string, string]; // Two options
-    button1Selected?: boolean | null;
+    value?: boolean | null;
     onChange: (newValue: boolean) => void;
 }
 
 const BinaryChoice: React.FC<BinaryChoiceProps> = ({
     label,
     options,
-    button1Selected,
+    value,
     onChange,
 }) => {
     let boxLabel = null;
@@ -27,7 +27,7 @@ const BinaryChoice: React.FC<BinaryChoiceProps> = ({
                 <button
                     onClick={() => onChange(true)}
                     className={`px-6 py-3 rounded-full text-xl font-semibold transition-colors duration-200 ${
-                        button1Selected
+                        value
                             ? "bg-sky-600 text-white"
                             : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                     }`}
@@ -37,7 +37,7 @@ const BinaryChoice: React.FC<BinaryChoiceProps> = ({
                 <button
                     onClick={() => onChange(false)}
                     className={`px-6 py-3 rounded-full text-xl font-semibold transition-colors duration-200 ${
-                        !button1Selected && button1Selected !== null
+                        !value && value !== null
                             ? "bg-sky-600 text-white"
                             : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                     }`}

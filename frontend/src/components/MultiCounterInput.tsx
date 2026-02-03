@@ -1,6 +1,5 @@
 import React from "react";
 import IntegerInput from "./IntegerInput";
-import isMobileDevice from "../scripts/isMobileDevice";
 
 interface MultiCounterInputProps {
     value?: number;
@@ -17,7 +16,6 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
     max = Infinity,
     label,
 }) => {
-    let isMobile = isMobileDevice;
     const increment = () => {
         if (value < max) {
             onChange(value + 1);
