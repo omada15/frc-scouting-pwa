@@ -136,7 +136,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-app.use(router); // floyd
+app.use("/api", router); // floyd
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
