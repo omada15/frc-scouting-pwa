@@ -18,7 +18,7 @@ const router = express.Router();
 const PORT = 3000;
 
 const allowedOrigins = [
-    "http://64.251.57.203:5173",
+    "http://64.251.57.203",
     "https://3464scouting.vercel.app",
 ];
 
@@ -28,6 +28,10 @@ app.use(
         origin: allowedOrigins,
     }),
 );
+
+router.post("/debug", async (req, res) => {
+    res.status(200).json({value: "Dev,Daniel Senchukov"});
+})
 
 router.post("/write", async (req, res) => {
     console.log(req.body);

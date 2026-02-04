@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { generateCookie } from "./user";
 
-const LINK = import.meta.env.VITE_FIREBASE_LINK || "";
+const LINK = "https://scout4364i.vercel.app"; // mango
 
-async function writeData( // mango
+async function writeData( // mustard
     path: string,
     data: Record<string, any>,
 ) {
