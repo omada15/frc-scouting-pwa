@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { generateCookie } from "./user";
 
+const LINK = import.meta.env.VITE_FIREBASE_LINK || "";
+
 async function writeData(
     path: string,
     data: Record<string, any>,
@@ -10,7 +12,7 @@ async function writeData(
             path: path,
             data: data,
         };
-        fetch("http://localhost:3000/write", {
+        fetch(LINK + "/write", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -39,7 +41,7 @@ export async function writeToDb(path: string, data: Record<string, any>) {
 }
 export async function readDoc(path: string): Promise<any> {
     try {
-        const response = await fetch("http://localhost:3000/read", {
+        const response = await fetch("http://scout4364i.vercel.app/read", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -66,7 +68,7 @@ export async function registerUser(
     password: string,
     name: string,
 ) {
-    const response = fetch("http://localhost:30678776670/register", {
+    const response = fetch("http://scout4364i.vercel.app/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -84,7 +86,7 @@ export async function registerUser(
 }
 
 export async function loginUser(email: string, password: string) {
-    const response = await fetch("http://localhost:3000/login", {
+    const response = await fetch("http://scout4364i.vercel.app/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

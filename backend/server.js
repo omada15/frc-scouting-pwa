@@ -18,7 +18,7 @@ const router = express.Router();
 const PORT = 3000;
 
 const allowedOrigins = [
-    "http://localhost:5173",
+    "http://64.251.57.203:5173",
     "https://3464scouting.vercel.app",
 ];
 
@@ -136,7 +136,7 @@ router.post("/login", async (req, res) => {
     }
 });
 
-app.use(router);
+app.use(router); // floyd
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
