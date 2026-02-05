@@ -37,7 +37,7 @@ let shift4HoardedFuel = false;
 
 // Endgame values
 let endgameFuel = 0;
-let endgameClimbLevel = "0";
+let endgameClimbLevel = "0";        
 
 // finale  values
 let crossedBump = false;
@@ -63,7 +63,7 @@ const robotErrorList: string[] = [
     "Robot part fell off",
     "Auto stop",
     "Robot did not get off after climb",
-    "other",
+    "other"
 ];
 
 const noteList: string[] = [
@@ -114,13 +114,10 @@ export default function seedDataBase() {
     teamNumber = 9999;
 
     // matchNumber
-    matchNumber = getRandomInt(1, 70);
-    if (matchNumber == 67) {
-        matchNumber = getRandomInt(1, 66);
-    }
+    matchNumber = getRandomInt(1, 300);
 
     // autoFuel
-    autoFuel = getRandomInt(10, 34);
+    autoFuel = getRandomInt(8, 32);
 
     // autoClimbLevel
     if (getRandomInt(0, 1) == 0) {
@@ -130,7 +127,7 @@ export default function seedDataBase() {
     }
 
     // autoHoardedFuel
-    if (getRandomInt(0, 9) == 0) {
+    if (getRandomInt(0, 7) == 0) {
         autoHoardedFuel = true;
     } else {
         autoHoardedFuel = false;
@@ -139,10 +136,10 @@ export default function seedDataBase() {
 
 
     // transitionFuel
-    transitionFuel = getRandomInt(4, 17);
+    transitionFuel = getRandomInt(4, 16);
 
     // shift1HubActive
-    if (autoFuel > 28) {
+    if (autoFuel > 20) {
         shift1HubActive = false;
     } else {
         shift1HubActive = true;
@@ -157,7 +154,7 @@ export default function seedDataBase() {
             shift1Defense = true;
         }
     } else {
-        shift1Fuel = getRandomInt(15, 42);
+        shift1Fuel = getRandomInt(15, 36);
         shift1Defense = false;
     }
 
@@ -187,9 +184,9 @@ export default function seedDataBase() {
         }
     } else {
         if (shift1Defense == true) {
-            shift2Fuel = getRandomInt(25, 57);
+            shift2Fuel = getRandomInt(21, 47);
         } else {
-            shift2Fuel = getRandomInt(15, 41);
+            shift2Fuel = getRandomInt(15, 36);
         }
         shift2Defense = false;
     }
@@ -218,9 +215,9 @@ export default function seedDataBase() {
         }
     } else {
         if (shift2Defense == true) {
-            shift3Fuel = getRandomInt(25, 57);
+            shift3Fuel = getRandomInt(21, 47);
         } else {
-            shift3Fuel = getRandomInt(15, 41);
+            shift3Fuel = getRandomInt(15, 36);
         }
 
         shift3Defense = false;
@@ -250,9 +247,9 @@ export default function seedDataBase() {
         }
     } else {
         if (shift3Defense == true) {
-            shift4Fuel = getRandomInt(25, 57);
+            shift4Fuel = getRandomInt(21, 47);
         } else {
-            shift4Fuel = getRandomInt(15, 41);
+            shift4Fuel = getRandomInt(15, 36);
         }
 
         shift4Defense = false;
@@ -270,6 +267,13 @@ export default function seedDataBase() {
 
     // endgameClimbLevel
     endgameClimbLevel = getRandomInt(0, 3).toString();
+
+    if (endgameClimbLevel == "0"){
+        endgameClimbLevel = "Didn't climb";
+    } else {
+        endgameClimbLevel = "Level".concat(" ", endgameClimbLevel);
+    }
+
 
     // crossedBump
     if (getRandomInt(0, 1) == 0) {
@@ -290,7 +294,7 @@ export default function seedDataBase() {
     }
 
     // robotErrorCheck
-    const selectedErrors: number[] = [getRandomInt(0, 3), getRandomInt(3, 7)];
+    const selectedErrors: number[] = [getRandomInt(0, 3), getRandomInt(3, 6)];
 
     for (let i = 0; i < 3; i++) {
         robotErrorCheck[robotErrorList[selectedErrors[i]]] = true;
