@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { generateCookie } from "./user";
 
-//const LINK = "https://scout4364i.vercel.app/api";
-const LINK = "http://localhost:3000/api";
+const LINK = "https://scout4364i.vercel.app/api";
+//const LINK = "http://localhost:3000/api";
 
 async function sha256(message: string) {
     // Encode the message as a Uint8Array (UTF-8 is standard)
