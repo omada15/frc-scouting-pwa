@@ -4,7 +4,7 @@ import { writeToDb } from "../scripts/firebase";
 import ReactJsonView from "@microlink/react-json-view";
 import seedDataBase from "../scripts/seed";
 import IntegerInput from "../components/IntegerInput";
-import { getDebugStatus } from "../scripts/debug";
+import { debug } from "./Home";
 
 interface ActionComponentProps {
     onSubmit: () => void;
@@ -159,7 +159,7 @@ const LocalStorageView: React.FC = () => {
 
             <ActionComponent onSubmit={submitItem} onDelete={deleteItem} />
 
-            {getDebugStatus() ? (
+            {debug ? (
                 <div>
                     <IntegerInput
                         min={0}

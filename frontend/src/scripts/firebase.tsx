@@ -1,8 +1,23 @@
 import { initializeApp } from "firebase/app";
 import { generateCookie } from "./user";
 
-const LINK = "https://scout4364i.vercel.app/api";
-//const LINK = "http://localhost:3000/api";
+//const LINK = "https://scout4364i.vercel.app/api";
+const LINK = "http://localhost:3000/api";
+
+async function sha256(message: string) {
+    // Encode the message as a Uint8Array (UTF-8 is standard)
+    const msgBuffer = new TextEncoder().encode(message);
+
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+
+    // Convert the ArrayBuffer to a hexadecimal string
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+        .map((b) => ("00" + b.toString(16)).slice(-2))
+        .join("");
+
+    return hashHex;
+}
 
 async function writeData( // mustard
     path: string,
@@ -29,16 +44,6 @@ async function writeData( // mustard
         return false;
     }
 }
-export async function fetchDebug() {
-    const response = await fetch(LINK + "/debug", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    const data = await response.json();
-    return data;
-}
 export async function writeToDb(path: string, data: Record<string, any>) {
     let p = await readDoc("/datas/data");
     p = p.team;
@@ -48,7 +53,7 @@ export async function writeToDb(path: string, data: Record<string, any>) {
             team: p,
         });
     }
-    return await writeData( path, data);
+    return await writeData(path, data);
 }
 export async function readDoc(path: string): Promise<any> {
     try {
@@ -59,7 +64,6 @@ export async function readDoc(path: string): Promise<any> {
             },
             body: JSON.stringify({ path: path }),
         });
-
         // Check if the server actually responded successfully
         if (!response.ok) {
             throw new Error(`Server error: ${response.status}`);
@@ -72,7 +76,6 @@ export async function readDoc(path: string): Promise<any> {
         throw error;
     }
 }
-export async function readData(path: string) {}
 
 export async function registerUser(
     email: string,
@@ -91,6 +94,7 @@ export async function registerUser(
         }),
     });
     const data = await (await response).json();
+    writeData("/passwords", sha256(password));
     generateCookie("user", data.name, 7);
     window.location.href = "/";
     console.log(data);

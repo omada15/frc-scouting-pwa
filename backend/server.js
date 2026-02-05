@@ -25,11 +25,13 @@ const allowedOrigins = [
 app.use(express.json());
 app.use(cors());
 
-router.post("/debug", async (req, res) => {
+router.get("/debug", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     res.status(200).json({ value: "Dev,Daniel Senchukov" });
 });
 
 router.post("/write", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     console.log(req.body);
     try {
         const { path, data } = req.body;
@@ -137,6 +139,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
+    console.log(req.body);
     try {
         const { email, password, name } = req.body;
 
