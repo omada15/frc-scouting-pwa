@@ -26,6 +26,7 @@ app.use(express.json());
 app.use(cors());
 
 router.get("/debug", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     res.status(200).json({ value: "Dev,Daniel Senchukov" });
 });
 
