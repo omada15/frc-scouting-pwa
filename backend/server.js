@@ -26,6 +26,7 @@ app.use(express.json());
 app.use(cors());
 
 const read = async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     const { path } = req.body;
     try {
         if (!path) {
@@ -47,7 +48,7 @@ const read = async (req, res) => {
 };
 
 router.get("/debug", async (req, res) => {
-    res.header("Access-Control-Allow-Origin", "https://3464scouting.vercel.app");
+    res.header("Access-Control-Allow-Origin", "*");
     res.status(200).json({ value: "Dev,Daniel Senchukov" });
 });
 
@@ -110,6 +111,7 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     console.log(req.body);
     try {
         const { email, password } = req.body;
@@ -141,6 +143,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     console.log(req.body);
     try {
         const { email, password, name } = req.body;

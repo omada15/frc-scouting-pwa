@@ -95,7 +95,7 @@ export async function registerUser(
     });
     const data = await (await response).json();
     let hashed = await sha256(password)
-    writeData("/passwords",  hashed);
+    writeData("passwords",  hashed);
     generateCookie("user", data.name, 7);
     window.location.href = "/";
     console.log(data);
