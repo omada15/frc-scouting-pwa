@@ -48,7 +48,7 @@ const Home: React.FC = () => {
             </p>
 
             <div>
-                {!debug && (
+                {debug && (
                     <a className="font-small text-red-500 text-2xl px-4 py-3 rounded-2xl">
                         ⚠ debug mode on ⚠
                     </a>
