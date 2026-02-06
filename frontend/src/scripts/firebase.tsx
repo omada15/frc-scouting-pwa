@@ -19,10 +19,7 @@ async function sha256(message: string) {
     return hashHex;
 }
 
-async function writeData( // mustard
-    path: string,
-    data: any,
-) {
+async function writeData(path: string, data: any) { // mustard
     try {
         let body = {
             path: path,
@@ -50,7 +47,7 @@ export async function writeToDb(path: string, data: any) {
     p = p.team;
     if (p && !p.includes(data.teamNumber)) {
         p.push(data.teamNumber);
-        await writeData( "datas/data", {
+        await writeData("datas/data", {
             team: p,
         });
     }
@@ -95,9 +92,9 @@ export async function registerUser(
         }),
     });
     const data = await (await response).json();
-    let hashed = await sha256(password)
+    let hashed = await sha256(password);
     console.log(await hashed);
-    writeData(`auth/${name}`,  hashed);
+    writeData(`auth/${name}`, {hashed: hashed});
     generateCookie("user", data.name, 7);
     window.location.href = "/";
     console.log(data);
