@@ -105,6 +105,7 @@ export async function registerUser(
         console.log(await hashed);
         writeData(`auth/${name}`, { hashed: hashed });
         generateCookie("user", data.name, 7);
+        
         window.location.href = "/";
         console.log(data);
     } catch (error) {
@@ -129,6 +130,7 @@ export async function loginUser(email: string, password: string) {
         if (res == 200) {
             let data = await response.json();
             generateCookie("user", data.name, 7);
+            generateCookie("uid", data.uid, 7);
             window.location.href = "/";
             console.log(data);
         } else {

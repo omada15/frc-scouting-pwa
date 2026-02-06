@@ -75,7 +75,9 @@ const read = async (req, res) => {
 };
 
 router.get("/debug", async (req, res) => {
-    res.status(200).json({ value: "ShL4NcaaGMNWxbvyIx8he1g5N5E2,cYmYY2NCqScqjgXtjUQTtjreKEg1" });
+    res.status(200).json({
+        value: "2tjqIwBuqNdsptLzSysO8wq0WUB3,ShL4NcaaGMNWxbvyIx8he1g5N5E2",
+    });
 });
 
 router.post("/write", async (req, res) => {
