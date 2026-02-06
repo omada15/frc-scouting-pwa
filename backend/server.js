@@ -17,19 +17,27 @@ const app = express();
 const router = express.Router();
 const PORT = 3000;
 
-const allowedOrigins = [
-    "http://64.251.57.203",
-    "https://3464scouting.vercel.app",
-];
-
 app.use(express.json());
-app.use(
-    cors({
-        origin: allowedOrigins,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-    }),
-);
+app.use((req, res, next) => {
+    res.setHeader(
+        "Access-Control-Allow-Origin",
+        "https://3464scouting.vercel.app",
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,PUT,DELETE,OPTIONS",
+    );
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization",
+    );
+
+    // Handle the preflight request
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+    next();
+});
 
 const read = async (req, res) => {
     const { path } = req.body;
