@@ -9,11 +9,13 @@ import { debug } from "./Home";
 interface ActionComponentProps {
     onSubmit: () => void;
     onDelete: () => void;
+    clear: () => void;
 }
 
 const ActionComponent: React.FC<ActionComponentProps> = ({
     onSubmit,
     onDelete,
+    clear,
 }) => {
     const navigate = useNavigate();
     const goBack = () => {
@@ -21,26 +23,39 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
     };
 
     return (
-        <div className="flex flex-row justify-center items-center space-x-32 pt-6">
-            <button
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-2xl shadow"
-                onClick={onSubmit}
-            >
-                Submit
-            </button>
+        <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-row justify-center items-center h-1/1 space-x-32 pt-6">
+                <button
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-2xl shadow w-19/100"
+                    onClick={onSubmit}
+                >
+                    Submit
+                </button>
 
-            <button
-                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-2xl shadow"
-                onClick={onDelete}
-            >
-                Delete
-            </button>
-            <button
-                className="bg-blue-600 text-white font-bold py-2 px-6 rounded-2xl shadow"
-                onClick={goBack}
-            >
-                Back
-            </button>
+                <button
+                    className="bg-red-600 hover:bg-red-700 text-white font-bold w-2/5 py-2 px-6 rounded-2xl shadow w-19/100"
+                    onClick={onDelete}
+                >
+                    Delete
+                </button>
+                <button
+                    className="bg-blue-600 text-white font-bold py-2 px-6 rounded-2xl shadow w-19/100"
+                    onClick={goBack}
+                >
+                    Back
+                </button>
+            </div>
+
+            <div className="w-full flex justify-center items-center">
+                            <div className="w-1/38">
+            </div>
+                <button
+                    className="bg-red-800 text-white font-bold w-5/5 py-2 px-6 rounded-2xl shadow w-37/200"
+                    onClick={clear}
+                >
+                    Clear
+                </button>
+            </div>
         </div>
     );
 };
@@ -76,6 +91,16 @@ const LocalStorageView: React.FC = () => {
         setValue("");
         setKeys(Object.keys(localStorage));
     };
+    
+    const clear = () => {
+        if (window.confirm("Are you sure you want to clear local storage?")){
+            for (let i = 0; i<localStorage.length; i++){
+                setSelectedKey
+                localStorage.removeItem(keys[i]);
+                setKeys(Object.keys(localStorage));
+            }
+        }
+    }
 
     const submitItem = () => {
         if (!selectedKey) return;
@@ -157,7 +182,7 @@ const LocalStorageView: React.FC = () => {
                 </p>
             </div>
 
-            <ActionComponent onSubmit={submitItem} onDelete={deleteItem} />
+            <ActionComponent onSubmit={submitItem} onDelete={deleteItem} clear={clear} />
 
             {debug ? (
                 <div>
