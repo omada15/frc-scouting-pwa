@@ -26,13 +26,16 @@ async function writeData(path: string, data: any) {
             path: path,
             data: data,
         };
-        fetch(LINK + "/write", {
+        const response = await fetch(LINK + "/write", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
         });
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
         return true;
     } catch (err) {
         console.error("Error writing document:", err);
@@ -81,24 +84,33 @@ export async function registerUser(
     password: string,
     name: string,
 ) {
-    const response = fetch(LINK + "/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password,
-            name: name,
-        }),
-    });
-    const data = await (await response).json();
-    let hashed = await sha256(password);
-    console.log(await hashed);
-    writeData(`auth/${name}`, { hashed: hashed });
-    generateCookie("user", data.name, 7);
-    window.location.href = "/";
-    console.log(data);
+    try {
+        const response = await fetch(LINK + "/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                name: name,
+            }),
+        });
+        if (!response.ok) {
+            alert(`error: ${response.status}`);
+            throw new Error(`Registration failed: ${response.status}`);
+        }
+        const data = await response.json();
+        let hashed = await sha256(password);
+        console.log(await hashed);
+        writeData(`auth/${name}`, { hashed: hashed });
+        generateCookie("user", data.name, 7);
+        window.location.href = "/";
+        console.log(data);
+    } catch (error) {
+        console.error("Error registering user:", error);
+        alert("Registration failed. Please try again.");
+    }
 }
 
 export async function loginUser(email: string, password: string) {
@@ -113,9 +125,9 @@ export async function loginUser(email: string, password: string) {
                 password: password,
             }),
         });
-        const data = await response.json();
         let res = response.status;
         if (res == 200) {
+            let data = await response.json();
             generateCookie("user", data.name, 7);
             window.location.href = "/";
             console.log(data);
