@@ -131,21 +131,31 @@ router.post("/login", async (req, res) => {
         }
 
         const userRecord = await admin.auth().getUserByEmail(email);
+
         const customToken = await admin
             .auth()
             .createCustomToken(userRecord.uid);
 
-        let user = userRecord.displayName;
-        let hashed = await read(`passwords/${user}`)
+        const identifier = userRecord.displayName || userRecord.uid;
+
+        const docRef = db.doc(`passwords/${identifier}`);
+        const snapshot = await docRef.get();
+
+        let hashedData = null;
+        if (snapshot.exists) {
+            hashedData = snapshot.data();
+        }
+
         res.json({
             message: "Login successful",
             customToken,
             uid: userRecord.uid,
             email: userRecord.email,
             name: userRecord.displayName,
+            // hashedData // included if you need it
         });
     } catch (error) {
-        console.error(error);
+        console.error("Login Error:", error);
         if (error.code === "auth/user-not-found") {
             return res.status(401).send("Invalid email or password");
         }
