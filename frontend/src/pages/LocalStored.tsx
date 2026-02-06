@@ -97,6 +97,7 @@ const LocalStorageView: React.FC = () => {
             for (let i = 0; i<localStorage.length; i++){
                 setSelectedKey
                 localStorage.removeItem(keys[i]);
+                setValue("");
                 setKeys(Object.keys(localStorage));
             }
         }
