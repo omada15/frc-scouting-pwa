@@ -39,6 +39,20 @@ app.use((req, res, next) => {
     next();
 });
 
+async function sha256(message) {
+    // Encode the message as a Uint8Array (UTF-8 is standard)
+    const msgBuffer = new TextEncoder().encode(message);
+
+    const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
+
+    // Convert the ArrayBuffer to a hexadecimal string
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+        .map((b) => ("00" + b.toString(16)).slice(-2))
+        .join("");
+
+    return hashHex;
+}
 const read = async (req, res) => {
     const { path } = req.body;
     try {
@@ -84,7 +98,7 @@ router.post("/write", async (req, res) => {
     }
 });
 
-router.post("/read", read)
+router.post("/read", read);
 
 router.post("/signup", async (req, res) => {
     console.log(req.body);
@@ -138,22 +152,28 @@ router.post("/login", async (req, res) => {
 
         const identifier = userRecord.displayName || userRecord.uid;
 
-        const docRef = db.doc(`passwords/${identifier}`);
+        const docRef = db.doc(`auth/${identifier}`);
         const snapshot = await docRef.get();
 
         let hashedData = null;
         if (snapshot.exists) {
             hashedData = snapshot.data();
         }
-
-        res.json({
-            message: "Login successful",
-            customToken,
-            uid: userRecord.uid,
-            email: userRecord.email,
-            name: userRecord.displayName,
-            // hashedData // included if you need it
-        });
+        let hashpassword = await sha256(password);
+        if (hashpassword == hashedData) {
+            res.status(200).json({
+                message: "Login successful",
+                customToken,
+                uid: userRecord.uid,
+                email: userRecord.email,
+                name: userRecord.displayName,
+                // hashedData // included if you need it
+            });
+        } else {
+            res.status(401).json({
+                message: "invalid password"
+            });
+        }
     } catch (error) {
         console.error("Login Error:", error);
         if (error.code === "auth/user-not-found") {

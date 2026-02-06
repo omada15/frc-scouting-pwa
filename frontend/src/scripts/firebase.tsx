@@ -19,7 +19,8 @@ async function sha256(message: string) {
     return hashHex;
 }
 
-async function writeData(path: string, data: any) { // mustard
+async function writeData(path: string, data: any) {
+    // mustard
     try {
         let body = {
             path: path,
@@ -94,7 +95,7 @@ export async function registerUser(
     const data = await (await response).json();
     let hashed = await sha256(password);
     console.log(await hashed);
-    writeData(`auth/${name}`, {hashed: hashed});
+    writeData(`auth/${name}`, { hashed: hashed });
     generateCookie("user", data.name, 7);
     window.location.href = "/";
     console.log(data);
@@ -112,7 +113,17 @@ export async function loginUser(email: string, password: string) {
         }),
     });
     const data = await response.json();
-    generateCookie("user", data.name, 7);
-    window.location.href = "/";
-    console.log(data);
+    let res = response.status
+    if (res == 200) {
+        generateCookie("user", data.name, 7);
+        window.location.href = "/";
+        console.log(data);
+        
+    } else {
+        if (res == 500) {
+            alert("Uh oh something wrong")
+        } else {
+            alert("Password or email invalid");
+        }
+    }
 }
