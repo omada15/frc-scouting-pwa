@@ -45,6 +45,7 @@ async function writeData( // mustard
     }
 }
 export async function writeToDb(path: string, data: any) {
+    console.log(path);
     let p = await readDoc("/datas/data");
     p = p.team;
     if (p && !p.includes(data.teamNumber)) {
@@ -96,7 +97,7 @@ export async function registerUser(
     const data = await (await response).json();
     let hashed = await sha256(password)
     console.log(await hashed);
-    writeData("passwords",  hashed);
+    writeData(`auth/${name}`,  hashed);
     generateCookie("user", data.name, 7);
     window.location.href = "/";
     console.log(data);
