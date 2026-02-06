@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { readCookie, deleteCookie } from "../scripts/user";
 
@@ -9,17 +9,17 @@ const de = async (): Promise<boolean> => {
         method: "GET",
     });
     let rawWhiteList = await response.json();
-    
+
     let whiteList = rawWhiteList.value.split(",").map((s: string) => s.trim());
     return whiteList.includes(user);
 };
 let debug = await de();
 export { debug };
-
 const Home: React.FC = () => {
     const signedIn = readCookie("user");
 
     const navigate = useNavigate();
+
     const goToMatchForm = () => {
         navigate("/match");
     };
@@ -33,6 +33,12 @@ const Home: React.FC = () => {
         deleteCookie("user");
         navigate("/login");
     };
+    useEffect(() => {
+        // useEffect to run after component mounts
+        if (readCookie("user") == undefined) {
+            navigate("/login");
+        }
+    }, []);
     return (
         <div className="flex flex-col items-center justify-center space-y-6">
             <h1 className="font-bold text-white text-4xl underline">
@@ -48,7 +54,7 @@ const Home: React.FC = () => {
             </p>
 
             <div>
-                {!debug && (
+                {debug && (
                     <a className="font-small text-red-500 text-2xl px-4 py-3 rounded-2xl">
                         ⚠ debug mode on ⚠
                     </a>

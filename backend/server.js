@@ -17,21 +17,54 @@ const app = express();
 const router = express.Router();
 const PORT = 3000;
 
-const allowedOrigins = [
-    "http://64.251.57.203",
-    "https://3464scouting.vercel.app",
-];
-
 app.use(express.json());
-app.use(cors());
+app.use((req, res, next) => {
+    res.setHeader(
+        "Access-Control-Allow-Origin",
+        "https://3464scouting.vercel.app",
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,PUT,DELETE,OPTIONS",
+    );
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization",
+    );
+
+    // Handle the preflight request
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+    next();
+});
+
+const read = async (req, res) => {
+    const { path } = req.body;
+    try {
+        if (!path) {
+            return res.status(400).send("Missing required fields");
+        }
+        const pathSegments = path.split("/");
+        const docRef = db.doc(pathSegments.join("/"));
+        const snapshot = await docRef.get();
+
+        if (!snapshot.exists) {
+            return res.status(404).send("Document not found");
+        }
+        console.log(snapshot.data());
+        res.json(snapshot.data());
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(`Error: ${error.message}`);
+    }
+};
 
 router.get("/debug", async (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
     res.status(200).json({ value: "Dev,Daniel Senchukov" });
 });
 
 router.post("/write", async (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
     console.log(req.body);
     try {
         const { path, data } = req.body;
@@ -51,27 +84,7 @@ router.post("/write", async (req, res) => {
     }
 });
 
-router.post("/read", async (req, res) => {
-    console.log(req.body);
-    try {
-        const { path } = req.body;
-        if (!path) {
-            return res.status(400).send("Missing required fields");
-        }
-        const pathSegments = path.split("/");
-        const docRef = db.doc(pathSegments.join("/"));
-        const snapshot = await docRef.get();
-
-        if (!snapshot.exists) {
-            return res.status(404).send("Document not found");
-        }
-        console.log(snapshot.data());
-        res.json(snapshot.data());
-    } catch (error) {
-        console.error(error);
-        res.status(500).send(`Error: ${error.message}`);
-    }
-});
+router.post("/read", read)
 
 router.post("/signup", async (req, res) => {
     console.log(req.body);
@@ -122,6 +135,8 @@ router.post("/login", async (req, res) => {
             .auth()
             .createCustomToken(userRecord.uid);
 
+        let user = userRecord.displayName;
+        let hashed = await read(`passwords/${user}`)
         res.json({
             message: "Login successful",
             customToken,

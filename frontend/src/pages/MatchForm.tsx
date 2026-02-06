@@ -26,8 +26,8 @@ const MatchForm: React.FC = () => {
         "setup" | "auto" | "teleop" | "endgame" | "errors"
     >("setup");
 
-     type checkboxDropdownList = Record<string, boolean>;
- 
+    type checkboxDropdownList = Record<string, boolean>;
+
     const [showCheckboxes, setShowCheckboxes] = useState<boolean>(false);
     // this boolean is used to show a message if the data was not sent
     const [sent, setSent] = useState<boolean>(true);
@@ -80,18 +80,17 @@ const MatchForm: React.FC = () => {
 
     // finale  values
 
-    const [robotErrorsCheck, setRobotErrorsCheck] = useState<checkboxDropdownList>(
-        {
-        "Intake issues": false,
-        "Climb Failed": false,
-        "Robot unresponsive": false,
-        "Robot part fell off": false,
-        "Did not participate": false,
-        "Auto stop": false,
-        "Robot could not get off after climb": false,
-        Other: false,
-    }
-    );
+    const [robotErrorsCheck, setRobotErrorsCheck] =
+        useState<checkboxDropdownList>({
+            "Intake issues": false,
+            "Climb Failed": false,
+            "Robot unresponsive": false,
+            "Robot part fell off": false,
+            "Did not participate": false,
+            "Auto stop": false,
+            "Robot could not get off after climb": false,
+            Other: false,
+        });
 
     const [crossedBump, setCrossedBump] = useState(false);
     const [underTrench, setUnderTrench] = useState(false);
@@ -574,11 +573,11 @@ const MatchForm: React.FC = () => {
                         onChange={setUnderTrench}
                     />
 
-                    <CheckboxDropdown 
-                        label = {"Select Robot Errors"}
+                    <CheckboxDropdown
+                        label={"Select Robot Errors"}
                         optionList={robotErrors}
-                        optionCheck = {robotErrorsCheck}
-                        onChange = {setRobotErrorsCheck}
+                        optionCheck={robotErrorsCheck}
+                        onChange={setRobotErrorsCheck}
                     />
 
                     <AutoResizeTextarea
@@ -592,15 +591,16 @@ const MatchForm: React.FC = () => {
                     {!sent ? (
                         <div className="flex flex-col items-center space-y-2 ">
                             <h3 className="font-semibold text-red-800 text-2xl pb-1">
-                                If you are seeing this message, you either have poor
-                                connectivity, or you have encountered an error. If
-                                you encountered an error, a message should have
-                                shown up stating you had an error. If no message
-                                showed up, then you're connectivity is poor. If your
-                                data gets sent, then this page will automatically
-                                close. If you need to fill out another form, you may
-                                press the back button, but remember to submit later
-                                in the "view local storage" page.
+                                If you are seeing this message, you either have
+                                poor connectivity, or you have encountered an
+                                error. If you encountered an error, a message
+                                should have shown up stating you had an error.
+                                If no message showed up, then you're
+                                connectivity is poor. If your data gets sent,
+                                then this page will automatically close. If you
+                                need to fill out another form, you may press the
+                                back button, but remember to submit later in the
+                                "view local storage" page.
                             </h3>
                             <button className={buttonStyle} onClick={goBack}>
                                 Back
@@ -610,11 +610,10 @@ const MatchForm: React.FC = () => {
                         <></>
                     )}
                 </div>
-           </>
-
+            </>
         );
     }
-    
+
     return (
         <div className="overflow-x-auto flex flex-col items-center justify-start space-y-6 pt-12.5">
             <button className={buttonStyle} onClick={goBack}>
