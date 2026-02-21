@@ -9,6 +9,7 @@ import CheckboxDropdown from "../components/CheckboxDropdown";
 import { writeToDb } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
 import { debug } from "./Home";
+import { useTimer } from "../scripts/timer";
 
 const MatchForm: React.FC = () => {
     const navigate = useNavigate();
@@ -104,6 +105,8 @@ const MatchForm: React.FC = () => {
         setShift4HubActive(!shift4HubActive);
     };
 
+    let { seconds, isActive, start, pause, reset } = useTimer(0);
+
     function switchShiftsBetter(buttonPressed: boolean) {
         if (buttonPressed) {
             if (!shift1HubActive) {
@@ -148,6 +151,36 @@ const MatchForm: React.FC = () => {
             }
         }
     }
+    useEffect(() => {
+        // Range 1: The "Early" phase (1 - 10 seconds)
+        if (seconds >= 1 && seconds <= 20) {
+            console.log("Auto start");
+            setSection("auto");
+        } else if (seconds > 23 && seconds <= 33) {
+            console.log("transition");
+            setSection("teleop")
+            setTeleopShift(0)
+        } else if (seconds > 33 && seconds <= 58) {
+            console.log("shift 1");
+            setSection("teleop");
+            setTeleopShift(1);
+        } else if (seconds > 58 && seconds <= 83) {
+            console.log("shift 2");
+            setSection("teleop");
+            setTeleopShift(2);
+        } else if (seconds > 83 && seconds <= 108) {
+            console.log("shift 3");
+            setSection("teleop");
+            setTeleopShift(3);
+        } else if (seconds > 108 && seconds <= 133) {
+            console.log("shift 4");
+            setSection("teleop");
+            setTeleopShift(4);
+        } else if (seconds > 133 && seconds <= 163) {
+            console.log("end");
+            setSection("endgame");
+        }
+    }, [seconds]);
 
     const robotErrors = [
         "Intake issues",
@@ -305,6 +338,12 @@ const MatchForm: React.FC = () => {
                     min={1}
                     max={99999}
                 />
+                <button onClick={start} className={buttonStyle}>start</button>
+                <button
+                    onClick={stop}
+                >
+                    sec
+                </button>
             </>
         );
     } else if (section === "auto") {
@@ -623,40 +662,39 @@ const MatchForm: React.FC = () => {
             <div className="flex flex-col items-center justify-start pt-2.5 w-full">
                 {/* Main Button Container */}
                 <div className="flex flex-row flex-wrap justify-center gap-4 pb-5 max-w-[400px]">
-                        <button
-                            className={tab("setup")}
-                            onClick={() => setSection("setup")}
-                        >
-                            Setup
-                        </button>
-                        <button
-                            className={tab("auto")}
-                            onClick={() => setSection("auto")}
-                        >
-                            Auto
-                        </button>
-                        <button
-                            className={tab("teleop")}
-                            onClick={() => setSection("teleop")}
-                        >
-                            Teleop
-                        </button>
-                    </div>
+                    <button
+                        className={tab("setup")}
+                        onClick={() => setSection("setup")}
+                    >
+                        Setup
+                    </button>
+                    <button
+                        className={tab("auto")}
+                        onClick={() => setSection("auto")}
+                    >
+                        Auto
+                    </button>
+                    <button
+                        className={tab("teleop")}
+                        onClick={() => setSection("teleop")}
+                    >
+                        Teleop
+                    </button>
+                </div>
 
-                    <div className="flex flex-row space-x-4">
-                        <button
-                            className={tab("endgame")}
-                            onClick={() => setSection("endgame")}
-                        >
-                            Endgame
-                        </button>
-                        <button
-                            className={tab("errors")}
-                            onClick={() => setSection("errors")}
-                        >
-                            Finale
-                        </button>
-                    
+                <div className="flex flex-row space-x-4">
+                    <button
+                        className={tab("endgame")}
+                        onClick={() => setSection("endgame")}
+                    >
+                        Endgame
+                    </button>
+                    <button
+                        className={tab("errors")}
+                        onClick={() => setSection("errors")}
+                    >
+                        Finale
+                    </button>
                 </div>
             </div>
             {content}

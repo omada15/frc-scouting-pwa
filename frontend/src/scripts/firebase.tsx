@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { generateCookie } from "./user";
+import { readCookie } from "./user";
 
-const LINK = "https://scout4364i.vercel.app/api";
-//const LINK = "http://localhost:3000/api";
+//const LINK = "https://scout4364i.vercel.app/api";
+const LINK = "http://localhost:3000/api";
 
 async function sha256(message: string) {
     // Encode the message as a Uint8Array (UTF-8 is standard)
@@ -18,6 +19,17 @@ async function sha256(message: string) {
 
     return hashHex;
 }
+
+export async function de() {
+    const user = readCookie("uid");
+    const response = await fetch(`${LINK}/debug`, {
+        method: "GET",
+    });
+    let rawWhiteList = await response.json();
+
+    let whiteList = rawWhiteList.value.split(",").map((s: string) => s.trim());
+    return whiteList.includes(user);
+};
 
 async function writeData(path: string, data: any) {
     // mustard
