@@ -149,7 +149,7 @@ router.post("/login", async (req, res) => {
     } catch (error) {
         console.error("Login Error:", error);
         if (error.code === "auth/user-not-found") {
-            return res.status(401).send("Invalid email or password");
+            return res.status(401).json({message: "Invalid email or password"});
         }
         res.status(500).send(`Error: ${error.message}`);
     }
@@ -177,15 +177,15 @@ router.post("/register", async (req, res) => {
     } catch (error) {
         console.error(error);
         if (error.code === "auth/email-already-exists") {
-            return res.status(400).send("Email already in use");
+            return res.status(400).json({message: "Email already in use"});
         }
         if (error.code === "auth/invalid-email") {
-            return res.status(400).send("Invalid email address");
+            return res.status(400).json({message: "Invalid email address"});
         }
         if (error.code === "auth/weak-password") {
-            return res.status(400).send("Password is too weak");
+            return res.status(400).json({message: "Password is too weak"});
         }
-        res.status(500).send(`Error: ${error.message}`);
+        res.status(500).json({message: `Error: ${error.message}`});
     }
 });
 

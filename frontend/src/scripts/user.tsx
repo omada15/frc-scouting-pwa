@@ -12,7 +12,6 @@ export function generateCookie(
     document.cookie = name + "=" + value + expires + "; path=/";
 }
 export function readCookie(name: any) {
-    // this function assumes the cookie exists
     let nameEQ = name + "=";
     let ca = document.cookie.split(";");
     for (let i = 0; i < ca.length; i++) {
@@ -23,14 +22,7 @@ export function readCookie(name: any) {
     }
 }
 export function deleteCookie(name: any) {
-    // This function assumes the cookie exists
     const expirationDate = new Date(0).toUTCString();
-  
-    
-  // Build the cookie string with the expired date and necessary attributes
-  let cookieString = `${name}=; expires=${expirationDate}`
-  
-  
-  // Set the document.cookie
-  document.cookie = cookieString;
+    let cookieString = `${name}=; expires=${expirationDate}`
+    document.cookie = cookieString;
 }

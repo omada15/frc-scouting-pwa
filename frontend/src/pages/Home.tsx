@@ -23,6 +23,7 @@ const Home: React.FC = () => {
     };
     const signOut = () => {
         deleteCookie("user");
+        deleteCookie("uid");
         navigate("/login");
     };
     useEffect(() => {

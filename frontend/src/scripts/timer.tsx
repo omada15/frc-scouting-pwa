@@ -13,8 +13,6 @@ export const useTimer = (initialSeconds: number = 0) => {
     };
 
     useEffect(() => {
-        // We only check if it is active.
-        // We don't care if seconds > 0 anymore.
         if (isActive) {
             intervalRef.current = setInterval(() => {
                 setSeconds((v) => v + 1); // Incrementing instead of decrementing
@@ -23,11 +21,10 @@ export const useTimer = (initialSeconds: number = 0) => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         }
 
-        // Cleanup on unmount or when isActive changes
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
-    }, [isActive]); // Only depend on isActive now
+    }, [isActive]); 
 
     return { seconds, isActive, start, pause, reset };
 };

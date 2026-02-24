@@ -16,19 +16,18 @@ async function sha256(message: string) {
     const hashHex = hashArray
         .map((b) => ("00" + b.toString(16)).slice(-2))
         .join("");
-
     return hashHex;
 }
 
 export async function de() {
-    const user = readCookie("uid");
+    const uid = readCookie("uid");
     const response = await fetch(`${LINK}/debug`, {
         method: "GET",
     });
     let rawWhiteList = await response.json();
 
     let whiteList = rawWhiteList.value.split(",").map((s: string) => s.trim());
-    return whiteList.includes(user);
+    return whiteList.includes(uid);
 };
 
 async function writeData(path: string, data: any) {
@@ -108,21 +107,30 @@ export async function registerUser(
                 name: name,
             }),
         });
-        if (!response.ok) {
-            alert(`error: ${response.status}`);
-            window.location.href = "/signup"
-        }
+        
         const data = await response.json();
+        if (!response.ok) {
+            switch (data.message) {
+                case "Email already in use":
+                    return alert("Email already in use");
+                case "Invalid email address":
+                    return alert("Invalid email address");
+                case "Password is too weak":
+                    return alert("Password is too weak");
+                default:
+                    alert("Registration failed. Please try again.");
+            }
+        }
         let hashed = await sha256(password);
-        console.log(await hashed);
+        console.log(hashed);
         writeData(`auth/${name}`, { hashed: hashed });
         generateCookie("user", data.name, 7);
+        generateCookie("uid", data.uid, 7);
         
         window.location.href = "/";
         console.log(data);
     } catch (error) {
         console.error("Error registering user:", error);
-        alert("Registration failed. Please try again.");
     }
 }
 
