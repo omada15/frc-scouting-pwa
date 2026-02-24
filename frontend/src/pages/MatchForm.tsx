@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type JSX } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import BinaryChoice from "../components/BinaryChoice";
 import MultiCounterInput from "../components/MultiCounterInput";
@@ -75,7 +75,9 @@ const MatchForm: React.FC = () => {
 
     // Endgame values
     const [endgameFuel, setEndgameFuel] = useState(0);
-    const [endgameClimbLevel, setEndgameClimbLevel] = useState("0");
+    const [endgameClimbLevel, setEndgameClimbLevel] = useState<
+        "Didn't Climb" | "Level 1" | "Level 2" | "Level 3"
+    >("Didn't Climb");
 
     const [notes, setNotes] = useState<string>("");
 
@@ -151,35 +153,50 @@ const MatchForm: React.FC = () => {
             }
         }
     }
+    // 1. Create a ref to track the last phase we handled
+    const lastPhaseRef = useRef<string>("");
+
     useEffect(() => {
-        // Range 1: The "Early" phase (1 - 10 seconds)
+        let currentPhase = "";
+        let currentShift = 0;
+
         if (seconds >= 1 && seconds <= 20) {
-            console.log("Auto start");
-            setSection("auto");
+            currentPhase = "auto";
         } else if (seconds > 23 && seconds <= 33) {
-            console.log("transition");
-            setSection("teleop")
-            setTeleopShift(0)
+            currentPhase = "teleop";
+            currentShift = 0;
         } else if (seconds > 33 && seconds <= 58) {
-            console.log("shift 1");
-            setSection("teleop");
-            setTeleopShift(1);
+            currentPhase = "teleop";
+            currentShift = 1;
         } else if (seconds > 58 && seconds <= 83) {
-            console.log("shift 2");
-            setSection("teleop");
-            setTeleopShift(2);
+            currentPhase = "teleop";
+            currentShift = 2;
         } else if (seconds > 83 && seconds <= 108) {
-            console.log("shift 3");
-            setSection("teleop");
-            setTeleopShift(3);
+            currentPhase = "teleop";
+            currentShift = 3;
         } else if (seconds > 108 && seconds <= 133) {
-            console.log("shift 4");
-            setSection("teleop");
-            setTeleopShift(4);
+            currentPhase = "teleop";
+            currentShift = 4;
         } else if (seconds > 133 && seconds <= 163) {
-            console.log("end");
-            setSection("endgame");
+            currentPhase = "endgame";
         }
+
+        if (currentPhase !== "" && currentPhase !== lastPhaseRef.current) {
+            console.log(`Switching to: ${currentPhase}`);
+
+            if (currentPhase === "auto") {
+                setSection("auto");
+            } else if (currentPhase.startsWith("teleop")) {
+                setSection("teleop");
+                setTeleopShift(currentShift);
+            } else if (currentPhase === "endgame") {
+                setSection("endgame");
+            }
+
+            lastPhaseRef.current = currentPhase;
+        }
+
+        if (seconds === 0) lastPhaseRef.current = "";
     }, [seconds]);
 
     const robotErrors = [
@@ -338,12 +355,10 @@ const MatchForm: React.FC = () => {
                     min={1}
                     max={99999}
                 />
-                <button onClick={start} className={buttonStyle}>start</button>
-                <button
-                    onClick={stop}
-                >
-                    sec
+                <button onClick={start} className={buttonStyle}>
+                    start
                 </button>
+                <button onClick={stop}>sec</button>
             </>
         );
     } else if (section === "auto") {
@@ -700,6 +715,6 @@ const MatchForm: React.FC = () => {
             {content}
         </div>
     );
-};
+};;
 
 export default MatchForm;
