@@ -76,8 +76,8 @@ const MatchForm: React.FC = () => {
     // Endgame values
     const [endgameFuel, setEndgameFuel] = useState(0);
     const [endgameClimbLevel, setEndgameClimbLevel] = useState<
-        "Didn't Climb" | "Level 1" | "Level 2" | "Level 3"
-    >("Didn't Climb");
+        "Didn't climb" | "Level 1" | "Level 2" | "Level 3"
+    >("Didn't climb");
 
     const [notes, setNotes] = useState<string>("");
 
@@ -163,22 +163,24 @@ const MatchForm: React.FC = () => {
         if (seconds >= 1 && seconds <= 20) {
             currentPhase = "auto";
         } else if (seconds > 23 && seconds <= 33) {
-            currentPhase = "teleop";
+            currentPhase = "teleop=0";
             currentShift = 0;
         } else if (seconds > 33 && seconds <= 58) {
-            currentPhase = "teleop";
+            currentPhase = "teleop-1";
             currentShift = 1;
         } else if (seconds > 58 && seconds <= 83) {
-            currentPhase = "teleop";
+            currentPhase = "teleop-2";
             currentShift = 2;
         } else if (seconds > 83 && seconds <= 108) {
-            currentPhase = "teleop";
+            currentPhase = "teleop-3";
             currentShift = 3;
         } else if (seconds > 108 && seconds <= 133) {
-            currentPhase = "teleop";
+            currentPhase = "teleop-4";
             currentShift = 4;
         } else if (seconds > 133 && seconds <= 163) {
             currentPhase = "endgame";
+        } else if (seconds > 163) {
+            reset();
         }
 
         if (currentPhase !== "" && currentPhase !== lastPhaseRef.current) {
@@ -604,7 +606,7 @@ const MatchForm: React.FC = () => {
                     value={endgameClimbLevel}
                     options={["Didn't climb", "Level 1", "Level 2", "Level 3"]}
                     label={"Endgame Climb Level"}
-                    onChange={setEndgameClimbLevel}
+                    onChange={(e) => {setEndgameClimbLevel(e as "Didn't climb" | "Level 1" | "Level 2" | "Level 3")}}
                 />
             </>
         );

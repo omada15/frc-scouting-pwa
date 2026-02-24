@@ -24,22 +24,22 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
 
     return (
         <div className="flex flex-col justify-center items-center">
-            <div className="flex flex-row justify-center items-center h-1/1 space-x-32 pt-6">
+            <div className="flex flex-row justify-center items-center pt-6">
                 <button
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-2xl shadow w-19/100"
+                    className="text-center bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-10 rounded-2xl"
                     onClick={onSubmit}
                 >
                     Submit
                 </button>
 
                 <button
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold w-2/5 py-2 px-6 rounded-2xl shadow w-19/100"
+                    className="text-center bg-red-600 hover:bg-red-700 text-white font-bold w-2/5 ml-15 mr-15 py-2 px-10 rounded-2xl "
                     onClick={onDelete}
                 >
                     Delete
                 </button>
                 <button
-                    className="bg-blue-600 text-white font-bold py-2 px-6 rounded-2xl shadow w-19/100"
+                    className="text-center bg-blue-600 text-white font-bold py-2 px-6 rounded-2xl"
                     onClick={goBack}
                 >
                     Back
@@ -47,10 +47,10 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
             </div>
 
             <div className="w-full flex justify-center items-center">
-                            <div className="w-1/38">
+                <div className="w-1/38">
             </div>
                 <button
-                    className="bg-red-800 text-white font-bold w-5/5 py-2 px-6 rounded-2xl shadow w-37/200"
+                    className="bg-red-800 text-white font-bold w-5/5 mt-5 py-2 px-6 rounded-2xl shadow w-37/200"
                     onClick={clear}
                 >
                     Clear
@@ -135,7 +135,7 @@ const LocalStorageView: React.FC = () => {
             </button>
 
             <h1 className="font-bold text-white text-4xl">
-                LocalStorage Viewer{" "}
+                Stored Data
             </h1>
             <p className="font-bold text-white">
                 scoutData-(teamNumber)-(matchNumber)
@@ -162,7 +162,7 @@ const LocalStorageView: React.FC = () => {
                     onClick={loadItem}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl"
                 >
-                    Load from localStorage
+                    Load
                 </button>
 
                 {show ? (
@@ -178,7 +178,7 @@ const LocalStorageView: React.FC = () => {
                     />
                 ) : null}
                 <p className="text-white">
-                    Make sure the textbox above has a value before submitting or
+                    Make sure the above has a value before submitting or
                     deleting
                 </p>
             </div>
