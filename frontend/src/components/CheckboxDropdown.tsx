@@ -1,7 +1,6 @@
  import React, { useState} from "react";
  
-
-
+                                                                                                                    
 
  interface CheckboxDropdown {
      label?: string; // Label for the choice
@@ -17,17 +16,17 @@
      optionList,
      optionCheck,
      onChange,
- }) => {
+     }) => {
 
-const [showCheckboxes, setShowCheckboxes] = useState<boolean>(false);
+    const [showCheckboxes, setShowCheckboxes] = useState<boolean>(false);
 
+    const [ newList, setNewList ] = useState<Record<string, boolean>>(optionCheck)
 
     const changeList = (option: any) => {
         optionCheck[option] = !optionCheck[option];
-        let newList = optionCheck
+        setNewList(optionCheck);
         onChange(newList);
     };
-
 
      let boxLabel = null;
      if (label != null) {
@@ -39,21 +38,23 @@ const [showCheckboxes, setShowCheckboxes] = useState<boolean>(false);
      return (
          <div className="flex flex-col items-center space-y-2">
              <div
-                onClick={() => setShowCheckboxes((showCheckboxes) => !showCheckboxes,)}
+                onClick={() => {setShowCheckboxes((showCheckboxes) => !showCheckboxes,);}}
                 className="pt-4 cursor-pointer text-white text-l pl-8 pr-8 p-4 flex-col items-start flex justify-center w-60 bg-gray-700 rounded-full focus-within:outline-auto relative"
             >
-                        <div className="relative">{label}</div>
+
+                        <div className="relative">{boxLabel}</div>
                     </div>
                     <div
                         style={{ display: showCheckboxes ? "block" : "none" }}
                         className="bg-gray-700 p-4 border-gray-200"
-                    >
+                    >           
                         {optionList.map((option) => (
                             <>
                                 <label className="text-white ">
                                     <input
                                         type="checkbox"
-                                        onClick={() => changeList(option)}
+                                        onClick={() => {changeList(option);}}
+                                        defaultChecked={newList[option]}
                                     />{" "}
                                     {option}
                                 </label>
