@@ -22,7 +22,9 @@ app.use((req, res, next) => {
     res.setHeader(
         "Access-Control-Allow-Origin",
         "https://3464scouting.vercel.app",
+        //"http://localhost:5173"
     );
+    
     res.setHeader(
         "Access-Control-Allow-Methods",
         "GET,POST,PUT,DELETE,OPTIONS",
@@ -75,7 +77,9 @@ const read = async (req, res) => {
 };
 
 router.get("/debug", async (req, res) => {
-    res.status(200).json({ value: "ShL4NcaaGMNWxbvyIx8he1g5N5E2,cYmYY2NCqScqjgXtjUQTtjreKEg1" });
+    res.status(200).json({
+        value: "2tjqIwBuqNdsptLzSysO8wq0WUB3,ShL4NcaaGMNWxbvyIx8he1g5N5E2",
+    });
 });
 
 router.post("/write", async (req, res) => {
@@ -99,41 +103,6 @@ router.post("/write", async (req, res) => {
 });
 
 router.post("/read", read);
-
-router.post("/signup", async (req, res) => {
-    console.log(req.body);
-    try {
-        const { email, password, name } = req.body;
-
-        if (!email || !password) {
-            return res.status(400).send("Email and password are required");
-        }
-
-        const userRecord = await admin.auth().createUser({
-            email,
-            password,
-        });
-
-        res.status(201).json({
-            message: "User created successfully",
-            uid: userRecord.uid,
-            email: userRecord.email,
-            name: name,
-        });
-    } catch (error) {
-        console.error(error);
-        if (error.code === "auth/email-already-exists") {
-            return res.status(400).send("Email already in use");
-        }
-        if (error.code === "auth/invalid-email") {
-            return res.status(400).send("Invalid email address");
-        }
-        if (error.code === "auth/weak-password") {
-            return res.status(400).send("Password is too weak");
-        }
-        res.status(500).send(`Error: ${error.message}`);
-    }
-});
 
 router.post("/login", async (req, res) => {
     console.log(req.body);
@@ -180,7 +149,7 @@ router.post("/login", async (req, res) => {
     } catch (error) {
         console.error("Login Error:", error);
         if (error.code === "auth/user-not-found") {
-            return res.status(401).send("Invalid email or password");
+            return res.status(401).json({message: "Invalid email or password"});
         }
         res.status(500).send(`Error: ${error.message}`);
     }
@@ -208,15 +177,15 @@ router.post("/register", async (req, res) => {
     } catch (error) {
         console.error(error);
         if (error.code === "auth/email-already-exists") {
-            return res.status(400).send("Email already in use");
+            return res.status(400).json({message: "Email already in use"});
         }
         if (error.code === "auth/invalid-email") {
-            return res.status(400).send("Invalid email address");
+            return res.status(400).json({message: "Invalid email address"});
         }
         if (error.code === "auth/weak-password") {
-            return res.status(400).send("Password is too weak");
+            return res.status(400).json({message: "Password is too weak"});
         }
-        res.status(500).send(`Error: ${error.message}`);
+        res.status(500).json({message: `Error: ${error.message}`});
     }
 });
 

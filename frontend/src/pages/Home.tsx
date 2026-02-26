@@ -1,27 +1,12 @@
 import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { readCookie, deleteCookie } from "../scripts/user";
-
-// Debug mode
-const de = async (): Promise<boolean> => {
-    const user = readCookie("uid");
-    const response = await fetch("https://scout4364i.vercel.app/api/debug", {
-        method: "GET",
-    });
-    let rawWhiteList = await response.json();
-
-    let whiteList = rawWhiteList.value.split(",").map((s: string) => s.trim());
-    return whiteList.includes(user);
-};
-
+import { de } from "../scripts/firebase";
 
 let debug = await de();
 
 export { debug };
-
-
 const signedIn = readCookie("user");
-
 
 const Home: React.FC = () => {
 
@@ -38,6 +23,7 @@ const Home: React.FC = () => {
     };
     const signOut = () => {
         deleteCookie("user");
+        deleteCookie("uid");
         navigate("/login");
     };
     useEffect(() => {

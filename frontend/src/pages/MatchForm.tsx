@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type JSX } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import BinaryChoice from "../components/BinaryChoice";
 import MultiCounterInput from "../components/MultiCounterInput";
@@ -9,6 +9,7 @@ import CheckboxDropdown from "../components/CheckboxDropdown";
 import { writeToDb } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
 import { debug } from "./Home";
+import { useTimer } from "../scripts/timer";
 
 const MatchForm: React.FC = () => {
     const navigate = useNavigate();
@@ -74,7 +75,9 @@ const MatchForm: React.FC = () => {
 
     // Endgame values
     const [endgameFuel, setEndgameFuel] = useState(0);
-    const [endgameClimbLevel, setEndgameClimbLevel] = useState("0");
+    const [endgameClimbLevel, setEndgameClimbLevel] = useState<
+        "Didn't climb" | "Level 1" | "Level 2" | "Level 3"
+    >("Didn't climb");
 
     const [notes, setNotes] = useState<string>("");
 
@@ -103,6 +106,8 @@ const MatchForm: React.FC = () => {
         setShift3HubActive(!shift3HubActive);
         setShift4HubActive(!shift4HubActive);
     };
+
+    let { seconds, isActive, start, pause, reset } = useTimer(0);
 
     function switchShiftsBetter(buttonPressed: boolean) {
         if (buttonPressed) {
@@ -148,6 +153,53 @@ const MatchForm: React.FC = () => {
             }
         }
     }
+    // 1. Create a ref to track the last phase we handled
+    const lastPhaseRef = useRef<string>("");
+
+    useEffect(() => {
+        let currentPhase = "";
+        let currentShift = 0;
+
+        if (seconds >= 1 && seconds <= 20) {
+            currentPhase = "auto";
+        } else if (seconds > 23 && seconds <= 33) {
+            currentPhase = "teleop=0";
+            currentShift = 0;
+        } else if (seconds > 33 && seconds <= 58) {
+            currentPhase = "teleop-1";
+            currentShift = 1;
+        } else if (seconds > 58 && seconds <= 83) {
+            currentPhase = "teleop-2";
+            currentShift = 2;
+        } else if (seconds > 83 && seconds <= 108) {
+            currentPhase = "teleop-3";
+            currentShift = 3;
+        } else if (seconds > 108 && seconds <= 133) {
+            currentPhase = "teleop-4";
+            currentShift = 4;
+        } else if (seconds > 133 && seconds <= 163) {
+            currentPhase = "endgame";
+        } else if (seconds > 163) {
+            reset();
+        }
+
+        if (currentPhase !== "" && currentPhase !== lastPhaseRef.current) {
+            console.log(`Switching to: ${currentPhase}`);
+
+            if (currentPhase === "auto") {
+                setSection("auto");
+            } else if (currentPhase.startsWith("teleop")) {
+                setSection("teleop");
+                setTeleopShift(currentShift);
+            } else if (currentPhase === "endgame") {
+                setSection("endgame");
+            }
+
+            lastPhaseRef.current = currentPhase;
+        }
+
+        if (seconds === 0) lastPhaseRef.current = "";
+    }, [seconds]);
 
     const robotErrors = [
         "Intake issues",
@@ -305,6 +357,10 @@ const MatchForm: React.FC = () => {
                     min={1}
                     max={99999}
                 />
+                <button onClick={start} className={buttonStyle}>
+                    start
+                </button>
+                <button onClick={stop}>sec</button>
             </>
         );
     } else if (section === "auto") {
@@ -550,7 +606,7 @@ const MatchForm: React.FC = () => {
                     value={endgameClimbLevel}
                     options={["Didn't climb", "Level 1", "Level 2", "Level 3"]}
                     label={"Endgame Climb Level"}
-                    onChange={setEndgameClimbLevel}
+                    onChange={(e) => {setEndgameClimbLevel(e as "Didn't climb" | "Level 1" | "Level 2" | "Level 3")}}
                 />
             </>
         );
@@ -623,45 +679,44 @@ const MatchForm: React.FC = () => {
             <div className="flex flex-col items-center justify-start pt-2.5 w-full">
                 {/* Main Button Container */}
                 <div className="flex flex-row flex-wrap justify-center gap-4 pb-5 max-w-[400px]">
-                        <button
-                            className={tab("setup")}
-                            onClick={() => setSection("setup")}
-                        >
-                            Setup
-                        </button>
-                        <button
-                            className={tab("auto")}
-                            onClick={() => setSection("auto")}
-                        >
-                            Auto
-                        </button>
-                        <button
-                            className={tab("teleop")}
-                            onClick={() => setSection("teleop")}
-                        >
-                            Teleop
-                        </button>
-                    </div>
+                    <button
+                        className={tab("setup")}
+                        onClick={() => setSection("setup")}
+                    >
+                        Setup
+                    </button>
+                    <button
+                        className={tab("auto")}
+                        onClick={() => setSection("auto")}
+                    >
+                        Auto
+                    </button>
+                    <button
+                        className={tab("teleop")}
+                        onClick={() => setSection("teleop")}
+                    >
+                        Teleop
+                    </button>
+                </div>
 
-                    <div className="flex flex-row space-x-4">
-                        <button
-                            className={tab("endgame")}
-                            onClick={() => setSection("endgame")}
-                        >
-                            Endgame
-                        </button>
-                        <button
-                            className={tab("errors")}
-                            onClick={() => setSection("errors")}
-                        >
-                            Finale
-                        </button>
-                    
+                <div className="flex flex-row space-x-4">
+                    <button
+                        className={tab("endgame")}
+                        onClick={() => setSection("endgame")}
+                    >
+                        Endgame
+                    </button>
+                    <button
+                        className={tab("errors")}
+                        onClick={() => setSection("errors")}
+                    >
+                        Finale
+                    </button>
                 </div>
             </div>
             {content}
         </div>
     );
-};
+};;
 
 export default MatchForm;
