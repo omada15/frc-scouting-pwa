@@ -49,7 +49,7 @@
                         className="bg-gray-700 p-4 border-gray-200"
                     >           
                         {optionList.map((option) => (
-                            <>
+                            <div className="flex flex-fill">
                                 <label className="text-white ">
                                     <input
                                         type="checkbox"
@@ -59,7 +59,7 @@
                                     {option}
                                 </label>
                                 <br></br>
-                            </>
+                            </div>
                         ))}
                     </div>
                 </div>
