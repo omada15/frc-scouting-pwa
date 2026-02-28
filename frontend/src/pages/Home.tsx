@@ -82,7 +82,7 @@ const Home: React.FC = () => {
                 </button>
             )}
             <div>
-                <BinaryChoice options={["yes", "no"]} value={advanced} onChange={(e) => {setAdvanced(e); generateCookie("dih", `${e}`, 7)}} />
+                <BinaryChoice label={"Anti Stupidity?"}options={["yes", "no"]} value={advanced} onChange={(e) => {setAdvanced(e); generateCookie("dih", `${e}`, 7)}} />
             </div>
         </div>
     );
