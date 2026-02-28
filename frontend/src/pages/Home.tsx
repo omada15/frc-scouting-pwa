@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { readCookie, deleteCookie, generateCookie } from "../scripts/user";
 import { de } from "../scripts/firebase";
@@ -10,7 +10,7 @@ export { debug };
 const signedIn = readCookie("user");
 
 const Home: React.FC = () => {
-
+    const [advanced, setAdvanced] = useState<boolean>(readCookie("dih")=="true")
     const navigate = useNavigate();
 
     const goToMatchForm = () => {
@@ -82,7 +82,7 @@ const Home: React.FC = () => {
                 </button>
             )}
             <div>
-                <BinaryChoice options={["yes", "no"]} onChange={(e) => {generateCookie("dih", `${e}`, 7)}} />
+                <BinaryChoice options={["yes", "no"]} value={advanced} onChange={(e) => {setAdvanced(e); generateCookie("dih", `${e}`, 7)}} />
             </div>
         </div>
     );
