@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import { readCookie, deleteCookie } from "../scripts/user";
+import { readCookie, deleteCookie, generateCookie } from "../scripts/user";
 import { de } from "../scripts/firebase";
+import BinaryChoice from "../components/BinaryChoice";
 
 let debug = await de();
 
@@ -80,6 +81,9 @@ const Home: React.FC = () => {
                     Sign out
                 </button>
             )}
+            <div>
+                <BinaryChoice options={["yes", "no"]} onChange={(e) => {generateCookie("dih", `${e}`, 7)}} />
+            </div>
         </div>
     );
 };

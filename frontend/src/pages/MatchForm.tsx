@@ -110,7 +110,7 @@ const MatchForm: React.FC = () => {
 
     const goBack = () => {
         if (seconds > 1) {
-            if (advanced) {
+            if (readCookie("dih")=="true") {
                 let inp = prompt("enter your username to continue");
                 if (inp == readCookie("user")) {
                     navigate("/");
@@ -121,6 +121,8 @@ const MatchForm: React.FC = () => {
                     navigate("/");
                 }
             }
+        } else {
+            navigate("/")
         }
     };
 
