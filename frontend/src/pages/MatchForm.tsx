@@ -377,7 +377,6 @@ const MatchForm: React.FC = () => {
                 <button onClick={start} className={buttonStyle}>
                     start
                 </button>
-                <button onClick={stop}>sec</button>
             </>
         );
     } else if (section === "auto") {
