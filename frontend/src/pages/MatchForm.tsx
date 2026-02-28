@@ -13,9 +13,8 @@ import { useTimer } from "../scripts/timer";
 
 const MatchForm: React.FC = () => {
     const navigate = useNavigate();
-    const goBack = () => {
-        navigate("/");
-    };
+    
+    let advanced = true;
 
     useEffect(() => {
         // useEffect to run after component mounts
@@ -108,6 +107,22 @@ const MatchForm: React.FC = () => {
     };
 
     let { seconds, isActive, start, pause, reset } = useTimer(0);
+
+    const goBack = () => {
+        if (seconds > 1) {
+            if (advanced) {
+                let inp = prompt("enter your username to continue");
+                if (inp == readCookie("user")) {
+                    navigate("/");
+                }
+            } else {
+                let inp = prompt("Are you sure? [ok]");
+                if (inp == "ok") {
+                    navigate("/");
+                }
+            }
+        }
+    };
 
     function switchShiftsBetter(buttonPressed: boolean) {
         if (buttonPressed) {
