@@ -234,7 +234,7 @@ const MatchForm: React.FC = () => {
     async function submitData() {
         //make sure certain fields are filled out
         let check: boolean =
-            eventName !== "" && teamNumber !== null && matchNumber !== null;
+            eventName !== "" && teamNumber !== 0 && matchNumber !== 0;
 
         const data = {
             scoutingTeam: scoutingTeam,
@@ -339,24 +339,16 @@ const MatchForm: React.FC = () => {
             <>
                 <Dropdown
                     label="Event"
-                    placeholder={"Select event"}
+                    placeholder={"Select event (REQUIRED)"}
                     value={eventName}
                     onChange={setEventName}
                     options={events}
                 />
                 <IntegerInput
-                    value={scoutingTeam}
-                    onChange={setScoutingTeam}
-                    label={"Your team number"}
-                    placeholder="e.g. 3464"
-                    min={1}
-                    max={99999}
-                />
-                <IntegerInput
                     value={matchNumber}
                     onChange={setMatchNumber}
                     label={"Match Number"}
-                    placeholder="e.g. 42"
+                    placeholder="REQUIRED"
                     min={1}
                     max={99999}
                 />
@@ -364,7 +356,7 @@ const MatchForm: React.FC = () => {
                     value={teamNumber}
                     onChange={setTeamNumber}
                     label={"Team Number"}
-                    placeholder="e.g. 3464"
+                    placeholder="REQUIRED"
                     min={1}
                     max={99999}
                 />
