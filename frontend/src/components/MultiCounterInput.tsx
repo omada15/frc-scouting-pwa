@@ -78,10 +78,10 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
                 {/* Decrement Group */}
                 <div className="flex gap-2 lg:gap-2">
                     <button
-                        onClick={decten}
+                        onClick={decrement}
                         className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
                     >
-                        -10
+                        -1
                     </button>
                     <button
                         onClick={decfive}
@@ -90,10 +90,10 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
                         -5
                     </button>
                     <button
-                        onClick={decrement}
+                        onClick={decten}
                         className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
                     >
-                        -1
+                        -10
                     </button>
                 </div>
 
@@ -113,7 +113,7 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
                 <div className="flex gap-2 lg:gap-2">
                     <button
                         onClick={increment}
-                        className="bg-sky-600 text-white font-bold rounded-full h-12 w-12 hover:bg-sky-700 transition-all active:scale-95"
+                        className="bg-sky-600 text-white font-bold rounded-full h-20 w-20 hover:bg-sky-700 transition-all active:scale-95"
                     >
                         +1
                     </button>

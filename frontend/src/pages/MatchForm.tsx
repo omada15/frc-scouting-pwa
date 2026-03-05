@@ -118,8 +118,8 @@ const MatchForm: React.FC = () => {
                     navigate("/");
                 }
             } else {
-                let inp = prompt("Are you sure? [ok]");
-                if (inp == "ok") {
+                let inp = prompt("Are you sure? type ok");
+                if (inp == "ok" || inp == "Ok") {
                     navigate("/");
                 }
             }
