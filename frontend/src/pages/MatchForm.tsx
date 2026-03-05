@@ -94,6 +94,8 @@ const MatchForm: React.FC = () => {
             Other: false,
         });
 
+    const [multiShooter, setMultiShooter] = useState(false);
+    const [sstatic, setStatic] = useState(false);
     const [crossedBump, setCrossedBump] = useState(false);
     const [underTrench, setUnderTrench] = useState(false);
 
@@ -180,7 +182,7 @@ const MatchForm: React.FC = () => {
         if (seconds >= 1 && seconds <= 20) {
             currentPhase = "auto";
         } else if (seconds > 23 && seconds <= 33) {
-            currentPhase = "teleop=0";
+            currentPhase = "teleop-0";
             currentShift = 0;
         } else if (seconds > 33 && seconds <= 58) {
             currentPhase = "teleop-1";
@@ -229,17 +231,6 @@ const MatchForm: React.FC = () => {
         "Other",
     ];
 
-    let samjohn: Record<string, boolean> = {
-        "Intake issues": false,
-        "Climb Failed": false,
-        "Robot unresponsive": false,
-        "Robot part fell off": false,
-        "Did not participate": false,
-        "Auto stop": false,
-        "Robot could not get off after climb": false,
-        Other: false,
-    };
-
     async function submitData() {
         //make sure certain fields are filled out
         let check: boolean =
@@ -286,10 +277,13 @@ const MatchForm: React.FC = () => {
             endgameFuel: endgameFuel,
             endgameClimbLevel: endgameClimbLevel,
 
+            static: sstatic,
+            multiShooter: multiShooter,
             crossedBump: crossedBump,
             underTrench: underTrench,
             notes: notes,
             robotError: robotErrorsCheck,
+            failure: Object.values(robotErrorsCheck).some(value => value === true)
         };
 
         console.log(data);
@@ -630,6 +624,18 @@ const MatchForm: React.FC = () => {
         content = (
             <>
                 <div className="flex flex-col items-center space-y-2">
+                    <BinaryChoice
+                        label={"Shooters turn?"}
+                        options={["yes", "no"]}
+                        value={sstatic}
+                        onChange={setStatic}
+                    />
+                    <BinaryChoice
+                        label={"Multiple Shooters?"}
+                        options={["yes", "no"]}
+                        value={multiShooter}
+                        onChange={setMultiShooter}
+                    />
                     <BinaryChoice
                         label={"Over Bump?"}
                         options={["yes", "no"]}
