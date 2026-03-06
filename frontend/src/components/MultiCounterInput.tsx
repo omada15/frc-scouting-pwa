@@ -113,7 +113,7 @@ const MultiCounterInput: React.FC<MultiCounterInputProps> = ({
                 <div className="flex gap-2 lg:gap-2">
                     <button
                         onClick={increment}
-                        className="bg-sky-600 text-white font-bold rounded-full h-20 w-20 hover:bg-sky-700 transition-all active:scale-95"
+                        className="bg-sky-600 text-white font-bold rounded-full h-30 w-30 hover:bg-sky-700 transition-all active:scale-95"
                     >
                         +1
                     </button>
