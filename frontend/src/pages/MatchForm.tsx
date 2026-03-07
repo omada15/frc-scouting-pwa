@@ -21,7 +21,21 @@ const MatchForm: React.FC = () => {
         if (readCookie("user") == undefined) {
             navigate("/login");
         }
+
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        }
+
     }, []); // empty dependency array so only runs once
+
+
     const [section, setSection] = useState<
         "setup" | "auto" | "teleop" | "endgame" | "errors"
     >("setup");
@@ -82,14 +96,31 @@ const MatchForm: React.FC = () => {
 
     // finale  values
 
+    const robotErrors = [
+        "Intake issues",
+        "Shooter issues",
+        "Stuck on Fuel",
+        "Climb Failed",
+        "Robot unresponsive",
+        "Part broke off",
+        "Did not participate",
+        "Auto stop",
+        "E-stop",
+        "Robot could not get off after climb",
+        "Other",
+    ];
+
     const [robotErrorsCheck, setRobotErrorsCheck] =
         useState<checkboxDropdownList>({
             "Intake issues": false,
+            "Shooter issues": false,
+            "Stuck on fuel": false,
             "Climb Failed": false,
             "Robot unresponsive": false,
-            "Robot part fell off": false,
+            "Part broke off": false,
             "Did not participate": false,
             "Auto stop": false,
+            "E-stop": false,
             "Robot could not get off after climb": false,
             Other: false,
         });
@@ -216,31 +247,7 @@ const MatchForm: React.FC = () => {
         }
 
         if (seconds === 0) lastPhaseRef.current = "";
-    }, [seconds]);
-
-    const robotErrors = [
-        "Intake issues",
-        "Shooter issues",
-        "Climb Failed",
-        "Robot unresponsive",
-        "Robot part fell off",
-        "Did not participate",
-        "Auto stop",
-        "Robot could not get off after climb",
-        "Other",
-    ];
-
-    let samjohn: Record<string, boolean> = {
-        "Intake issues": false,
-        "Shooter issues": false,
-        "Climb Failed": false,
-        "Robot unresponsive": false,
-        "Robot part fell off": false,
-        "Did not participate": false,
-        "Auto stop": false,
-        "Robot could not get off after climb": false,
-        Other: false,
-    };
+    }, [seconds]);  
 
     async function submitData() {
         //make sure certain fields are filled out
@@ -417,6 +424,14 @@ const MatchForm: React.FC = () => {
                         onChange={setTransitionFuel}
                         label={"Transition Fuel"}
                     />
+
+                    <BinaryChoice
+                        label={"Collected from Neutral"}
+                        options={["yes", "no"]}
+                        value={transitionCollected}
+                        onChange={setTransitionCollected}
+                    />
+
                     <p className="font-bold text-white text-l pb-1">
                         If the robot failed to lower from climb, state that in
                         the errors tab
