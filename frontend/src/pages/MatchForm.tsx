@@ -277,7 +277,7 @@ const MatchForm: React.FC = () => {
             endgameFuel: endgameFuel,
             endgameClimbLevel: endgameClimbLevel,
 
-            static: sstatic,
+            static: !sstatic,
             multiShooter: multiShooter,
             crossedBump: crossedBump,
             underTrench: underTrench,
