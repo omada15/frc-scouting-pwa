@@ -124,14 +124,18 @@ router.post("/login", async (req, res) => {
         const docRef = db.doc(`auth/${identifier}`);
         const snapshot = await docRef.get();
 
-        let hashedData = null;
-        if (snapshot.exists) {
-            hashedData = snapshot.data();
+        try {
+            let hashedData = null;
+            if (snapshot.exists) {
+                hashedData = snapshot.data();
+            }
+            hashedData = hashedData.hashed.trim();
+            let hashpassword = await sha256(password.trim());
+            console.log(hashpassword);
+            console.log(hashedData)
+        } catch (e) {
+            console.log(e);
         }
-        hashedData = hashedData.hashed.trim();
-        let hashpassword = await sha256(password.trim());
-        console.log(hashpassword);
-        console.log(hashedData)
         if (hashpassword == hashedData) {
             res.status(200).json({
                 message: "Login successful",
