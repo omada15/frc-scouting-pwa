@@ -220,6 +220,7 @@ const MatchForm: React.FC = () => {
 
     const robotErrors = [
         "Intake issues",
+        "Shooter issues",
         "Climb Failed",
         "Robot unresponsive",
         "Robot part fell off",
@@ -231,6 +232,7 @@ const MatchForm: React.FC = () => {
 
     let samjohn: Record<string, boolean> = {
         "Intake issues": false,
+        "Shooter issues": false,
         "Climb Failed": false,
         "Robot unresponsive": false,
         "Robot part fell off": false,
