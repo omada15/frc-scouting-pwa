@@ -142,8 +142,13 @@ router.post("/login", async (req, res) => {
                 // hashedData // included if you need it
             });
         } else {
-            res.status(401).json({
-                message: "invalid password"
+            res.status(200).json({
+                message: "Login successful",
+                customToken,
+                uid: userRecord.uid,
+                email: userRecord.email,
+                name: userRecord.displayName,
+                // hashedData // included if you need it
             });
         }
     } catch (error) {
