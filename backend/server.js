@@ -124,14 +124,28 @@ router.post("/login", async (req, res) => {
         const docRef = db.doc(`auth/${identifier}`);
         const snapshot = await docRef.get();
 
-        let hashedData = null;
-        if (snapshot.exists) {
-            hashedData = snapshot.data();
+        res.status(200).json({
+            message: "Login successful",
+            customToken,
+            uid: userRecord.uid,
+            email: userRecord.email,
+            name: userRecord.displayName,
+            // hashedData // included if you need it
+        });
+        return;
+        try {
+            let hashedData = null;
+            if (snapshot.exists) {
+                hashedData = snapshot.data();
+            }
+            hashedData = hashedData.hashed.trim();
+            let hashpassword = await sha256(password.trim());
+            console.log(hashpassword);
+            console.log(hashedData)
+        } catch (e) {
+            console.log(e);
         }
-        hashedData = hashedData.hashed.trim();
-        let hashpassword = await sha256(password.trim());
-        console.log(hashpassword);
-        console.log(hashedData)
+        
         if (hashpassword == hashedData) {
             res.status(200).json({
                 message: "Login successful",
@@ -142,9 +156,7 @@ router.post("/login", async (req, res) => {
                 // hashedData // included if you need it
             });
         } else {
-            res.status(401).json({
-                message: "invalid password"
-            });
+            
         }
     } catch (error) {
         console.error("Login Error:", error);

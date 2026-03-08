@@ -110,6 +110,7 @@ const LocalStorageView: React.FC = () => {
             `${json.teamNumber?.toString()}/${json.matchNumber?.toString()}`,
             json,
         );
+        window.location.href="/";
     };
 
     const seed = () => {

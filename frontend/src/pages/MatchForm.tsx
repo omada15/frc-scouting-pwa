@@ -125,6 +125,8 @@ const MatchForm: React.FC = () => {
             Other: false,
         });
 
+    const [multiShooter, setMultiShooter] = useState(false);
+    const [sstatic, setStatic] = useState(false);
     const [crossedBump, setCrossedBump] = useState(false);
     const [underTrench, setUnderTrench] = useState(false);
 
@@ -147,8 +149,8 @@ const MatchForm: React.FC = () => {
                     navigate("/");
                 }
             } else {
-                let inp = prompt("Are you sure? [ok]");
-                if (inp == "ok") {
+                let inp = prompt("Are you sure? type ok");
+                if (inp == "ok" || inp == "Ok") {
                     navigate("/");
                 }
             }
@@ -211,7 +213,7 @@ const MatchForm: React.FC = () => {
         if (seconds >= 1 && seconds <= 20) {
             currentPhase = "auto";
         } else if (seconds > 23 && seconds <= 33) {
-            currentPhase = "teleop=0";
+            currentPhase = "teleop-0";
             currentShift = 0;
         } else if (seconds > 33 && seconds <= 58) {
             currentPhase = "teleop-1";
@@ -252,7 +254,7 @@ const MatchForm: React.FC = () => {
     async function submitData() {
         //make sure certain fields are filled out
         let check: boolean =
-            eventName !== "" && teamNumber !== null && matchNumber !== null;
+            eventName !== "" && teamNumber !== 0 && matchNumber !== 0;
 
         const data = {
             scoutingTeam: scoutingTeam,
@@ -295,10 +297,13 @@ const MatchForm: React.FC = () => {
             endgameFuel: endgameFuel,
             endgameClimbLevel: endgameClimbLevel,
 
+            static: !sstatic,
+            multiShooter: multiShooter,
             crossedBump: crossedBump,
             underTrench: underTrench,
             notes: notes,
             robotError: robotErrorsCheck,
+            failure: Object.values(robotErrorsCheck).some(value => value === true)
         };
 
         console.log(data);
@@ -354,24 +359,16 @@ const MatchForm: React.FC = () => {
             <>
                 <Dropdown
                     label="Event"
-                    placeholder={"Select event"}
+                    placeholder={"Select event (REQUIRED)"}
                     value={eventName}
                     onChange={setEventName}
                     options={events}
                 />
                 <IntegerInput
-                    value={scoutingTeam}
-                    onChange={setScoutingTeam}
-                    label={"Your team number"}
-                    placeholder="e.g. 3464"
-                    min={1}
-                    max={99999}
-                />
-                <IntegerInput
                     value={matchNumber}
                     onChange={setMatchNumber}
                     label={"Match Number"}
-                    placeholder="e.g. 42"
+                    placeholder="REQUIRED"
                     min={1}
                     max={99999}
                 />
@@ -379,7 +376,7 @@ const MatchForm: React.FC = () => {
                     value={teamNumber}
                     onChange={setTeamNumber}
                     label={"Team Number"}
-                    placeholder="e.g. 3464"
+                    placeholder="REQUIRED"
                     min={1}
                     max={99999}
                 />
@@ -647,6 +644,18 @@ const MatchForm: React.FC = () => {
         content = (
             <>
                 <div className="flex flex-col items-center space-y-2">
+                    <BinaryChoice
+                        label={"Shooters turn?"}
+                        options={["yes", "no"]}
+                        value={sstatic}
+                        onChange={setStatic}
+                    />
+                    <BinaryChoice
+                        label={"Multiple Shooters?"}
+                        options={["yes", "no"]}
+                        value={multiShooter}
+                        onChange={setMultiShooter}
+                    />
                     <BinaryChoice
                         label={"Over Bump?"}
                         options={["yes", "no"]}
