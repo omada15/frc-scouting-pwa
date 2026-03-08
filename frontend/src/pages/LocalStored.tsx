@@ -103,13 +103,14 @@ const LocalStorageView: React.FC = () => {
         }
     }
 
-    const submitItem = () => {
+    const submitItem = async () => {
         if (!selectedKey) return;
         let json = JSON.parse(value);
-        writeToDb(
+        await writeToDb(
             `${json.teamNumber?.toString()}/${json.matchNumber?.toString()}`,
             json,
         );
+
         window.location.href="/";
     };
 
