@@ -2,7 +2,8 @@ import { initializeApp } from "firebase/app";
 import { generateCookie } from "./user";
 import { readCookie } from "./user";
 
-const LINK = "https://scout4364i.vercel.app/api";
+
+const LINK = (window.location.href == "http://localhost:5173/") ? "http://localhost:3000/api": "https://scout4364i.vercel.app/api";
 //const LINK = "http://localhost:3000/api";
 
 async function sha256(message: string) {

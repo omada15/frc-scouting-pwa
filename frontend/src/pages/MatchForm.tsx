@@ -402,7 +402,7 @@ const MatchForm: React.FC = () => {
                     onChange={setAutoClimbed}
                 />
                 <BinaryChoice
-                    label={"Hoarded Fuel?"}
+                    label={"fuel -> Alliance zone"}
                     options={["yes", "no"]}
                     onChange={setautoHoardedFuel}
                     value={autoHoardedFuel}
@@ -464,7 +464,7 @@ const MatchForm: React.FC = () => {
                         value={shift1Defense}
                     />
                     <BinaryChoice
-                        label={"Hoarded Fuel?"}
+                        label={"fuel -> Alliance zone"}
                         options={["yes", "no"]}
                         onChange={setShift1HoardedFuel}
                         value={shift1HoardedFuel}
@@ -500,7 +500,7 @@ const MatchForm: React.FC = () => {
                         value={shift2Defense}
                     />
                     <BinaryChoice
-                        label={"Hoarded Fuel?"}
+                        label={"fuel -> Alliance zone"}
                         options={["yes", "no"]}
                         onChange={setShift2HoardedFuel}
                         value={shift2HoardedFuel}
@@ -536,7 +536,7 @@ const MatchForm: React.FC = () => {
                         value={shift3Defense}
                     />
                     <BinaryChoice
-                        label={"Hoarded Fuel?"}
+                        label={"fuel -> Alliance zone"}
                         options={["yes", "no"]}
                         onChange={setShift3HoardedFuel}
                         value={shift3HoardedFuel}
@@ -572,7 +572,7 @@ const MatchForm: React.FC = () => {
                         value={shift4Defense}
                     />
                     <BinaryChoice
-                        label={"Hoarded Fuel?"}
+                        label={"fuel -> Alliance zone"}
                         options={["yes", "no"]}
                         onChange={setShift4HoardedFuel}
                         value={shift4HoardedFuel}

@@ -19,12 +19,17 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use((req, res, next) => {
-    res.setHeader(
-        "Access-Control-Allow-Origin",
-        "https://3464scouting.vercel.app",
-        //"http://localhost:5173"
-    );
-    
+    if (process.env.VERCEL == "Yes") {
+        res.setHeader(
+            "Access-Control-Allow-Origin",
+            "https://3464scouting.vercel.app",
+        );
+    } else {
+        res.setHeader(
+            "Access-Control-Allow-Origin",
+            "http://localhost:5173",
+        );
+    }
     res.setHeader(
         "Access-Control-Allow-Methods",
         "GET,POST,PUT,DELETE,OPTIONS",
@@ -204,5 +209,5 @@ router.post("/register", async (req, res) => {
 app.use("/api", router); // floyd
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`currently running on ${PORT}`);
 });
