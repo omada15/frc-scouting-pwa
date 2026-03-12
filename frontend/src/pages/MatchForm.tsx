@@ -27,7 +27,9 @@ const MatchForm: React.FC = () => {
             e.returnValue = '';
         }
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
+        if (seconds > 0 || readCookie("dih")){
+            window.addEventListener('beforeunload', handleBeforeUnload);
+        }
 
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
