@@ -27,13 +27,14 @@ const MatchForm: React.FC = () => {
             e.returnValue = '';
         }
 
-        if (seconds > 0 || readCookie("dih")){
+        if (seconds > 1 || readCookie("dih")){
             window.addEventListener('beforeunload', handleBeforeUnload);
-        }
 
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
+            return () => {
+                window.removeEventListener('beforeunload', handleBeforeUnload);
+            }
         }
+ 
 
     }, []); // empty dependency array so only runs once
 
