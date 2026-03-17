@@ -15,8 +15,6 @@ import { log } from "../scripts/log";
 const MatchForm: React.FC = () => {
     log(`User ${readCookie("user")} on matchform`);
 
-    
-
     const navigate = useNavigate();
 
     let advanced = true;
@@ -32,8 +30,9 @@ const MatchForm: React.FC = () => {
             e.returnValue = "";
         };
 
-        window.addEventListener("beforeunload", handleBeforeUnload);
-
+        if (seconds > 1 || readCookie("dih")) {
+            window.addEventListener("beforeunload", handleBeforeUnload);
+        }
         return () => {
             window.removeEventListener("beforeunload", handleBeforeUnload);
         };
