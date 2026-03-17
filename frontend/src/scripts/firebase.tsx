@@ -1,18 +1,16 @@
-import { initializeApp } from "firebase/app";
 import { generateCookie } from "./user";
 import { readCookie } from "./user";
+import { log } from "./log";
 
-
-const LINK = (window.location.href == "http://localhost:5173/") ? "http://localhost:3000/api": "https://scout4364i.vercel.app/api";
-//const LINK = "http://localhost:3000/api";
+const LINK = window.location.href.includes("http://localhost:5173/")
+    ? "http://localhost:3000/api"
+    : "https://scout4364i.vercel.app/api";
 
 async function sha256(message: string) {
-    // Encode the message as a Uint8Array (UTF-8 is standard)
     const msgBuffer = new TextEncoder().encode(message);
 
     const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
 
-    // Convert the ArrayBuffer to a hexadecimal string
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray
         .map((b) => ("00" + b.toString(16)).slice(-2))
@@ -29,10 +27,9 @@ export async function de() {
 
     let whiteList = rawWhiteList.value.split(",").map((s: string) => s.trim());
     return whiteList.includes(uid);
-};
+}
 
 async function writeData(path: string, data: any) {
-    // mustard
     try {
         let body = {
             path: path,
@@ -46,7 +43,8 @@ async function writeData(path: string, data: any) {
             body: JSON.stringify(body),
         });
         if (!response.ok) {
-            throw new Error(`Server error: ${response.status}`);
+            console.log(`Server error: ${response.status}`);
+            return false;
         }
         return true;
     } catch (err) {
@@ -57,15 +55,20 @@ async function writeData(path: string, data: any) {
         return false;
     }
 }
-export async function writeToDb(path: string, data: any) {
-    console.log(path);
-    let p = await readDoc("/datas/data");
-    p = p.team;
-    if (p && !p.includes(data.teamNumber)) {
-        p.push(data.teamNumber);
-        await writeData("datas/data", {
-            team: p,
-        });
+export async function writeToDb(path: string, data: any, pit: boolean = false) {
+    log(
+        `submit data to team ${data.teamNumber} at match num ${data.matchNumber} from ${readCookie("user")}`,
+    );
+    if (!pit) {
+        let p = await readDoc("/datas/data");
+        p = p.team;
+        if (p && !p.includes(data.teamNumber)) {
+            log(`Add team ${data.teamnumber}`);
+            p.push(data.teamNumber);
+            await writeData("datas/data", {
+                team: p,
+            });
+        }
     }
     return await writeData(path, data);
 }
@@ -108,12 +111,14 @@ export async function registerUser(
                 name: name,
             }),
         });
-        
+
         const data = await response.json();
         if (!response.ok) {
+            log(`Register Error ${data.message}`);
             switch (data.message) {
                 case "Email already in use":
                     return alert("Email already in use");
+
                 case "Invalid email address":
                     return alert("Invalid email address");
                 case "Password is too weak":
@@ -127,10 +132,11 @@ export async function registerUser(
         writeData(`auth/${name}`, { hashed: hashed });
         generateCookie("user", data.name, 7);
         generateCookie("uid", data.uid, 7);
-        
+
         window.location.href = "/";
-        console.log(data);
+        log(`Success with ${name} and ${password}`);
     } catch (error) {
+        log(`Fail log in with ${error}`);
         console.error("Error registering user:", error);
     }
 }
@@ -147,22 +153,40 @@ export async function loginUser(email: string, password: string) {
                 password: password,
             }),
         });
+
         let res = response.status;
+        let data = await response.json();
         if (res == 200) {
-            let data = await response.json();
             generateCookie("user", data.name, 7);
             generateCookie("uid", data.uid, 7);
             window.location.href = "/";
-            console.log(data);
         } else {
             if (res == 401) {
+                log(`invalid email password ${email}`);
                 alert("Password or email invalid");
             } else {
+                log(`error login with data ${data}`);
                 alert("not good");
                 window.location.href = "/login";
             }
         }
     } catch (err) {
-        console.error(err);
+        log(`login failure with ${email}`);
     }
+}
+export async function wsSend(message: string) {
+    let ws = new WebSocket("ws://localhost:3000");
+    ws.onopen = () => {
+        console.log("connected");
+        ws.send(
+            JSON.stringify({
+                type: "clientHello",
+                message,
+            }),
+        );
+    };
+
+    ws.onmessage = (event) => {
+        console.log("received:", event.data);
+    };
 }

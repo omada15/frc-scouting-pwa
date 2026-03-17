@@ -1,7 +1,7 @@
 export function generateCookie(
     name: string,
     value: string | null,
-    days: number
+    days: number,
 ) {
     let expires = "";
     if (days) {
@@ -23,6 +23,6 @@ export function readCookie(name: any) {
 }
 export function deleteCookie(name: any) {
     const expirationDate = new Date(0).toUTCString();
-    let cookieString = `${name}=; expires=${expirationDate}`
+    let cookieString = `${name}=; expires=${expirationDate}`;
     document.cookie = cookieString;
 }

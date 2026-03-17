@@ -20,7 +20,10 @@ function App() {
                         <Route path="/stored" element={<LocalStorageView />} />
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/signup" element={<SignupPage />} />
-                        <Route path="/pitScouting" element={<PitScoutingForm />} />
+                        <Route
+                            path="/pitScouting"
+                            element={<PitScoutingForm />}
+                        />
                     </Routes>
                 </div>
                 {/* Footer always at bottom */}

@@ -24,7 +24,7 @@ export const useTimer = (initialSeconds: number = 0) => {
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
         };
-    }, [isActive]); 
+    }, [isActive]);
 
     return { seconds, isActive, start, pause, reset };
 };

@@ -34,10 +34,9 @@ let shift2HoardedFuel = false;
 let shift3HoardedFuel = false;
 let shift4HoardedFuel = false;
 
-
 // Endgame values
 let endgameFuel = 0;
-let endgameClimbLevel = "0";        
+let endgameClimbLevel = "0";
 
 // finale  values
 let crossedBump = false;
@@ -63,7 +62,7 @@ const robotErrorList: string[] = [
     "Robot part fell off",
     "Auto stop",
     "Robot did not get off after climb",
-    "other"
+    "other",
 ];
 
 const noteList: string[] = [
@@ -133,8 +132,6 @@ export default function seedDataBase() {
         autoHoardedFuel = false;
     }
 
-
-
     // transitionFuel
     transitionFuel = getRandomInt(4, 16);
 
@@ -164,8 +161,6 @@ export default function seedDataBase() {
     } else {
         shift1HoardedFuel = false;
     }
-
-
 
     // shift2HubActive
     if (shift1HubActive) {
@@ -268,12 +263,11 @@ export default function seedDataBase() {
     // endgameClimbLevel
     endgameClimbLevel = getRandomInt(0, 3).toString();
 
-    if (endgameClimbLevel == "0"){
+    if (endgameClimbLevel == "0") {
         endgameClimbLevel = "Didn't climb";
     } else {
         endgameClimbLevel = "Level".concat(" ", endgameClimbLevel);
     }
-
 
     // crossedBump
     if (getRandomInt(0, 1) == 0) {

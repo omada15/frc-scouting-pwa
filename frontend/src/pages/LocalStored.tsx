@@ -47,8 +47,7 @@ const ActionComponent: React.FC<ActionComponentProps> = ({
             </div>
 
             <div className="w-full flex justify-center items-center">
-                <div className="w-1/38">
-            </div>
+                <div className="w-1/38"></div>
                 <button
                     className="bg-red-800 text-white font-bold w-5/5 mt-5 py-2 px-6 rounded-2xl shadow w-37/200"
                     onClick={clear}
@@ -91,17 +90,17 @@ const LocalStorageView: React.FC = () => {
         setValue("");
         setKeys(Object.keys(localStorage));
     };
-    
+
     const clear = () => {
-        if (window.confirm("Are you sure you want to clear local storage?")){
-            for (let i = 0; i<localStorage.length; i++){
-                setSelectedKey
+        if (window.confirm("Are you sure you want to clear local storage?")) {
+            for (let i = 0; i < localStorage.length; i++) {
+                setSelectedKey;
                 localStorage.removeItem(keys[i]);
                 setValue("");
                 setKeys(Object.keys(localStorage));
             }
         }
-    }
+    };
 
     const submitItem = async () => {
         if (!selectedKey) return;
@@ -110,35 +109,27 @@ const LocalStorageView: React.FC = () => {
             `${json.teamNumber?.toString()}/${json.matchNumber?.toString()}`,
             json,
         );
-
-        window.location.href="/";
+        window.location.href = "/";
     };
 
     const seed = () => {
         const seedJson = seedDataBase();
-        console.log(seedJson);
         writeToDb(
             `${seedNumber.toString()}/${seedJson.matchNumber?.toString()}`,
             seedJson,
         );
-        console.log("Attemped to seed.");
-    }
-
+    };
 
     const buttonStyle: string =
         "bg-sky-600 text-white font-semibold text-xl px-2 py-2 rounded-full hover:bg-sky-700 transition-colors h-15 w-35";
 
-
     return (
         <div className="flex flex-col items-center justify-start space-y-6 pt-12">
-            
             <button className={buttonStyle} onClick={goBack}>
                 Back
             </button>
 
-            <h1 className="font-bold text-white text-4xl">
-                Stored Data
-            </h1>
+            <h1 className="font-bold text-white text-4xl">Stored Data</h1>
             <p className="font-bold text-white">
                 scoutData-(teamNumber)-(matchNumber)
             </p>
@@ -185,7 +176,11 @@ const LocalStorageView: React.FC = () => {
                 </p>
             </div>
 
-            <ActionComponent onSubmit={submitItem} onDelete={deleteItem} clear={clear} />
+            <ActionComponent
+                onSubmit={submitItem}
+                onDelete={deleteItem}
+                clear={clear}
+            />
 
             {debug ? (
                 <div>
@@ -206,12 +201,6 @@ const LocalStorageView: React.FC = () => {
                     </button>
                 </div>
             ) : null}
-            {/*<button
-                onClick={seedMulti}
-                className="bg-pink-700 hover:bg-pink-900 text-white px-4 py-2 rounded-xl"
-            >
-                 Seed 20 ⚠️⚠️⚠️DO NOT SPAM ⚠️⚠️⚠️
-            </button>*/}
         </div>
     );
 };

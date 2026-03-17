@@ -6,14 +6,19 @@ import IntegerInput from "../components/IntegerInput";
 import Dropdown from "../components/Dropdown";
 import AutoResizeTextarea from "../components/AutoResizeTextArea";
 import CheckboxDropdown from "../components/CheckboxDropdown";
-import { writeToDb } from "../scripts/firebase";
+import { writeToDb, wsSend } from "../scripts/firebase";
 import { readCookie } from "../scripts/user";
 import { debug } from "./Home";
 import { useTimer } from "../scripts/timer";
+import { log } from "../scripts/log";
 
 const MatchForm: React.FC = () => {
-    const navigate = useNavigate();
+    log(`User ${readCookie("user")} on matchform`);
+
     
+
+    const navigate = useNavigate();
+
     let advanced = true;
 
     useEffect(() => {
@@ -24,17 +29,24 @@ const MatchForm: React.FC = () => {
 
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             e.preventDefault();
-            e.returnValue = '';
-        }
+            e.returnValue = "";
+        };
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener("beforeunload", handleBeforeUnload);
 
         return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        }
-
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
     }, []); // empty dependency array so only runs once
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            wsSend(readCookie("user") ?? "");
+        }, 5000);
 
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
 
     const [section, setSection] = useState<
         "setup" | "auto" | "teleop" | "endgame" | "errors"
@@ -143,7 +155,7 @@ const MatchForm: React.FC = () => {
 
     const goBack = () => {
         if (seconds > 1) {
-            if (readCookie("dih")=="true") {
+            if (readCookie("dih") == "true") {
                 let inp = prompt("enter your username to continue");
                 if (inp == readCookie("user")) {
                     navigate("/");
@@ -155,7 +167,7 @@ const MatchForm: React.FC = () => {
                 }
             }
         } else {
-            navigate("/")
+            navigate("/");
         }
     };
 
@@ -249,7 +261,7 @@ const MatchForm: React.FC = () => {
         }
 
         if (seconds === 0) lastPhaseRef.current = "";
-    }, [seconds]);  
+    }, [seconds]);
 
     async function submitData() {
         //make sure certain fields are filled out
@@ -303,10 +315,11 @@ const MatchForm: React.FC = () => {
             underTrench: underTrench,
             notes: notes,
             robotError: robotErrorsCheck,
-            failure: Object.values(robotErrorsCheck).some(value => value === true)
+            failure: Object.values(robotErrorsCheck).some(
+                (value) => value === true,
+            ),
         };
 
-        console.log(data);
         /*
         The path for block of data will be submitted as follows:
         /{eventName}/{teamNumber}/{matchNumber}/{timestamp}, timestamp is not finished
@@ -323,7 +336,6 @@ const MatchForm: React.FC = () => {
                 `${teamNumber?.toString()}/${matchNumber?.toString()}`,
                 data,
             );
-            console.log(val);
             if (!val) {
                 setSent(true);
             } else {
@@ -636,7 +648,15 @@ const MatchForm: React.FC = () => {
                     value={endgameClimbLevel}
                     options={["Didn't climb", "Level 1", "Level 2", "Level 3"]}
                     label={"Endgame Climb Level"}
-                    onChange={(e) => {setEndgameClimbLevel(e as "Didn't climb" | "Level 1" | "Level 2" | "Level 3")}}
+                    onChange={(e) => {
+                        setEndgameClimbLevel(
+                            e as
+                                | "Didn't climb"
+                                | "Level 1"
+                                | "Level 2"
+                                | "Level 3",
+                        );
+                    }}
                 />
             </>
         );
@@ -759,6 +779,6 @@ const MatchForm: React.FC = () => {
             {content}
         </div>
     );
-};;
+};
 
 export default MatchForm;

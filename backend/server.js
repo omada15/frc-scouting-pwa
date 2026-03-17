@@ -1,7 +1,9 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
 import admin from "firebase-admin";
+import { createServer } from "http";
+import { WebSocketServer } from "ws";
+import { time } from "console";
 
 dotenv.config();
 
@@ -9,13 +11,34 @@ const serviceAccount = JSON.parse(process.env.SERVICE_ACCOUNT_KEY);
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://frc-scouting-example-default-rtdb.firebaseio.com",
 });
 
 const db = admin.firestore();
+const rt = admin.database();
 
+const wss = new WebSocketServer({ noServer: true });
 const app = express();
+const server = createServer(app);
 const router = express.Router();
 const PORT = 3000;
+
+server.on("upgrade", (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.emit("connection", ws, request);
+    });
+});
+
+wss.on("connection", (ws) => {
+    ws.on("message", (message) => {
+        const r = rt.ref("online/" + JSON.parse(message).message);
+        r.set({
+            time: Math.floor(new Date().getTime() / 1000),
+        });
+    });
+    ws.on("error", (error) => console.error("WebSocket error:", error));
+    ws.send(JSON.stringify({ type: "serverHello", message: "accepted" }));
+});
 
 app.use(express.json());
 app.use((req, res, next) => {
@@ -25,10 +48,7 @@ app.use((req, res, next) => {
             "https://3464scouting.vercel.app",
         );
     } else {
-        res.setHeader(
-            "Access-Control-Allow-Origin",
-            "http://localhost:5173",
-        );
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
     }
     res.setHeader(
         "Access-Control-Allow-Methods",
@@ -81,13 +101,7 @@ const read = async (req, res) => {
     }
 };
 
-router.get("/debug", async (req, res) => {
-    res.status(200).json({
-        value: "2tjqIwBuqNdsptLzSysO8wq0WUB3,ShL4NcaaGMNWxbvyIx8he1g5N5E2",
-    });
-});
-
-router.post("/write", async (req, res) => {
+const write = async (req, res) => {
     console.log(req.body);
     try {
         const { path, data } = req.body;
@@ -105,7 +119,15 @@ router.post("/write", async (req, res) => {
         console.error(`Error writing data: ${error.message}`);
         res.status(500).send(`Error: ${error.message}`);
     }
+};
+
+router.get("/debug", async (req, res) => {
+    res.status(200).json({
+        value: "2tjqIwBuqNdsptLzSysO8wq0WUB3,ShL4NcaaGMNWxbvyIx8he1g5N5E2",
+    });
 });
+
+router.post("/write", write);
 
 router.post("/read", read);
 
@@ -129,6 +151,7 @@ router.post("/login", async (req, res) => {
         const docRef = db.doc(`auth/${identifier}`);
         const snapshot = await docRef.get();
 
+        /*
         res.status(200).json({
             message: "Login successful",
             customToken,
@@ -137,7 +160,7 @@ router.post("/login", async (req, res) => {
             name: userRecord.displayName,
             // hashedData // included if you need it
         });
-        return;
+        return;*/
         try {
             let hashedData = null;
             if (snapshot.exists) {
@@ -146,11 +169,11 @@ router.post("/login", async (req, res) => {
             hashedData = hashedData.hashed.trim();
             let hashpassword = await sha256(password.trim());
             console.log(hashpassword);
-            console.log(hashedData)
+            console.log(hashedData);
         } catch (e) {
             console.log(e);
         }
-        
+
         if (hashpassword == hashedData) {
             res.status(200).json({
                 message: "Login successful",
@@ -161,12 +184,14 @@ router.post("/login", async (req, res) => {
                 // hashedData // included if you need it
             });
         } else {
-            
+            res.status(401).json({ message: "Invalid email or password" });
         }
     } catch (error) {
         console.error("Login Error:", error);
         if (error.code === "auth/user-not-found") {
-            return res.status(401).json({message: "Invalid email or password"});
+            return res
+                .status(401)
+                .json({ message: "Invalid email or password" });
         }
         res.status(500).send(`Error: ${error.message}`);
     }
@@ -194,20 +219,20 @@ router.post("/register", async (req, res) => {
     } catch (error) {
         console.error(error);
         if (error.code === "auth/email-already-exists") {
-            return res.status(400).json({message: "Email already in use"});
+            return res.status(400).json({ message: "Email already in use" });
         }
         if (error.code === "auth/invalid-email") {
-            return res.status(400).json({message: "Invalid email address"});
+            return res.status(400).json({ message: "Invalid email address" });
         }
         if (error.code === "auth/weak-password") {
-            return res.status(400).json({message: "Password is too weak"});
+            return res.status(400).json({ message: "Password is too weak" });
         }
-        res.status(500).json({message: `Error: ${error.message}`});
+        res.status(500).json({ message: `Error: ${error.message}` });
     }
 });
 
 app.use("/api", router); // floyd
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`currently running on ${PORT}`);
 });

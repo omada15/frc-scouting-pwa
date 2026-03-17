@@ -1,6 +1,7 @@
 import React, { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../scripts/firebase";
+import { log } from "../scripts/log";
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState("");
     const handleLogin = async () => {
         setSent(false);
+
         await loginUser(email, password);
         setSent(true);
     };
@@ -18,7 +20,6 @@ const LoginPage: React.FC = () => {
     const goBack = () => {
         navigate("/");
     };
-
 
     const buttonStyle: string =
         "bg-sky-600 text-white font-semibold text-xl px-2 py-2 rounded-full hover:bg-sky-700 transition-colors h-15 w-35";
