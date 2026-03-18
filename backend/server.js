@@ -22,23 +22,6 @@ const server = createServer(app);
 const router = express.Router();
 const PORT = 3000;
 
-server.on("upgrade", (request, socket, head) => {
-    wss.handleUpgrade(request, socket, head, (ws) => {
-        wss.emit("connection", ws, request);
-    });
-});
-
-wss.on("connection", (ws) => {
-    ws.on("message", (message) => {
-        const r = rt.ref("online/" + JSON.parse(message).message);
-        r.set({
-            time: Math.floor(new Date().getTime() / 1000),
-        });
-    });
-    ws.on("error", (error) => console.error("WebSocket error:", error));
-    ws.send(JSON.stringify({ type: "serverHello", message: "accepted" }));
-});
-
 app.use(express.json());
 app.use((req, res, next) => {
     if (process.env.VERCEL == "Yes") {
@@ -79,6 +62,7 @@ async function sha256(message) {
 
     return hashHex;
 }
+
 const read = async (req, res) => {
     const { path } = req.body;
     try {
@@ -126,6 +110,12 @@ router.get("/debug", async (req, res) => {
     });
 });
 
+router.post("/time", async (req, res) => {
+    const r = rt.ref("online/" + JSON.parse(req.body.message));
+    r.set({
+        time: Math.floor(new Date().getTime() / 1000),
+    });
+});
 router.post("/write", write);
 
 router.post("/read", read);
@@ -237,7 +227,7 @@ router.post("/readRt", async (req, res) => {
         return;
     }).catch((error) => {
         console.error("Error fetching data:", error);
-        res.json({value: "error"})
+        res.json({ value: "error" });
     });
 });
 

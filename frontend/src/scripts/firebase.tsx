@@ -188,21 +188,11 @@ export async function loginUser(email: string, password: string) {
     }
 }
 export async function wsSend(message: string) {
-    var l = window.location.href.includes("http://localhost:5173/")
-        ? "ws://localhost:3000"
-        : "wss://scout4364i.vercel.app";
-    let ws = new WebSocket(l);
-    ws.onopen = () => {
-        console.log("connected");
-        ws.send(
-            JSON.stringify({
-                type: "clientHello",
-                message,
-            }),
-        );
-    };
-
-    ws.onmessage = (event) => {
-        console.log("received:", event.data);
-    };
+    fetch(`${LINK}/time`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({message: readCookie("user")})
+    });    
 }
