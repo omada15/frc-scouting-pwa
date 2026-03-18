@@ -18,6 +18,19 @@ async function sha256(message: string) {
     return hashHex;
 }
 
+export async function rt(path: string) {
+    const response = await fetch(`${LINK}/readRt`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({path,}),
+    });
+    const data = await response.json()
+    console.log(data.value)
+    return data.value;
+}
+
 export async function de() {
     const uid = readCookie("uid");
     const response = await fetch(`${LINK}/debug`, {

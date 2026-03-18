@@ -6,6 +6,7 @@ import LocalStorageView from "./pages/LocalStored";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
 import PitScoutingForm from "./pages/pitScoutingForm";
+import Online from "./pages/online";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                             path="/pitScouting"
                             element={<PitScoutingForm />}
                         />
+                        <Route path="/online" element={<Online />} />
                     </Routes>
                 </div>
                 {/* Footer always at bottom */}

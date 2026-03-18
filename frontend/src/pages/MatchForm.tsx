@@ -20,7 +20,6 @@ const MatchForm: React.FC = () => {
     let advanced = true;
 
     useEffect(() => {
-        // useEffect to run after component mounts
         if (readCookie("user") == undefined) {
             navigate("/login");
         }

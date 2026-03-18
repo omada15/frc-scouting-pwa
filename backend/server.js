@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import admin from "firebase-admin";
 import { createServer } from "http";
 import { WebSocketServer } from "ws";
-import { time } from "console";
 
 dotenv.config();
 
@@ -229,6 +228,17 @@ router.post("/register", async (req, res) => {
         }
         res.status(500).json({ message: `Error: ${error.message}` });
     }
+});
+router.post("/readRt", async (req, res) => {
+    const ref = rt.ref(req.body.path);
+    ref.once("value", (snapshot) => {
+        res.json({ value: snapshot.val() });
+        console.log(snapshot.val());
+        return;
+    }).catch((error) => {
+        console.error("Error fetching data:", error);
+        res.json({value: "error"})
+    });
 });
 
 app.use("/api", router); // floyd
