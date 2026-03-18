@@ -188,7 +188,8 @@ export async function loginUser(email: string, password: string) {
     }
 }
 export async function wsSend(message: string) {
-    let ws = new WebSocket("ws://localhost:3000");
+    var l = (window.location.href.includes("http://localhost:5173/")) ? "ws://localhost:3000": "wss://scouting3464i.vercel.app";
+    let ws = new WebSocket(l);
     ws.onopen = () => {
         console.log("connected");
         ws.send(
