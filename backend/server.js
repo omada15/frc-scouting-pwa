@@ -111,7 +111,7 @@ router.get("/debug", async (req, res) => {
 });
 
 router.post("/time", async (req, res) => {
-    const r = rt.ref("online/" + JSON.parse(req.body.message));
+    const r = rt.ref("online/" + req.body.message);
     r.set({
         time: Math.floor(new Date().getTime() / 1000),
     });
