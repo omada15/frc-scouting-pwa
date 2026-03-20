@@ -10,6 +10,9 @@ export { debug };
 const signedIn = readCookie("user");
 
 const Home: React.FC = () => {
+
+    const [nameCSS, setNameCSS] = useState<string>("font-bold text-white text-4xl underline")
+
     const [advanced, setAdvanced] = useState<boolean>(
         readCookie("dih") == "true",
     );
@@ -34,9 +37,16 @@ const Home: React.FC = () => {
             navigate("/login");
         }
     }, []);
+    
+    if (readCookie("user") == "Daniel Senchukov") {
+        setNameCSS("font-bold text-yellow-200 text-4xl underline")
+    } else {
+        setNameCSS("font-bold text-white text-4xl underline")
+    }
+
     return (
         <div className="flex flex-col items-center justify-center space-y-6">
-            <h1 className="font-bold text-white text-4xl underline">
+            <h1 className={nameCSS}>
                 {readCookie("user") === undefined
                     ? "Welcome to Sim-scouting!"
                     : "Welcome to Sim-scouting, " + readCookie("user")}
