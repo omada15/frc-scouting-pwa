@@ -150,13 +150,14 @@ router.post("/login", async (req, res) => {
             // hashedData // included if you need it
         });
         return;*/
+        let hashpassword = null;
+        let hashedData = null;
         try {
-            let hashedData = null;
             if (snapshot.exists) {
                 hashedData = snapshot.data();
             }
             hashedData = hashedData.hashed.trim();
-            let hashpassword = await sha256(password.trim());
+            hashpassword = await sha256(password.trim());
             console.log(hashpassword);
             console.log(hashedData);
         } catch (e) {
