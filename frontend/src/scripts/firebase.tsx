@@ -145,9 +145,8 @@ export async function registerUser(
         await writeData(`auth/${name}`, { hashed: hashed });
         generateCookie("user", data.name, 7);
         generateCookie("uid", data.uid, 7);
-
-        window.location.href = "/";
         log(`Success with ${name} and ${password}`);
+        window.location.href = "/";
     } catch (error) {
         log(`Fail sign up with ${error}`);
         console.error("Error registering user:", error);
