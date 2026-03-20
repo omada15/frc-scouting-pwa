@@ -41,8 +41,10 @@ const Home: React.FC = () => {
     
     if (readCookie("user") == "Daniel Senchukov") {
         () => setNameCSS("font-bold text-yellow-200 text-4xl underline")
+        console.log("YELLLOW NAME: " + nameCSS);
     } else {
         () => setNameCSS("font-bold text-white text-4xl underline")
+        console.log("WHITE NAME: " + nameCSS);
     }
 
     return (
