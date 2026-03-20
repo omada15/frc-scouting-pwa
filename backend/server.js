@@ -106,7 +106,7 @@ const write = async (req, res) => {
 
 router.get("/debug", async (req, res) => {
     res.status(200).json({
-        value: "kCZzMoX7NPVmlMjX0YwMp4vuIqu1,",
+        value: "kCZzMoX7NPVmlMjX0YwMp4vuIqu1,zY5Zn05MWhQkC0Sd7sbdo1YznzJ2,991NdYIx3uYQeJwThPJh0EQ6opg2",
     });
 });
 
