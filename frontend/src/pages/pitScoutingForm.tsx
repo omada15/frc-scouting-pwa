@@ -112,22 +112,6 @@ const PitScoutingForm: React.FC = () => {
                 onChange={setEventName}
                 options={events}
             />
-            <IntegerInput
-                value={scoutingTeam}
-                onChange={setScoutingTeam}
-                label={"Your team number"}
-                placeholder="e.g. 3464"
-                min={1}
-                max={99999}
-            />
-            <IntegerInput
-                value={matchNumber}
-                onChange={setMatchNumber}
-                label={"Match Number"}
-                placeholder="e.g. 42"
-                min={1}
-                max={99999}
-            />
 
             <IntegerInput
                 value={teamnum}
