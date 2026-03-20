@@ -11,7 +11,7 @@ const signedIn = readCookie("user");
 
 const Home: React.FC = () => {
 
-    const [nameCSS, setNameCSS] = useState<string>("font-bold text-white text-4xl underline")
+    const [nameCSS, setNameCSS] = useState<string>("text-white underline")
 
     const [advanced, setAdvanced] = useState<boolean>(
         readCookie("dih") == "true",
@@ -35,24 +35,27 @@ const Home: React.FC = () => {
     useEffect(() => {
         if (readCookie("user") == undefined) {
             navigate("/login");
+        } else if (readCookie("user") == "William Ding" || readCookie("user") == "Dev" || readCookie("user") == "sam meng" ){
+            setNameCSS("bg-gradient-to-r from-red-500 via-green-500 via-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x inline-block font-bold underline")
+        } else if (readCookie("user") == "Estiaan K") {
+            setNameCSS("bg-gradient-to-r from-yellow-400 via-yellow-100 to-yellow-400 bg-clip-text text-transparent animate-gradient-x inline-block font-bold underline")
+        } else if (readCookie("user") == "Daniel Senchukov"){
+            setNameCSS("bg-gradient-to-r from-red-700 via-red-900 to-red-700 bg-clip-text text-transparent animate-gradient-x inline-block font-bold underline")
         }
+        
     }, []);
     
-    
-    if (readCookie("user") == "Daniel Senchukov") {
-        () => setNameCSS("font-bold text-yellow-200 text-4xl underline")
-        console.log("YELLLOW NAME: " + nameCSS);
-    } else {
-        () => setNameCSS("font-bold text-white text-4xl underline")
-        console.log("WHITE NAME: " + nameCSS);
-    }
-
     return (
-        <div className="flex flex-col items-center justify-center space-y-6">
-            <h1 className={nameCSS}>
+        <div className="flex flex-col items-center justify-center space-y-6 w-full">
+            <h1 className="font-bold text-white text-4xl underline text-center flex flex-row">
                 {readCookie("user") === undefined
                     ? "Welcome to Sim-scouting!"
-                    : "Welcome to Sim-scouting, " + readCookie("user")}
+                    : "Welcome to Sim-scouting, " + '\u00A0'    
+                }            
+                <div className={nameCSS}>
+                    {" " + readCookie("user")}
+                </div>
+
             </h1>
 
             <p className="text-gray-200 text-center w-full max-w-xl">
