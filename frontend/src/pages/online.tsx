@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { rt } from "../scripts/firebase";
 
-// 1. Define types outside the component for better organization
 interface NestedEpochData {
     [key: string]: { time: number };
 }
@@ -11,7 +10,6 @@ interface DiffsJson {
 }
 
 const Online: React.FC = () => {
-    // 2. Initialize state with the correct type or null
     const [data, setData] = useState<NestedEpochData | null>(null);
     const [diffs, setDiffs] = useState<DiffsJson>({});
 
@@ -19,7 +17,7 @@ const Online: React.FC = () => {
         const currentEpoch = Math.floor(Date.now() / 1000);
 
         return Object.entries(inputData).reduce((acc, [key, val]) => {
-            acc[key] = (currentEpoch - val.time)<5;
+            acc[key] = (currentEpoch - val.time)<10;
             return (acc);
         }, {} as DiffsJson);
     };
@@ -29,8 +27,11 @@ const Online: React.FC = () => {
 
     return (
         <div className="p-10">
+            <h2 className="font-bold text-white text-l pb-1">click right side or bottom button twice. "true" means user detected in last 10 seconds</h2>
             <button
-                onClick={() => {window.location.href="/"}}
+                onClick={() => {
+                    window.location.href = "/";
+                }}
                 className={buttonStyle}
             >
                 Back
@@ -41,23 +42,13 @@ const Online: React.FC = () => {
                 onClick={async () => {
                     const result = await rt("online");
                     setData(result);
-                }}
-            >
-                Fetch data
-            </button>
-
-            {/* BUTTON 2: Processing existing data */}
-            <button
-                className={buttonStyle}
-                disabled={!data} // Disable if no data exists yet
-                onClick={() => {
                     if (data) {
                         const calculated = proces(data);
                         setDiffs(calculated);
                     }
                 }}
             >
-                Calc
+                Fetch data
             </button>
 
             <div className="mt-5">

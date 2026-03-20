@@ -30,7 +30,6 @@ const Home: React.FC = () => {
         navigate("/login");
     };
     useEffect(() => {
-        // useEffect to run after component mounts
         if (readCookie("user") == undefined) {
             navigate("/login");
         }
@@ -51,9 +50,13 @@ const Home: React.FC = () => {
 
             <div>
                 {debug && (
-                    <a className="font-small text-red-500 text-2xl px-4 py-3 rounded-2xl">
-                        ⚠ debug mode on ⚠
-                    </a>
+                    <p className="font-small text-red-500 text-2xl px-4 py-3 rounded-2xl text-center">
+                        Advanced user detected
+                        <br></br>
+                        Online Users tab can be found
+                        <br></br>
+                        Seeder (adds random data) in localstorage
+                    </p>
                 )}
             </div>
 
@@ -75,6 +78,12 @@ const Home: React.FC = () => {
             >
                 Pit scouting
             </button>
+            {debug && (
+                <button 
+                    className="bg-red-600 font-medium text-white text-3xl px-4 py-3 rounded-2xl hover:bg-red-700 transition-colors"
+                    onClick={() => {window.location.href="/online"}}
+                >Online Users</button>
+            )}
             {signedIn && (
                 <button
                     className="bg-slate-600 font-medium text-white text-3xl px-4 py-3 rounded-2xl hover:bg-slate-700 transition-colors"

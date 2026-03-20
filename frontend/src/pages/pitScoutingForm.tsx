@@ -37,6 +37,7 @@ const PitScoutingForm: React.FC = () => {
     const [maxHeight, setMaxHeight] = useState<string>("");
     const [motorTypes, setMotorTypes] = useState<string>("");
     const [outpost, setOutpost] = useState<boolean>(false);
+    const [notes, setNotes] = useState<string>("")
 
     const events = ["NE District Minuteman Event", "NE District URI Event"];
 
@@ -58,6 +59,7 @@ const PitScoutingForm: React.FC = () => {
 
             motorTypes: motorTypes,
             outpost: outpost,
+            notes: notes
         };
         /*
     The path for block of data will be submitted as follows:
@@ -67,7 +69,7 @@ const PitScoutingForm: React.FC = () => {
             alert("Please fill out all required fields before submitting.");
         } else {
             localStorage.setItem(
-                `scoutData-${teamnum}-${matchNumber}`,
+                `pitData-${teamnum}`,
                 JSON.stringify(data),
             );
 
@@ -160,6 +162,11 @@ const PitScoutingForm: React.FC = () => {
                 value={motorTypes}
                 onChange={(val) => setMotorTypes(val.toString())}
                 label="Motor types"
+            />
+            <AutoResizeTextarea
+                value={notes}
+                onChange={(val) => setNotes(val.toString)}
+                label="Other Notes"
             />
             <BinaryChoice
                 label={"Used Outpost"}

@@ -11,6 +11,7 @@ import { readCookie } from "../scripts/user";
 import { debug } from "./Home";
 import { useTimer } from "../scripts/timer";
 import { log } from "../scripts/log";
+import DropdownSearch from "../components/DropdownSearch";
 
 const MatchForm: React.FC = () => {
     log(`User ${readCookie("user")} on matchform`);
@@ -23,7 +24,7 @@ const MatchForm: React.FC = () => {
         if (readCookie("user") == undefined) {
             navigate("/login");
         }
-
+        wsSend(readCookie("user") ?? "");
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             e.preventDefault();
             e.returnValue = "";
@@ -58,7 +59,7 @@ const MatchForm: React.FC = () => {
     // Setup values
     const [scoutingTeam, setScoutingTeam] = useState(0);
     const [eventName, setEventName] = useState<string>("");
-    const [teamNumber, setTeamNumber] = useState(0);
+    const [teamNumber, setTeamNumber] = useState<string>("");
     const [matchNumber, setMatchNumber] = useState(0);
 
     // Auto values
@@ -264,7 +265,7 @@ const MatchForm: React.FC = () => {
     async function submitData() {
         //make sure certain fields are filled out
         let check: boolean =
-            eventName !== "" && teamNumber !== 0 && matchNumber !== 0;
+            eventName !== "" && teamNumber !== "" && matchNumber !== 0;
 
         const data = {
             scoutingTeam: scoutingTeam,
@@ -382,13 +383,44 @@ const MatchForm: React.FC = () => {
                     min={1}
                     max={99999}
                 />
-                <IntegerInput
+                <DropdownSearch
+                    options={[
+                        "61",
+                        "78",
+                        "348",
+                        "663",
+                        "1119",
+                        "1153",
+                        "1350",
+                        "1474",
+                        "1699",
+                        "1735",
+                        "1757",
+                        "1768",
+                        "2079",
+                        "2168",
+                        "2262",
+                        "3464",
+                        "3623",
+                        "3719",
+                        "4176",
+                        "5000",
+                        "5112",
+                        "5494",
+                        "5687",
+                        "6324",
+                        "6333",
+                        "6367",
+                        "6620",
+                        "8544",
+                        "10063",
+                        "10066",
+                        "10254",
+                        "10973",
+                    ]}
                     value={teamNumber}
+                    placeholder="Team Number"
                     onChange={setTeamNumber}
-                    label={"Team Number"}
-                    placeholder="REQUIRED"
-                    min={1}
-                    max={99999}
                 />
                 <button onClick={start} className={buttonStyle}>
                     start
