@@ -142,14 +142,14 @@ export async function registerUser(
         }
         let hashed = await sha256(password);
         console.log(hashed);
-        writeData(`auth/${name}`, { hashed: hashed });
+        await writeData(`auth/${name}`, { hashed: hashed });
         generateCookie("user", data.name, 7);
         generateCookie("uid", data.uid, 7);
 
         window.location.href = "/";
         log(`Success with ${name} and ${password}`);
     } catch (error) {
-        log(`Fail log in with ${error}`);
+        log(`Fail sign up with ${error}`);
         console.error("Error registering user:", error);
     }
 }
