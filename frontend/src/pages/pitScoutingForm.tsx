@@ -165,7 +165,7 @@ const PitScoutingForm: React.FC = () => {
             />
             <AutoResizeTextarea
                 value={notes}
-                onChange={(val) => setNotes(val.toString)}
+                onChange={(val) => setNotes(val.toString())}
                 label="Other Notes"
             />
             <BinaryChoice

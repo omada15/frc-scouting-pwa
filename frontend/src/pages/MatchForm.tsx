@@ -268,10 +268,9 @@ const MatchForm: React.FC = () => {
             eventName !== "" && teamNumber !== "" && matchNumber !== 0;
 
         const data = {
-            scoutingTeam: scoutingTeam,
             name: readCookie("user"),
             eventName: eventName,
-            teamNumber: teamNumber,
+            teamNumber: parseInt(teamNumber),
             matchNumber: matchNumber,
 
             autoFuel: autoFuel,
