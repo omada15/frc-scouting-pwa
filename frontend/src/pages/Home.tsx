@@ -36,11 +36,13 @@ const Home: React.FC = () => {
         if (readCookie("user") == undefined) {
             navigate("/login");
         } else if (readCookie("user") == "William Ding" || readCookie("user") == "Dev" || readCookie("user") == "sam meng" ){
-            setNameCSS("bg-gradient-to-r from-red-500 via-green-500 via-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x inline-block font-bold underline")
+            //setNameCSS("bg-gradient-to-r from-red-500 via-green-500 via-green-500 via-blue-500 to-purple-500 bg-clip-text text-transparent animate-gradient-x inline-block font-bold underline")
+            //setNameCSS("font-extrabold bg-[linear-gradient(to_right,white,pink,cyan,brown,black,red,orange,yellow,green,blue,indigo,purple)] bg-clip-text text-transparent animate-gradient-x inline-block")
+            setNameCSS("gradient-sam text-transparent animate-gradient")
         } else if (readCookie("user") == "Estiaan K") {
-            setNameCSS("bg-gradient-to-r from-yellow-400 via-yellow-100 to-yellow-400 bg-clip-text text-transparent animate-gradient-x inline-block font-bold underline")
+            setNameCSS("gradient-gold text-transparent animate-gradient")
         } else if (readCookie("user") == "Daniel Senchukov"){
-            setNameCSS("bg-gradient-to-r from-red-700 via-red-900 to-red-700 bg-clip-text text-transparent animate-gradient-x inline-block font-bold underline")
+            setNameCSS("gradient-red text-transparent animate-quick")
         }
         
     }, []);

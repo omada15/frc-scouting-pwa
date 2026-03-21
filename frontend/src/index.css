@@ -1,10 +1,35 @@
 @import 'tailwindcss';
 
+@config './tailwind.config.ts';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 html {
     background-color: #171717;
     font-family: 'Inter', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.gradient-sam {
+    background: linear-gradient(to right, #FF0000, #FF7000, #FFFF00, #00FF00, #0000FF, #7000FF, #FF0000, #FF7000, #FFFF00, #00FF00, #0000FF, #7000FF);
+    background-size: 220% 220%;
+    background-clip: text;
+}
+
+.gradient-gold {
+    background: linear-gradient(to right, #fff080, #f5dd2c, #c2b034, #f0e071, #fff080, #f5dd2c, #c2b034, #f0e071);
+    background-size: 235% 235%;
+    background-clip: text;
+}
+
+.gradient-red {
+    background: linear-gradient(to right, #8a0000, #a41818, #8b1b1b, #7b0000, #8a0000, #a41818, #8b1b1b, #7b0000);
+    background-size: 235% 235%;
+    background-clip: text;
+}
+
+
 
 /* Add this globally or in a CSS module */
 .custom-scrollbar::-webkit-scrollbar {
